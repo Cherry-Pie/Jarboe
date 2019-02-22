@@ -31,8 +31,8 @@ class Admin extends Authenticatable
         'remember_token',
     ];
 
-    public function setPasswordAttribute($value)
+    public function getAvatarAttribute($value)
     {
-        $this->attributes['password'] = bcrypt($value);
+        return $value ?: '/vendor/jarboe/img/avatars/male.png';
     }
 }

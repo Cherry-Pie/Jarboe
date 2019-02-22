@@ -16,4 +16,12 @@ Route::group(Jarboe::routeGroupOptions(true), function () {
 
 Route::group(Jarboe::routeGroupOptions(), function () {
     Route::get('logout', [AuthController::class, 'logout']);
+
+    // TODO:
+    Route::get('/', function () {
+        return view('jarboe::layouts.main');
+    });
+    Route::get('dashboard', function () {
+        return view('jarboe::layouts.main');
+    });
 });

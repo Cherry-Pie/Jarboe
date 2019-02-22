@@ -22,7 +22,7 @@ if (!function_exists('admin_user_guard'))
     function admin_user_guard()
     {
         $default = config('auth.defaults.guard');
-        $guard = config('jarboe.admin_panel.auth_guard', $default);
+        $guard = config('jarboe.admin_panel.auth_guard') ?: $default;
 
         return $guard;
     }

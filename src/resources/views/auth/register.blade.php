@@ -248,7 +248,7 @@
 
 <style>
     #extr-page div#main {
-        background: url(/assets/img/backgrounds/6-reversed.jpg) #fff;
+        background: url(/vendor/jarboe/img/6-reversed.jpg) #fff;
         background-size: cover;
         min-height: 100vh;
         padding-top: 142px;

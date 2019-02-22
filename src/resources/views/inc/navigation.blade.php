@@ -14,9 +14,9 @@
         <ul>
 
             <li>
-                <a href="{{ admin_url('sample') }}">
+                <a href="{{ admin_url('dashboard') }}">
                     <i class="fa fa-lg fa-fw fa-anchor"></i>
-                    <span class="menu-item-parent">Sample</span>
+                    <span class="menu-item-parent">Dashboard</span>
                 </a>
             </li>
 

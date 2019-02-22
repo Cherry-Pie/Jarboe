@@ -39,7 +39,8 @@ class Install extends Command
     public function copyNavigationView(CliMenu $menu)
     {
         shell_exec(sprintf(
-            'cp %s %s',
+            'mkdir -p "%s" && cp "%s" "%s"',
+            base_path('resources/views/vendor/jarboe/inc/'),
             base_path('vendor/yaro/jarboe/src/resources/views/inc/navigation.blade.php'),
             base_path('resources/views/vendor/jarboe/inc/navigation.blade.php')
         ));
@@ -59,7 +60,7 @@ class Install extends Command
     {
         $name = date('Y_m_d_His') .'_create_admins_table.php';
         shell_exec(sprintf(
-            'cp %s %s',
+            'cp "%s" "%s"',
             base_path('vendor/yaro/jarboe/src/database/migrations/2018_06_28_152903_create_admins_table.php'),
             database_path('migrations/'. $name)
         ));
@@ -86,6 +87,7 @@ class Install extends Command
             ->addItem('Publish configuration files', [$this, 'publishConfigs'], $this->isConfigsPublished())
             ->addItem('Create navigation view', [$this, 'copyNavigationView'], $this->isNavigationViewExists())
             ->addItem('Create migration files', [$this, 'copyMigrationFiles'], $this->isMigrationFilesExist())
+            ->addItem('Publish third-party migration files', [$this, 'copyThirdPartyMigrationFiles'], false)//$this->isThirdPartyMigrationFilesExist()
             ->setItemExtra('[COMPLETE!]')
             ->addLineBreak('-')
             ->setBackgroundColour('cyan')
