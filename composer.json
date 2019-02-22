@@ -1,0 +1,36 @@
+{
+    "name": "yaro/jarboe",
+    "description": "Awesome package to build admin panels",
+    "keywords": ["laravel", "admin", "panel", "crm"],
+    "homepage": "",
+    "authors": [
+        {
+            "name": "Yaro",
+            "email": "12fcv4@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/support": "5.5.*|5.6.*|5.7.*",
+        "intervention/image": "^2.4",
+        "nunomaduro/laravel-console-menu": "^2.0",
+        "spatie/laravel-permission": "^2.15"
+    },
+    "autoload": {
+       "psr-4": {
+            "Yaro\\Jarboe\\": "src/Jarboe"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Yaro\\Jarboe\\ServiceProvider"
+            ],
+            "aliases": {
+                "Jarboe": "Yaro\\Jarboe\\Facades\\Jarboe"
+            }
+        }
+    }
+}
