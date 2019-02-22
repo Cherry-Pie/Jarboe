@@ -60,7 +60,7 @@ class Install extends Command
         $name = date('Y_m_d_His') .'_create_admins_table.php';
         shell_exec(sprintf(
             'cp %s %s',
-            base_path('packages/jarboe/src/database/migrations/2018_06_28_152903_create_admins_table.php'),
+            base_path('vendor/yaro/jarboe/src/database/migrations/2018_06_28_152903_create_admins_table.php'),
             database_path('migrations/'. $name)
         ));
 
