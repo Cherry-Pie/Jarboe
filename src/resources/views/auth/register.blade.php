@@ -48,7 +48,7 @@
         <!-- END AJAX-DROPDOWN -->
     </div>
 
-    <span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">Already registered?</span> <a href="{{ admin_url('login') }}" class="btn btn-danger">Sign In</a> </span>
+    <span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">{{ __('jarboe::auth.registration.already_registered') }}</span> <a href="{{ admin_url('login') }}" class="btn btn-danger">{{ __('jarboe::auth.registration.sign_in') }}</a> </span>
 
 </header>
 
@@ -76,7 +76,7 @@
 
                     <form action="{{ admin_url('register') }}" method="post" id="smart-form-register" class="smart-form client-form">
                         <header>
-                            Register
+                            {{ __('jarboe::auth.registration.register_header') }}
                         </header>
 
                         @csrf
@@ -84,45 +84,39 @@
                         <fieldset>
                             <section>
                                 <label class="input"> <i class="icon-append fa fa-user"></i>
-                                    <input type="text" name="name" placeholder="Your Name">
-                                    <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+                                    <input type="text" name="name" placeholder="{{ __('jarboe::auth.registration.name_placeholder') }}">
+                                    <b class="tooltip tooltip-bottom-right">{{ __('jarboe::auth.registration.name_tooltip') }}</b> </label>
                             </section>
 
                             <section>
                                 <label class="input"> <i class="icon-append fa fa-envelope"></i>
-                                    <input type="email" name="email" placeholder="Email address">
-                                    <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    <input type="email" name="email" placeholder="{{ __('jarboe::auth.registration.email_placeholder') }}">
+                                    <b class="tooltip tooltip-bottom-right">{{ __('jarboe::auth.registration.email_tooltip') }}</b> </label>
                             </section>
 
                             <section>
                                 <label class="input"> <i class="icon-append fa fa-lock"></i>
-                                    <input type="password" name="password" placeholder="Password" id="password">
-                                    <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
+                                    <input type="password" name="password" placeholder="{{ __('jarboe::auth.registration.password_placeholder') }}" id="password">
+                                    <b class="tooltip tooltip-bottom-right">{{ __('jarboe::auth.registration.password_tooltip') }}</b> </label>
                             </section>
 
                             <section>
                                 <label class="input"> <i class="icon-append fa fa-lock"></i>
-                                    <input type="password" name="password_confirmation" placeholder="Confirm password">
-                                    <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
+                                    <input type="password" name="password_confirmation" placeholder="{{ __('jarboe::auth.registration.confirm_password_placeholder') }}">
+                                    <b class="tooltip tooltip-bottom-right">{{ __('jarboe::auth.registration.confirm_password_tooltip') }}</b> </label>
                             </section>
                         </fieldset>
 
                         <footer>
                             <button type="submit" class="btn btn-primary">
-                                Register
+                                {{ __('jarboe::auth.registration.register_button') }}
                             </button>
                         </footer>
 
-                        <div class="message">
-                            <i class="fa fa-check"></i>
-                            <p>
-                                Thank you for your registration!
-                            </p>
-                        </div>
                     </form>
 
                 </div>
-                <h5 class="text-center">- Or sign in using -</h5>
+                <h5 class="text-center">- {{ __('jarboe::auth.registration.or_sign_in_using') }} -</h5>
                 <ul class="list-inline text-center">
                     <li>
                         <a href="javascript:void(0);" class="btn btn-primary btn-circle disabled"><i class="fa fa-facebook"></i></a>
@@ -213,18 +207,18 @@
             // Messages for form validation
             messages : {
                 name : {
-                    required : 'Please enter your name'
+                    required : '{{ __('jarboe::auth.registration.name_required_message') }}'
                 },
                 email : {
-                    required : 'Please enter your email address',
-                    email : 'Please enter a VALID email address'
+                    required : '{{ __('jarboe::auth.registration.email_required_message') }}',
+                    email : '{{ __('jarboe::auth.registration.email_email_message') }}'
                 },
                 password : {
-                    required : 'Please enter your password'
+                    required : '{{ __('jarboe::auth.registration.password_required_message') }}'
                 },
                 password_confirmation : {
-                    required : 'Please enter your password one more time',
-                    equalTo : 'Please enter the same password as above'
+                    required : '{{ __('jarboe::auth.registration.password_confirmation_required_message') }}',
+                    equalTo : '{{ __('jarboe::auth.registration.password_confirmation_equal_to_message') }}'
                 },
             },
 
@@ -248,7 +242,7 @@
 
 <style>
     #extr-page div#main {
-        background: url(/vendor/jarboe/img/6-reversed.jpg) #fff;
+        background: url("/vendor/jarboe/img/6-reversed.jpg") #fff;
         background-size: cover;
         min-height: 100vh;
         padding-top: 142px;

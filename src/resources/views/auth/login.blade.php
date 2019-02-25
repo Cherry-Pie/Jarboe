@@ -46,7 +46,7 @@
     </div>
 
     @if (config('jarboe.admin_panel.registration_enabled'))
-    <span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">Need an account?</span> <a href="{{ admin_url('register') }}" class="btn btn-danger">Create account</a> </span>
+    <span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">{{ __('jarboe::auth.login.need_account') }}</span> <a href="{{ admin_url('register') }}" class="btn btn-danger">{{ __('jarboe::auth.login.create_account') }}</a> </span>
     @endif
 </header>
 
@@ -72,7 +72,7 @@
                 <div class="well no-padding">
                     <form action="{{ admin_url('login') }}" method="post" id="login-form" class="smart-form client-form">
                         <header>
-                            Sign In
+                            {{ __('jarboe::auth.login.sign_in_header') }}
                         </header>
 
                         <fieldset>
@@ -80,35 +80,35 @@
                             @csrf
 
                             <section>
-                                <label class="label">E-mail</label>
+                                <label class="label">{{ __('jarboe::auth.login.email') }}</label>
                                 <label class="input"> <i class="icon-append fa fa-user"></i>
                                     <input type="email" name="email">
-                                    <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address/username</b></label>
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> {{ __('jarboe::auth.login.email_tooltip') }}</b></label>
                             </section>
 
                             <section>
-                                <label class="label">Password</label>
+                                <label class="label">{{ __('jarboe::auth.login.password') }}</label>
                                 <label class="input"> <i class="icon-append fa fa-lock"></i>
                                     <input type="password" name="password">
-                                    <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b> </label>
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> {{ __('jarboe::auth.login.password_tooltip') }}</b></label>
                             </section>
 
                             <section>
                                 <label class="checkbox">
                                     <input type="checkbox" name="remember" checked="">
-                                    <i></i>Stay signed in</label>
+                                    <i></i>{{ __('jarboe::auth.login.remember_me') }}</label>
                             </section>
                         </fieldset>
                         <footer>
                             <button type="submit" class="btn btn-primary">
-                                Sign in
+                                {{ __('jarboe::auth.login.sign_in_button') }}
                             </button>
                         </footer>
                     </form>
 
                 </div>
 
-                <h5 class="text-center"> - Or sign in using -</h5>
+                <h5 class="text-center"> - {{ __('jarboe::auth.login.or_sign_in_using') }} -</h5>
 
                 <ul class="list-inline text-center">
                     <li>
@@ -189,11 +189,11 @@
             // Messages for form validation
             messages : {
                 email : {
-                    required : 'Please enter your email address',
-                    email : 'Please enter a VALID email address'
+                    required : '{{ __('jarboe::auth.login.email_required_message') }}',
+                    email : '{{ __('jarboe::auth.login.email_email_message') }}'
                 },
                 password : {
-                    required : 'Please enter your password'
+                    required : '{{ __('jarboe::auth.login.password_required_message') }}'
                 }
             },
 
@@ -207,7 +207,7 @@
 
 <style>
     #extr-page div#main {
-        background: url(/vendor/jarboe/img/6-reversed.jpg) #fff;
+        background: url("/vendor/jarboe/img/6-reversed.jpg") #fff;
         background-size: cover;
         min-height: 100vh;
         padding-top: 142px;

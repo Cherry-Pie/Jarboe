@@ -15,8 +15,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $default = config('auth.defaults.guard');
-        $this->guard = config('jarboe.admin_panel.auth_guard', $default);
+        $this->guard = admin_user_guard();
 
         $this->middleware(RedirectIfAdminAuthenticated::class)->except([
             'logout',
@@ -34,7 +33,7 @@ class AuthController extends Controller
             return redirect(admin_url(config('jarboe.admin_panel.dashboard')));
         }
 
-        return redirect()->back()->withErrors(['email' => ['User not found.']]);
+        return redirect()->back()->withErrors(['email' => [__('jarboe::auth.user_not_found')]]);
     }
 
     public function logout()
