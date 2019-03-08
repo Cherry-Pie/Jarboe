@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use Yaro\Jarboe\Facades\Jarboe;
 use Yaro\Jarboe\Http\Controllers\AuthController;
+use Yaro\Jarboe\Http\Controllers\DashboardController;
 
 Route::group(Jarboe::routeGroupOptions(true), function () {
+    Route::get('/', [AuthController::class, 'root']);
     Route::get('login', [AuthController::class, 'showLogin']);
     Route::post('login', [AuthController::class, 'login']);
 
@@ -17,11 +19,5 @@ Route::group(Jarboe::routeGroupOptions(true), function () {
 Route::group(Jarboe::routeGroupOptions(), function () {
     Route::get('logout', [AuthController::class, 'logout']);
 
-    // TODO:
-    Route::get('/', function () {
-        return view('jarboe::layouts.main');
-    });
-    Route::get('dashboard', function () {
-        return view('jarboe::layouts.main');
-    });
+    Route::get(config('jarboe.admin_panel.dashboard'), [DashboardController::class, 'dashboard']);
 });
