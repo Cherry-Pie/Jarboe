@@ -7,6 +7,10 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as RequestFacade;
 use Yaro\Jarboe\Exceptions\PermissionDenied;
+use Yaro\Jarboe\Table\Actions\AbstractAction;
+use Yaro\Jarboe\Table\Actions\CreateAction;
+use Yaro\Jarboe\Table\Actions\DeleteAction;
+use Yaro\Jarboe\Table\Actions\EditAction;
 use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\AbstractField;
 use Yaro\Jarboe\Table\Fields\Select;
@@ -29,8 +33,18 @@ abstract class AbstractTableController
     public function __construct()
     {
         $this->crud = new CRUD();
-        $this->crud->tableIdentifier(crc32(static::class));
-        $this->crud->formClass(config('jarboe.crud.form_class'));
+        $this->crud()->tableIdentifier(crc32(static::class));
+        $this->crud()->formClass(config('jarboe.crud.form_class'));
+        $this->crud()->actions()->set([
+            CreateAction::make(),
+            EditAction::make(),
+            DeleteAction::make(),
+        ]);
+    }
+
+    protected function crud(): CRUD
+    {
+        return $this->crud;
     }
 
     /**
@@ -41,9 +55,9 @@ abstract class AbstractTableController
         $this->init();
         $this->bound();
 
-        $this->crud->saveSearchFilterParams($request->get('search', []));
+        $this->crud()->saveSearchFilterParams($request->get('search', []));
 
-        return redirect($this->crud->listUrl());
+        return redirect($this->crud()->listUrl());
     }
 
     /**
@@ -67,7 +81,7 @@ abstract class AbstractTableController
         $page = (int) $request->get('page');
 
         /** @var Select $field */
-        $field = $this->crud->getFieldByName($fieldName);
+        $field = $this->crud()->getFieldByName($fieldName);
         if (!$field) {
             throw new \RuntimeException(sprintf('Field [%s] not setted to crud', $fieldName));
         }
@@ -116,9 +130,9 @@ abstract class AbstractTableController
      */
     public function orderBy($column, $direction)
     {
-        $this->crud->saveOrderFilterParam($column, $direction);
+        $this->crud()->saveOrderFilterParam($column, $direction);
 
-        return redirect($this->crud->listUrl());
+        return redirect($this->crud()->listUrl());
     }
 
     /**
@@ -129,13 +143,13 @@ abstract class AbstractTableController
         $this->init();
         $this->bound();
 
-        if (!$this->action('create')->isAllowed()) {
+        if (!$this->crud()->actions()->isAllowed('create')) {
             throw new PermissionDenied();
         }
 
-        $this->crud->repo()->store($request);
+        $this->crud()->repo()->store($request);
 
-        return redirect($this->crud->listUrl());
+        return redirect($this->crud()->listUrl());
     }
 
     /**
@@ -148,10 +162,11 @@ abstract class AbstractTableController
 
         $id = $request->get('_pk');
         $value = $request->get('_value');
-        $field = $this->crud->getFieldByName($request->get('_name'));
+        $field = $this->crud()->getFieldByName($request->get('_name'));
         $locale = $request->get('_locale');
 
-        if (!$field->isInline() && !$this->action('edit')->isAllowed()) {
+        $model = $this->crud()->repo()->find($id);
+        if (!$field->isInline() && !$this->crud()->actions()->isAllowed('edit', $model)) {
             throw new PermissionDenied();
         }
 
@@ -184,7 +199,7 @@ abstract class AbstractTableController
             app()->setLocale($locale);
         }
 
-        $model = $this->crud->repo()->updateField($id, $request, $field, $value);
+        $model = $this->crud()->repo()->updateField($id, $request, $field, $value);
 
         return response()->json([
             'value' => $model->{$field->name()},
@@ -199,13 +214,14 @@ abstract class AbstractTableController
         $this->init();
         $this->bound();
 
-        if (!$this->action('edit')->isAllowed()) {
+        $model = $this->crud()->repo()->find($id);
+        if (!$this->crud()->actions()->isAllowed('edit', $model)) {
             throw new PermissionDenied();
         }
 
-        $this->crud->repo()->update($id, $request);
+        $this->crud()->repo()->update($id, $request);
 
-        return redirect($this->crud->listUrl());
+        return redirect($this->crud()->listUrl());
     }
 
     /**
@@ -216,11 +232,12 @@ abstract class AbstractTableController
         $this->init();
         $this->bound();
 
-        if (!$this->action('delete')->isAllowed()) {
+        $model = $this->crud()->repo()->find($id);
+        if (!$this->crud()->actions()->isAllowed('delete', $model)) {
             throw new PermissionDenied();
         }
 
-        if ($this->crud->repo()->delete($id)) {
+        if ($this->crud()->repo()->delete($id)) {
             return response()->json([
                 'message' => __('jarboe::common.list.delete_success_message', ['id' => $id]),
             ]);
@@ -239,9 +256,9 @@ abstract class AbstractTableController
         $this->init();
         $this->bound();
 
-        $this->crud->setPerPageParam((int) $perPage);
+        $this->crud()->setPerPageParam((int) $perPage);
 
-        return redirect($this->crud->listUrl());
+        return redirect($this->crud()->listUrl());
     }
 
     /**
@@ -256,7 +273,7 @@ abstract class AbstractTableController
 
         return view($this->viewCrudList, [
             'crud' => $this->crud,
-            'items' => $this->crud->repo()->get(),
+            'items' => $this->crud()->repo()->get(),
         ]);
     }
 
@@ -271,13 +288,14 @@ abstract class AbstractTableController
         $this->init();
         $this->bound();
 
-        if (!$this->action('edit')->isAllowed()) {
+        $model = $this->crud()->repo()->find($id);
+        if (!$this->crud()->actions()->isAllowed('edit', $model)) {
             throw new PermissionDenied();
         }
 
         return view($this->viewCrudEdit, [
             'crud' => $this->crud,
-            'item' => $this->crud->repo()->find($id),
+            'item' => $model,
         ]);
     }
 
@@ -291,7 +309,7 @@ abstract class AbstractTableController
         $this->init();
         $this->bound();
 
-        if (!$this->action('create')->isAllowed()) {
+        if (!$this->crud()->actions()->isAllowed('create')) {
             throw new PermissionDenied();
         }
 
@@ -314,7 +332,7 @@ abstract class AbstractTableController
         $this->bound();
 
         /** @var ToolInterface $tool */
-        $tool = $this->crud->getTool($identifier);
+        $tool = $this->crud()->getTool($identifier);
         if (!$tool->check()) {
             throw new PermissionDenied();
         }
@@ -338,7 +356,7 @@ abstract class AbstractTableController
     protected function addTool(ToolInterface $tool)
     {
         $tool->setCrud($this->crud);
-        $this->crud->addTool($tool);
+        $this->crud()->addTool($tool);
     }
 
     /**
@@ -346,7 +364,7 @@ abstract class AbstractTableController
      */
     protected function addColumn($column)
     {
-        $this->crud->addColumn($column);
+        $this->crud()->addColumn($column);
     }
 
     protected function addColumns(array $columns)
@@ -358,7 +376,7 @@ abstract class AbstractTableController
 
     protected function addField(AbstractField $field)
     {
-        $this->crud->addField($field);
+        $this->crud()->addField($field);
     }
 
     protected function addFields(array $fields)
@@ -378,32 +396,61 @@ abstract class AbstractTableController
 
     protected function setModel($model)
     {
-        $this->crud->setModel($model);
+        $this->crud()->setModel($model);
     }
 
     protected function paginate($perPage)
     {
-        $this->crud->paginate($perPage);
+        $this->crud()->paginate($perPage);
     }
 
     protected function order(string $column, string $direction = 'asc')
     {
-        $this->crud->order($column, $direction);
+        $this->crud()->order($column, $direction);
     }
 
     protected function filter(\Closure $callback)
     {
-        $this->crud->filter($callback);
-    }
-
-    protected function removeAction($ident)
-    {
-        $this->crud->removeAction($ident);
+        $this->crud()->filter($callback);
     }
 
     protected function action($ident)
     {
-        return $this->crud->action($ident);
+        return $this->crud()->actions()->find($ident);
+    }
+
+    protected function removeAction($ident)
+    {
+        $this->crud()->actions()->remove($ident);
+    }
+
+    /**
+     * Add row action button with optional changing order.
+     *
+     * @param AbstractAction $action
+     * @param null|string $moveDirection Move action 'before' or 'after' $baseActionIdent
+     * @param null|string $baseActionIdent
+     */
+    protected function addAction(AbstractAction $action, $moveDirection = null, $baseActionIdent = null)
+    {
+        $this->crud()->actions()->add($action);
+        if (!is_null($moveDirection) && !is_null($baseActionIdent)) {
+            if ($moveDirection == 'after') {
+                $this->crud()->actions()->moveAfter($baseActionIdent, $action->identifier());
+            } else {
+                $this->crud()->actions()->moveBefore($baseActionIdent, $action->identifier());
+            }
+        }
+    }
+
+    protected function addActions(array $actions)
+    {
+        $this->crud()->actions()->add($actions);
+    }
+
+    protected function setActions(array $actions = [])
+    {
+        $this->crud()->actions()->set($actions);
     }
 
     /**
@@ -412,7 +459,7 @@ abstract class AbstractTableController
      */
     protected function locales(array $locales)
     {
-        $this->crud->locales($locales);
+        $this->crud()->locales($locales);
     }
 
     public function __call($name, $arguments)
@@ -435,15 +482,15 @@ abstract class AbstractTableController
     /**
      * Bound fields/tools/etc with global data.
      */
-    public function bound()
+    protected function bound()
     {
         /** @var AbstractField $field */
-        foreach ($this->crud->getFields() as $field) {
+        foreach ($this->crud()->getFields() as $field) {
             $field->prepare($this->crud);
         }
 
         /** @var AbstractField $field */
-        foreach ($this->crud->getFieldsWithoutMarkup() as $field) {
+        foreach ($this->crud()->getFieldsWithoutMarkup() as $field) {
             if ($field->isTranslatable()) {
                 $this->addTool(new TranslationLocalesSelectorTool());
                 break;

@@ -2,7 +2,6 @@
 
 namespace Yaro\Jarboe\Http\Controllers;
 
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller;
 use Yaro\Jarboe\Http\Requests\Auth\LoginRequest;
@@ -11,15 +10,16 @@ use Yaro\Jarboe\Http\Middleware\RedirectIfAdminAuthenticated;
 
 class AuthController extends Controller
 {
-    private $guard;
-
     public function __construct()
     {
-        $this->guard = admin_user_guard();
-
         $this->middleware(RedirectIfAdminAuthenticated::class)->except([
             'logout',
         ]);
+    }
+
+    public function root()
+    {
+        return redirect(admin_url('login'));
     }
 
     public function showLogin()
@@ -29,7 +29,7 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        if (Auth::guard($this->guard)->attempt($request->only('email', 'password'), (bool) $request->get('remember'))) {
+        if (Auth::guard(admin_user_guard())->attempt($request->only('email', 'password'), (bool) $request->get('remember'))) {
             return redirect(admin_url(config('jarboe.admin_panel.dashboard')));
         }
 
@@ -38,7 +38,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Auth::guard($this->guard)->logout();
+        Auth::guard(admin_user_guard())->logout();
 
         return redirect(admin_url('login'));
     }
@@ -54,9 +54,8 @@ class AuthController extends Controller
 
         $admin = $model::create($request->only('name', 'email', 'password'));
 
-        Auth::guard($this->guard)->login($admin);
+        Auth::guard(admin_user_guard())->login($admin);
 
         return redirect(admin_url(config('jarboe.admin_panel.dashboard')));
     }
-
 }

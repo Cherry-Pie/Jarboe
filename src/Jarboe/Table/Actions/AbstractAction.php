@@ -2,23 +2,26 @@
 
 namespace Yaro\Jarboe\Table\Actions;
 
-
-abstract class AbstractAction
+abstract class AbstractAction implements ActionInterface
 {
     protected $ident;
     protected $checkClosure;
 
-    public function __construct($ident)
+    public function __construct()
     {
-        $this->ident = $ident;
         $this->checkClosure = function() {
             return true;
         };
     }
 
-    public static function make($ident)
+    public static function make()
     {
-        return new static($ident);
+        return new static();
+    }
+
+    public function identifier()
+    {
+        return $this->ident ?: static::class;
     }
 
     public function check(\Closure $checkClosure = null)
@@ -28,10 +31,10 @@ abstract class AbstractAction
         return $this;
     }
 
-    public function isAllowed()
+    public function isAllowed($model = null)
     {
         $closure = $this->checkClosure;
-        return $closure();
-    }
 
+        return is_callable($closure) ? call_user_func_array($closure, [$model]) : false;
+    }
 }

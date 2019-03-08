@@ -2,10 +2,8 @@
 
 namespace Yaro\Jarboe\Table;
 
-
-use Yaro\Jarboe\Table\Actions\CreateAction;
-use Yaro\Jarboe\Table\Actions\DeleteAction;
-use Yaro\Jarboe\Table\Actions\EditAction;
+use Yaro\Jarboe\Table\Actions\AbstractAction;
+use Yaro\Jarboe\Table\Actions\ActionsAggregator;
 use Yaro\Jarboe\Table\Fields\AbstractField;
 use Yaro\Jarboe\Table\Toolbar\Interfaces\ToolInterface;
 
@@ -14,7 +12,7 @@ class CRUD
     const BASE_URL_DELIMITER = '/~/';
 
     private $fields = [];
-    private $actions = [];
+    private $actions;
     private $model = '';
     private $repo;
     private $tableIdentifier;
@@ -27,11 +25,7 @@ class CRUD
     public function __construct()
     {
         $this->repo = new ModelRepository($this);
-        $this->actions = [
-            'create' => CreateAction::make(),
-            'edit'   => EditAction::make(),
-            'delete' => DeleteAction::make(),
-        ];
+        $this->actions = new ActionsAggregator();
     }
 
     public function formClass(string $class = null)
@@ -331,15 +325,6 @@ class CRUD
         return session()->put($key, $locale);
     }
 
-    public function action($ident)
-    {
-        if (array_key_exists($ident, $this->actions)) {
-            return $this->actions[$ident];
-        }
-
-        throw new \RuntimeException('Not allowed action');
-    }
-
     public function getTool($ident)
     {
         if (array_key_exists($ident, $this->toolbar)) {
@@ -396,14 +381,6 @@ class CRUD
         return $list;
     }
 
-    public function removeAction($ident)
-    {
-        $action = $this->actions[$ident];
-        $action->check(function() {
-            return false;
-        });
-    }
-
     public function getTabErrorsCount($tabTitle, $errors)
     {
         $count = 0;
@@ -450,4 +427,8 @@ class CRUD
         }
     }
 
+    public function actions()
+    {
+        return $this->actions;
+    }
 }

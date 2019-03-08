@@ -69,8 +69,8 @@
                                                 'fields' => $crud->getColumnsAsFields(),
                                             ])
                                             <th class="jarboe-table-actions" style="width:1%; min-width: 90px; text-align: center;">
-                                                @if ($crud->action('create')->isAllowed())
-                                                    <a class="btn btn-default btn-sm" href="{{ $crud->createUrl() }}">Create</a>
+                                                @if ($crud->actions()->isAllowed('create'))
+                                                    {!! $crud->actions()->find('create')->render($crud) !!}
                                                 @endif
                                             </th>
                                         </tr>
@@ -86,7 +86,7 @@
                                                     ])
 
                                                     <th class="jarboe-table-actions" style="text-align: center;">
-                                                        <button class="btn btn-default btn-sm" type="submit">Search</button>
+                                                        <button class="btn btn-default btn-sm" type="submit">{{ __('jarboe::common.list.search') }}</button>
                                                     </th>
                                                 </form>
                                             </tr>
@@ -107,12 +107,11 @@
                                                 ])
 
                                                 <td class="jarboe-table-actions" style="text-align: center;">
-                                                    @if ($crud->action('edit')->isAllowed())
-                                                    <a class="btn btn-default btn-sm" href="{{ $crud->editUrl($item->getKey()) }}"><i class="fa fa-pencil"></i></a>
-                                                    @endif
-                                                    @if ($crud->action('delete')->isAllowed())
-                                                    <a class="btn btn-default btn-sm jarboe-delete" data-id="{{ $item->getKey() }}" data-url="{{ $crud->deleteUrl($item->getKey()) }}" href="javascript:void(0);"><i class="fa fa-times"></i></a>
-                                                    @endif
+                                                    @foreach ($crud->actions()->getRowActions() as $action)
+                                                        @if ($action->isAllowed($item))
+                                                            {!! $action->render($crud, $item) !!}
+                                                        @endif
+                                                    @endforeach
                                                 </td>
                                             </tr>
                                         @endforeach

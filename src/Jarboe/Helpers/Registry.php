@@ -2,10 +2,8 @@
 
 namespace Yaro\Jarboe\Helpers;
 
-
 class Registry
 {
-
     private static $instance = null;
     private $registry = [];
     private $styles   = [];
@@ -79,5 +77,4 @@ class Registry
 
         return call_user_func_array(array($instance, $method), $arguments);
     }
-
 }

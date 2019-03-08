@@ -136,6 +136,10 @@
         label.btn.translation-locale-label.focus {
             outline: none;
         }
+
+        td.jarboe-table-actions {
+            white-space: nowrap;
+        }
     </style>
 
     @stack('style_files')

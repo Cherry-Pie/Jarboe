@@ -2,18 +2,14 @@
 
 namespace Yaro\Jarboe\Table\Actions;
 
+use Yaro\Jarboe\Table\CRUD;
 
 class CreateAction extends AbstractAction
 {
+    protected $ident = 'create';
 
-    public function __construct($ident = 'create')
+    public function render(CRUD $crud, $model = null)
     {
-        return parent::__construct($ident);
+        return view('jarboe::crud.actions.create', compact('crud'));
     }
-
-    public static function make($ident = 'create')
-    {
-        return parent::make($ident);
-    }
-
 }

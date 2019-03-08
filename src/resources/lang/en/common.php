@@ -33,6 +33,8 @@ return [
         'delete_success_message' => 'Record #:id successfully deleted.',
         'delete_failed' => 'Failed',
         'delete_failed_message' => 'Failed to delete record #:id.',
+        'search' => 'Search',
+        'create' => 'Create',
     ],
 
 ];

@@ -2,18 +2,14 @@
 
 namespace Yaro\Jarboe\Table\Actions;
 
+use Yaro\Jarboe\Table\CRUD;
 
 class DeleteAction extends AbstractAction
 {
+    protected $ident = 'delete';
 
-    public function __construct($ident = 'delete')
+    public function render(CRUD $crud, $model = null)
     {
-        return parent::__construct($ident);
+        return view('jarboe::crud.actions.delete', compact('crud', 'model'));
     }
-
-    public static function make($ident = 'delete')
-    {
-        return parent::make($ident);
-    }
-
 }

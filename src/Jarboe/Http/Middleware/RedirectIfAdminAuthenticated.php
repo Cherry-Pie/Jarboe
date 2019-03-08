@@ -16,10 +16,7 @@ class RedirectIfAdminAuthenticated
      */
     public function handle($request, Closure $next)
     {
-        $default = config('auth.defaults.guard');
-        $guard = config('jarboe.admin_panel.auth_guard', $default);
-
-        if (Auth::guard($guard)->check()) {
+        if (Auth::guard(admin_user_guard())->check()) {
             return redirect(admin_url(config('jarboe.admin_panel.dashboard')));
         }
 
