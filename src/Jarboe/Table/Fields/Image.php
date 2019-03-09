@@ -50,7 +50,7 @@ class Image extends AbstractField
         return $this;
     }
 
-    protected function storeFile(UploadedFile $file, $filename, Request $request)
+    protected function storeFile(UploadedFile $file, $filename, Request $request, $index = 0)
     {
         if (!$this->isCrop()) {
             if ($this->isEncode()) {
@@ -65,10 +65,10 @@ class Image extends AbstractField
         \Log::debug(($request->all()));
         if ($this->isCrop() && $request->has($imageCropPropsField)) {
             $image->crop(
-                round($request->input(sprintf('%s.width', $imageCropPropsField))),
-                round($request->input(sprintf('%s.height', $imageCropPropsField))),
-                round($request->input(sprintf('%s.x', $imageCropPropsField))),
-                round($request->input(sprintf('%s.y', $imageCropPropsField)))
+                round($request->input(sprintf('%s.%s.width', $imageCropPropsField, $index))),
+                round($request->input(sprintf('%s.%s.height', $imageCropPropsField, $index))),
+                round($request->input(sprintf('%s.%s.x', $imageCropPropsField, $index))),
+                round($request->input(sprintf('%s.%s.y', $imageCropPropsField, $index)))
             );
         }
 
@@ -91,9 +91,9 @@ class Image extends AbstractField
 
         $files = is_array($files) ? $files : [$files];
         $paths = [];
-        foreach ($files as $file) {
+        foreach ($files as $index => $file) {
             $filename = $file->hashName();
-            $paths[] = $this->storeFile($file, $filename, $request);
+            $paths[] = $this->storeFile($file, $filename, $request, $index);
         }
 
         if (!$this->isMultiple()) {

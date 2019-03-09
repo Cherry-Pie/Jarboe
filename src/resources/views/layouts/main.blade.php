@@ -304,6 +304,10 @@
 <script src="/vendor/jarboe/js/plugin/moment/moment.min.js"></script>
 <script src="/vendor/jarboe/js/plugin/clipboard.js/2.0.0/clipboard.min.js"></script>
 
+
+<link rel="stylesheet" href="/vendor/jarboe/js/plugin/lity/2.3.1/lity.css">
+<script src="/vendor/jarboe/js/plugin/lity/2.3.1/lity.js"></script>
+
 <!--[if IE 8]>
 
 <h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>

@@ -8,4 +8,7 @@ return [
         'none' => '[none]'
     ],
 
+    'image' => [
+        'browse' => 'Browse',
+    ]
 ];
