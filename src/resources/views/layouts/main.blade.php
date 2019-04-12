@@ -125,9 +125,14 @@
             right: 24px;
         }
 
-        td>label.checkbox {
+        td.smart-form>label.checkbox,
+        th.smart-form>label.checkbox {
             margin-bottom: 18px !important;
             padding-left: 18px !important;
+        }
+        td.smart-form>label.checkbox i,
+        th.smart-form>label.checkbox i {
+            top: 0px;
         }
         th.check-all-column {
             width: 1px;
@@ -139,6 +144,12 @@
 
         td.jarboe-table-actions {
             white-space: nowrap;
+        }
+        .check-all-column div.tooltip {
+            padding: 0 5px;
+            opacity: .9;
+            background: none;
+            line-height: 1.42857143;
         }
     </style>
 
@@ -163,7 +174,7 @@
     * 'fixed-page-footer' - Fixes footer
     * 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
 -->
-<body class="{{ $themeClass }} {{ $menuOnTop ? 'menu-on-top' : '' }}">
+<body class="{{ $themeClass }} {{ $menuOnTop ? 'menu-on-top' : '' }} {{ $_COOKIE['body_class'] ?? '' }}">
 
 @stack('body_start')
 
@@ -307,6 +318,9 @@
 
 <link rel="stylesheet" href="/vendor/jarboe/js/plugin/lity/2.3.1/lity.css">
 <script src="/vendor/jarboe/js/plugin/lity/2.3.1/lity.js"></script>
+
+<script src="/vendor/jarboe/js/plugin/js.cookie/js.cookie.js"></script>
+
 
 <!--[if IE 8]>
 
