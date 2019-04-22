@@ -151,6 +151,10 @@
             background: none;
             line-height: 1.42857143;
         }
+
+        .smart-style-2 #logo img {
+            filter: invert(100%);
+        }
     </style>
 
     @stack('style_files')

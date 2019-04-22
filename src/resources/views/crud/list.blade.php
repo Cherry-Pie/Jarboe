@@ -59,10 +59,18 @@
 
                             <div class="table-responsive">
 
-                                <table class="{{-- smart-form --}} table table-bordered table-stripped table-hover" width="100%">
+                                <table class="table table-bordered table-stripped table-hover" width="100%">
                                     <thead>
                                         <tr>
-                                            {{--<th class="check-all-column"></th>--}}
+
+                                            @if ($crud->isBatchCheckboxesEnabled())
+                                            <th class="check-all-column smart-form">
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="checkbox-inline">
+                                                    <i rel="tooltip" data-placement="right" data-original-title="[un]check&nbsp;all"></i>
+                                                </label>
+                                            </th>
+                                            @endif
 
                                             @include('jarboe::crud.inc.list_headers', [
                                                 'crud'   => $crud,
@@ -79,7 +87,7 @@
                                                 <form method="post" action="{{ $crud->searchUrl() }}" class="smart-form">
                                                     @csrf
 
-                                                    {{--<th></th>--}}
+                                                    <th></th>
 
                                                     @include('jarboe::crud.inc.list_filters', [
                                                         'fields' => $crud->getColumnsAsFields(),
@@ -94,13 +102,17 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($items as $item)
-                                            <tr class="jarboe-table-row">
-                                                {{--<td>--}}
-                                                    {{--<label class="checkbox">--}}
-                                                        {{--<input type="checkbox" name="checkbox-inline">--}}
-                                                        {{--<i></i>--}}
-                                                    {{--</label>--}}
-                                                {{--</td>--}}
+                                            <tr class="jarboe-table-row jarboe-table-row-{{ $item->getKey() }}">
+
+                                                @if ($crud->isBatchCheckboxesEnabled())
+                                                <td class="smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="mass[]" value="{{ $item->getKey() }}" class="mass-check">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                @endif
+
                                                 @include('jarboe::crud.inc.list_row', [
                                                     'item'   => $item,
                                                     'fields' => $crud->getColumnsAsFields(),
@@ -237,6 +249,10 @@
         thead .sorting_desc_disabled {
             background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATAQMAAABInqSPAAAABlBMVEUAAABUVFR8AzIeAAAAAnRSTlMAf7YpoZUAAAAcSURBVAjXYyAE2P8wMDD/YGBg/ADkPABiB5xKAZDZBBBG27rUAAAAAElFTkSuQmCC) no-repeat center right;
         }
+
+        .jarboe-table-row.row-error {
+            background-color: #ffefef;
+        }
     </style>
 @endpush
 
@@ -251,7 +267,6 @@
 })(jQuery);
 
 
-
 (function($) {
 
 var CRUD =
@@ -259,45 +274,8 @@ var CRUD =
 
     init: function()
     {
-        $('.jarboe-delete').on('click', function(e) {
-            e.preventDefault();
-
-            var $btn = $(this);
-
-            $.SmartMessageBox({
-                title : "{{ __('jarboe::common.list.delete_title') }}",
-                content : "{{ __('jarboe::common.list.delete_description') }}",
-                buttons : '[{{ __('jarboe::common.list.delete_confirm_no') }}][{{ __('jarboe::common.list.delete_confirm_yes') }}]'
-            }, function(ButtonPressed) {
-                if (ButtonPressed === "{{ __('jarboe::common.list.delete_confirm_yes') }}") {
-                    $.ajax({
-                        url: $btn.data('url'),
-                        type: "POST",
-                        success: function(response) {
-                            $.smallBox({
-                                title : "{{ __('jarboe::common.list.delete_success') }}",
-                                content: response.message,
-                                color : "#659265",
-                                iconSmall : "fa fa-check fa-2x fadeInRight animated",
-                                timeout : 4000
-                            });
-
-                            $btn.closest('.jarboe-table-row').remove();
-                        },
-                        error: function(xhr, status, error) {
-                            var response = JSON.parse(xhr.responseText);
-                            $.smallBox({
-                                title : "{{ __('jarboe::common.list.delete_failed') }}",
-                                content: response.message,
-                                color : "#C46A69",
-                                iconSmall : "fa fa-times fa-2x fadeInRight animated",
-                                timeout : 4000
-                            });
-                        },
-                        dataType: "json"
-                    });
-                }
-            });
+        $('.check-all-column input').on('change', function() {
+            $('.mass-check').attr('checked', this.checked).prop('checked', this.checked);
         });
 
         $('.jarboe-per-page').on('click', function(e) {
@@ -307,6 +285,7 @@ var CRUD =
         $('.sorting').on('click', function() {
             window.location.href = $(this).data('url');
         });
+
     },
 };
 

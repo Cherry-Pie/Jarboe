@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Yaro\Jarboe\Console\Commands\Install;
+use Yaro\Jarboe\Console\Commands\Make\Tool as MakeTool;
 use Yaro\Jarboe\Helpers\Locale;
 
 class ServiceProvider extends IlluminateServiceProvider 
@@ -18,6 +19,7 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     protected $commands = [
         Install::class,
+        MakeTool::class,
     ];
 
     /**
@@ -74,10 +76,12 @@ class ServiceProvider extends IlluminateServiceProvider
             $params = collect(explode(',', $expression))->map(function ($item) {
                 return trim($item);
             });
+            $stack = $params->shift();
+            $content = $params->implode(',');
 
-            $isDisplayed = '__pushonce_'.md5($params->get(1));
-            return "<?php if(!isset(\$__env->{$isDisplayed})): \$__env->{$isDisplayed} = true; \$__env->startPush({$params->get(0)}); ?>"
-                . $params->get(1)
+            $isDisplayed = '__pushonce_'.md5($content);
+            return "<?php if(!isset(\$__env->{$isDisplayed})): \$__env->{$isDisplayed} = true; \$__env->startPush({$stack}); ?>"
+                . $content
                 . '<?php $__env->stopPush(); endif; ?>';
         });
     }

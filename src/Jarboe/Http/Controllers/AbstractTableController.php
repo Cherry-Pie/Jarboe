@@ -424,6 +424,11 @@ abstract class AbstractTableController
         $this->crud()->actions()->remove($ident);
     }
 
+    public function enableBatchCheckboxes(bool $enabled = true)
+    {
+        $this->crud()->enableBatchCheckboxes($enabled);
+    }
+
     /**
      * Add row action button with optional changing order.
      *

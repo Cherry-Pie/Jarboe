@@ -21,6 +21,7 @@ class CRUD
     private $formClass = 'col-sm-12 col-md-12 col-lg-12';
     private $toolbar = [];
     private $locales = [];
+    private $batchCheckboxesEnabled = false;
 
     public function __construct()
     {
@@ -430,5 +431,15 @@ class CRUD
     public function actions()
     {
         return $this->actions;
+    }
+
+    public function enableBatchCheckboxes(bool $enabled = true)
+    {
+        $this->batchCheckboxesEnabled = $enabled;
+    }
+
+    public function isBatchCheckboxesEnabled()
+    {
+        return $this->batchCheckboxesEnabled;
     }
 }

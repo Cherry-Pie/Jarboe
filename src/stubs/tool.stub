@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Jarboe\Toolbar;
+
+use Illuminate\Http\Request;
+use Yaro\Jarboe\Table\Toolbar\AbstractTool;
+
+class %s extends AbstractTool
+{
+    /**
+     * Position where should tool be placed.
+     */
+    public function position()
+    {
+        return self::%s;
+    }
+
+    /**
+     * Unique tool identifier.
+     */
+    public function identifier(): string
+    {
+        return '%s';
+    }
+
+    /**
+     * Tool's view.
+     */
+    public function render()
+    {
+        // return view('jarboe.toolbar.%s')->render();
+    }
+
+    /**
+     * Handle tool execution.
+     * @param Request $request
+     */
+    public function handle(Request $request)
+    {
+        // dummy
+    }
+
+    /**
+     * Check allowance to show and process tool.
+     */
+    public function check(): bool
+    {
+        return true;
+    }
+}

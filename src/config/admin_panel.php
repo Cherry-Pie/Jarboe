@@ -59,7 +59,7 @@ return [
      *
      * Supported: "default", "dark", "light", "google-skin", "pixel-smash", "glass", "material"
      */
-    'theme' => 'default',
+    'theme' => 'light',
 
     /**
      * Place navigation menu on top.
