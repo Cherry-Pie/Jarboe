@@ -33,6 +33,6 @@ class Admin extends Authenticatable
 
     public function getAvatarAttribute($value)
     {
-        return $value ?: '/vendor/jarboe/img/avatars/male.png';
+        return $value ?: asset('vendor/jarboe/img/avatars/male.png');
     }
 }

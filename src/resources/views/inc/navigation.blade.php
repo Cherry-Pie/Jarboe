@@ -33,11 +33,6 @@
                             <span class="menu-item-parent">Roles &amp; Permissions</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ admin_url('admin-panel/navigation') }}">
-                            <span class="menu-item-parent">Navigation</span>
-                        </a>
-                    </li>
                 </ul>
             </li>
 

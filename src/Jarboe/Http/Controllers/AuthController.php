@@ -52,7 +52,10 @@ class AuthController extends Controller
     {
         $model = config('jarboe.admin_panel.admin_model');
 
-        $admin = $model::create($request->only('name', 'email', 'password'));
+        $data = $request->only('name', 'email') + [
+                'password' => bcrypt($request->get('password')),
+            ];
+        $admin = $model::create($data);
 
         Auth::guard(admin_user_guard())->login($admin);
 
