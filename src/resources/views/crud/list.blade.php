@@ -87,7 +87,9 @@
                                                 <form method="post" action="{{ $crud->searchUrl() }}" class="smart-form">
                                                     @csrf
 
-                                                    <th></th>
+                                                    @if ($crud->isBatchCheckboxesEnabled())
+                                                        <th></th>
+                                                    @endif
 
                                                     @include('jarboe::crud.inc.list_filters', [
                                                         'fields' => $crud->getColumnsAsFields(),
