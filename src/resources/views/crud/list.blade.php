@@ -147,9 +147,9 @@
                                     <div class="col-xs-6 col-sm-6">
                                         <div class="dataTables_info" style="height: 36px;">
                                             {{ __('jarboe::common.list.pagination', [
-                                                'from' => $items->firstItem(),
-                                                'to' => $items->lastItem(),
-                                                'total' => $items->total(),
+                                                'from' => (int) $items->firstItem(),
+                                                'to' => (int) $items->lastItem(),
+                                                'total' => (int) $items->total(),
                                             ]) }}
                                         </div>
                                         <hr>
