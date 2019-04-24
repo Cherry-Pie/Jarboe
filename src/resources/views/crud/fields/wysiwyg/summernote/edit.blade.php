@@ -69,33 +69,33 @@
 
 @push('scripts')
 <script>
-$(document).ready(function() {
-    var $field_{{ $field->name() }} = $('.summernote-{{ $field->name() }}-content');
-    $('.summernote-{{ $field->name() }}').summernote({
-        height: 200,
-        codemirror: {
-            theme: 'monokai'
-        },
-        toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'italic', 'underline', 'clear']],
-            ['fontname', ['fontname']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']],
-            ['table', ['table']],
-            ['insert', ['link', 'picture', 'hr']],
-            ['view', ['codeview', 'fullscreen']]
-        ],
-        callbacks: {
-            onInit: function(e) {
-                $('.summernote-{{ $field->name() }}').summernote('code', $field_{{ $field->name() }}.val());
+    $(document).ready(function() {
+        var $field_{{ $field->name() }} = $('.summernote-{{ $field->name() }}-content');
+        $('.summernote-{{ $field->name() }}').summernote({
+            height: 200,
+            codemirror: {
+                theme: 'monokai'
             },
-            onBlur: function(e) {
-                $field_{{ $field->name() }}.val($('.summernote-{{ $field->name() }}').summernote('code'));
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'hr']],
+                ['view', ['codeview', 'fullscreen']]
+            ],
+            callbacks: {
+                onInit: function(e) {
+                    $('.summernote-{{ $field->name() }}').summernote('code', $field_{{ $field->name() }}.val());
+                },
+                onBlur: function(e) {
+                    $field_{{ $field->name() }}.val($('.summernote-{{ $field->name() }}').summernote('code'));
+                }
             }
-        }
+        });
     });
-});
 </script>
 @endpush
