@@ -24,7 +24,7 @@ class Number extends AbstractField
             return null;
         }
 
-        return $value;
+        return is_null($value) ? 0 : $value;
     }
 
     public function getListValue($model)
