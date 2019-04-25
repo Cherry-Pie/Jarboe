@@ -2,7 +2,6 @@
 
 namespace Yaro\Jarboe\Table;
 
-
 use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\Fields\AbstractField;
 
@@ -159,7 +158,7 @@ class ModelRepository
     private function applyOrder($model)
     {
         $shouldApplyDefaultOrder = true;
-        foreach ($this->crud->getFieldsWithoutMarkup() as $field) {
+        foreach ($this->crud->getAllFieldObjects() as $field) {
             if ($field->isOrderable()) {
                 $direction = $this->crud->getOrderFilterParam($field->name());
                 if (!is_null($direction)) {
@@ -178,5 +177,4 @@ class ModelRepository
     {
         $model = $model->paginate($this->perPage());
     }
-
 }
