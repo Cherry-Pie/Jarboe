@@ -490,7 +490,7 @@ abstract class AbstractTableController
     protected function bound()
     {
         /** @var AbstractField $field */
-        foreach ($this->crud()->getFields() as $field) {
+        foreach ($this->crud()->getAllFieldObjects() as $field) {
             $field->prepare($this->crud);
         }
 

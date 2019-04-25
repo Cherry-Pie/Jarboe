@@ -2,10 +2,8 @@
 
 namespace Yaro\Jarboe\Table\Filters;
 
-
 class DateFilter extends AbstractFilter
 {
-
     public function render()
     {
         return view('jarboe::crud.filters.date', [
@@ -20,7 +18,7 @@ class DateFilter extends AbstractFilter
             return;
         }
 
-        $model->where(
+        $model->whereDate(
             $this->field()->name(),
             $this->sign,
             $value

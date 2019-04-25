@@ -72,6 +72,28 @@ class CRUD
         return $columns ?: $this->getFields();
     }
 
+    public function getColumnsWithoutRelatedField()
+    {
+        $columns = [];
+        foreach ($this->getColumns() as $column) {
+            if (is_object($column)) {
+                $columns[] = $column;
+            }
+        }
+
+        return $columns;
+    }
+
+    public function getAllFieldObjects()
+    {
+        $fieldsAndColumns = array_merge(
+            $this->getFieldsWithoutMarkup(),
+            $this->getColumnsWithoutRelatedField()
+        );
+
+        return $fieldsAndColumns;
+    }
+
     public function getFieldByName($name)
     {
         $fields = $this->getFieldsWithoutMarkup();
@@ -196,7 +218,7 @@ class CRUD
 
     public function hasAnyFieldFilter()
     {
-        foreach ($this->getFields() as $field) {
+        foreach ($this->getColumnsAsFields() as $field) {
             if (!$field->hidden('list') && $field->filter()) {
                 return true;
             }

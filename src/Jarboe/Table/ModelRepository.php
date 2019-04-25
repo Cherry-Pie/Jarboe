@@ -149,7 +149,7 @@ class ModelRepository
 
     private function applySearchFilters($model)
     {
-        foreach ($this->crud->getFieldsWithoutMarkup() as $field) {
+        foreach ($this->crud->getAllFieldObjects() as $field) {
             if ($field->filter()) {
                 $field->filter()->apply($model, $field->name());
             }
