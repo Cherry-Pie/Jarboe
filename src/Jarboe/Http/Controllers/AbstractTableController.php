@@ -340,6 +340,37 @@ abstract class AbstractTableController
         return $tool->handle($request);
     }
 
+    public function switchSortable()
+    {
+        $this->init();
+        $this->bound();
+
+        if (!$this->crud()->isSortableByWeight()) {
+            throw new PermissionDenied();
+        }
+
+        $newState = !$this->crud()->isSortableByWeightActive();
+        $this->crud()->setSortableOrderState($newState);
+
+        return back();
+    }
+
+    public function moveItem($id, Request $request)
+    {
+        $this->init();
+        $this->bound();
+
+        if (!$this->crud()->isSortableByWeight()) {
+            throw new PermissionDenied();
+        }
+
+        $this->crud()->repo()->reorder($id, $request->get('prev'), $request->get('next'));
+
+        return response()->json([
+            'ok' => true,
+        ]);
+    }
+
 
     /*
     |--------------------------------------------------------------------------
@@ -427,6 +458,16 @@ abstract class AbstractTableController
     public function enableBatchCheckboxes(bool $enabled = true)
     {
         $this->crud()->enableBatchCheckboxes($enabled);
+    }
+
+    /**
+     * Allows to reorder table rows.
+     *
+     * @param string $field
+     */
+    public function sortable(string $field)
+    {
+        $this->crud()->enableSortableByWeight($field);
     }
 
     /**

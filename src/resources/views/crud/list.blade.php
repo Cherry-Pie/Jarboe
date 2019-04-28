@@ -62,6 +62,18 @@
                                 <table class="table table-bordered table-stripped table-hover" width="100%">
                                     <thead>
                                         <tr>
+                                            @if ($crud->isSortableByWeight())
+                                            <th>
+                                                <a id="sortable-table-switch"
+                                                   class="btn btn-default btn-xs {{ $crud->isSortableByWeightActive() ? 'active' : '' }}"
+                                                   href="{{ $crud->reorderUrl() }}"
+                                                   rel="tooltip"
+                                                   data-placement="right"
+                                                   data-original-title="{!! $crud->isSortableByWeightActive() ? __('jarboe::common.list.reorder.deactivate') : __('jarboe::common.list.reorder.activate') !!}">
+                                                    <span class="glyphicon glyphicon-sort"></span>
+                                                </a>
+                                            </th>
+                                            @endif
 
                                             @if ($crud->isBatchCheckboxesEnabled())
                                             <th class="check-all-column smart-form">
@@ -76,7 +88,7 @@
                                                 'crud'   => $crud,
                                                 'fields' => $crud->getColumnsAsFields(),
                                             ])
-                                            <th class="jarboe-table-actions" style="width:1%; min-width: 90px; text-align: center;">
+                                            <th class="jarboe-table-actions">
                                                 @if ($crud->actions()->isAllowed('create'))
                                                     {!! $crud->actions()->find('create')->render($crud) !!}
                                                 @endif
@@ -87,6 +99,10 @@
                                                 <form method="post" action="{{ $crud->searchUrl() }}" class="smart-form">
                                                     @csrf
 
+                                                    @if ($crud->isSortableByWeight())
+                                                        <th></th>
+                                                    @endif
+
                                                     @if ($crud->isBatchCheckboxesEnabled())
                                                         <th></th>
                                                     @endif
@@ -95,7 +111,7 @@
                                                         'fields' => $crud->getColumnsAsFields(),
                                                     ])
 
-                                                    <th class="jarboe-table-actions" style="text-align: center;">
+                                                    <th class="jarboe-table-actions">
                                                         <button class="btn btn-default btn-sm" type="submit">{{ __('jarboe::common.list.search') }}</button>
                                                     </th>
                                                 </form>
@@ -104,7 +120,15 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($items as $item)
-                                            <tr class="jarboe-table-row jarboe-table-row-{{ $item->getKey() }}">
+                                            <tr class="jarboe-table-row jarboe-table-row-{{ $item->getKey() }}"
+                                                data-key="{{ $item->getKey() }}"
+                                                data-reorder="{{ $crud->reorderMoveItemUrl($item->getKey()) }}">
+
+                                                @if ($crud->isSortableByWeight())
+                                                <td class="smart-form reorder-handler">
+                                                    <i class="fa fa-reorder"></i>
+                                                </td>
+                                                @endif
 
                                                 @if ($crud->isBatchCheckboxesEnabled())
                                                 <td class="smart-form">
@@ -120,7 +144,7 @@
                                                     'fields' => $crud->getColumnsAsFields(),
                                                 ])
 
-                                                <td class="jarboe-table-actions" style="text-align: center;">
+                                                <td class="jarboe-table-actions">
                                                     @foreach ($crud->actions()->getRowActions() as $action)
                                                         @if ($action->isAllowed($item))
                                                             {!! $action->render($crud, $item) !!}
@@ -220,6 +244,8 @@
             position: sticky;
             background-color: white;
             right: 0px;
+            width:1%;
+            min-width: 90px;
         }
         ul.pagination {
             float: initial !important;
@@ -254,6 +280,24 @@
 
         .jarboe-table-row.row-error {
             background-color: #ffefef;
+        }
+
+        .tooltip-inner {
+            max-width: none;
+        }
+
+
+        .reorder-handler {
+            width: 1px;
+            cursor: grab;
+            text-align: center;
+        }
+        .ui-sortable-helper .reorder-handler,
+        .ui-sortable-placeholder .reorder-handler {
+            cursor: grabbing;
+        }
+        .ui-sortable-helper {
+            display: table;
         }
     </style>
 @endpush
@@ -297,3 +341,51 @@ CRUD.init();
 
 </script>
 @endpush
+
+
+@if ($crud->isSortableByWeightActive())
+    @push('scripts')
+    <script>
+        $(document).ready(function() {
+          $('tbody').sortable({
+            handle: 'td.reorder-handler',
+            placeholder: "ui-state-highlight",
+            update: function( event, ui ) {
+              console.log(ui);
+              var el = ui.item;
+              var prev = ui.item[0].previousElementSibling;
+              var next = ui.item[0].nextElementSibling;
+
+              $.ajax({
+                url: $(el).data('reorder'),
+                data: {
+                  prev: prev ? $(prev).data('key') : null,
+                  next: next ? $(next).data('key') : null,
+                },
+                type: "POST",
+                success: function(response) {
+                  $.smallBox({
+                    title : "{{ __('jarboe::common.list.reorder.success') }}",
+                    color : "#659265",
+                    iconSmall : "fa fa-check fa-2x fadeInRight animated",
+                    timeout : 4000
+                  });
+                },
+                error: function(xhr, status, error) {
+                  var response = JSON.parse(xhr.responseText);
+                  $.smallBox({
+                    title : "{{ __('jarboe::common.list.reorder.failed') }}",
+                    content: response.message,
+                    color : "#C46A69",
+                    iconSmall : "fa fa-times fa-2x fadeInRight animated",
+                    timeout : 4000
+                  });
+                },
+                dataType: "json"
+              });
+            }
+          });
+        });
+    </script>
+    @endpush
+@endif

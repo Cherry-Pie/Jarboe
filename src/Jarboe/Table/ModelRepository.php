@@ -27,9 +27,16 @@ class ModelRepository
     {
         $model = $this->crud->getModel();
         $model = $model::query();
+
         $this->applyFilter($model);
         $this->applySearchFilters($model);
-        $this->applyOrder($model);
+
+        if ($this->crud->isSortableByWeightActive()) {
+            $this->applySortableOrder($model);
+        } else {
+            $this->applyOrder($model);
+        }
+
         $this->applyPaginate($model);
 
         return $model;
@@ -176,5 +183,34 @@ class ModelRepository
     private function applyPaginate(&$model)
     {
         $model = $model->paginate($this->perPage());
+    }
+
+    private function applySortableOrder($model)
+    {
+        $model->orderBy($this->crud->getSortableWeightFieldName(), 'asc');
+    }
+
+    public function reorder($id, $idPrev, $idNext)
+    {
+        $sort = $this->crud->getSortableWeightFieldName();
+        $model = $this->crud->getModel();
+        $query = $model::query();
+        $key = (new $model)->getKeyName();
+
+        if ($idPrev) {
+            $weight = $this->find($idPrev)->$sort + 1;
+            $this->find($id)->update([
+                $sort => $weight,
+            ]);
+
+            $query->where($key, '!=', $id)->where($sort, '>=', $weight)->increment($sort);
+        } elseif ($idNext) {
+            $weight = $this->find($idNext)->$sort - 1;
+            $this->find($id)->update([
+                $sort => $weight,
+            ]);
+
+            $query->where($key, '!=', $id)->where($sort, '<=', $weight)->decrement($sort);
+        }
     }
 }

@@ -22,6 +22,7 @@ class CRUD
     private $toolbar = [];
     private $locales = [];
     private $batchCheckboxesEnabled = false;
+    private $sortableWeightField = null;
 
     public function __construct()
     {
@@ -277,6 +278,16 @@ class CRUD
         return sprintf('%s%sorder/%s/%s', $this->baseUrl(), self::BASE_URL_DELIMITER, $column, $direction);
     }
 
+    public function reorderUrl()
+    {
+        return sprintf('%s%sreorder/switch', $this->baseUrl(), self::BASE_URL_DELIMITER);
+    }
+
+    public function reorderMoveItemUrl($id)
+    {
+        return sprintf('%s%sreorder/move/%s', $this->baseUrl(), self::BASE_URL_DELIMITER, $id);
+    }
+
     public function baseUrl()
     {
         $chunks = explode(self::BASE_URL_DELIMITER, request()->url());
@@ -463,5 +474,34 @@ class CRUD
     public function isBatchCheckboxesEnabled()
     {
         return $this->batchCheckboxesEnabled;
+    }
+
+    public function enableSortableByWeight(string $field)
+    {
+        $this->sortableWeightField = $field;
+    }
+
+    public function isSortableByWeight()
+    {
+        return (bool) $this->getSortableWeightFieldName();
+    }
+
+    public function isSortableByWeightActive()
+    {
+        $key = sprintf('jarboe.%s.reorder', $this->tableIdentifier());
+
+        return session($key, false);
+    }
+
+    public function getSortableWeightFieldName()
+    {
+        return $this->sortableWeightField;
+    }
+
+    public function setSortableOrderState(bool $active)
+    {
+        $key = sprintf('jarboe.%s.reorder', $this->tableIdentifier());
+
+        session()->put($key, $active);
     }
 }

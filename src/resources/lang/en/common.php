@@ -35,6 +35,13 @@ return [
         'delete_failed_message' => 'Failed to delete record #:id.',
         'search' => 'Search',
         'create' => 'Create',
+
+        'reorder' => [
+            'success' => 'New order saved successfully',
+            'failed' => 'Failed to save new order',
+            'activate' => 'change&nbsp;order&nbsp;to&nbsp;make&nbsp;table&nbsp;sortable',
+            'deactivate' => 'disable&nbsp;sortable&nbsp;order',
+        ]
     ],
 
 ];

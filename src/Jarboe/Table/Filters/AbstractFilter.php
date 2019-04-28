@@ -2,12 +2,10 @@
 
 namespace Yaro\Jarboe\Table\Filters;
 
-
 use Yaro\Jarboe\Table\Fields\AbstractField;
 
 abstract class AbstractFilter
 {
-
     /** @var AbstractField */
     protected $field;
     protected $value;
@@ -53,5 +51,4 @@ abstract class AbstractFilter
     abstract public function render();
 
     abstract public function apply($query);
-
 }

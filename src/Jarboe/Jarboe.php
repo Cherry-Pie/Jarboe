@@ -16,6 +16,8 @@ class Jarboe
         Route::post($uri . $delimiter .'search', $controller .'@search');
         Route::post($uri . $delimiter .'search/relation', $controller .'@searchRelation');
         Route::post($uri . $delimiter .'inline', $controller .'@inline');
+        Route::get($uri . $delimiter .'reorder/switch', $controller .'@switchSortable');
+        Route::post($uri . $delimiter .'reorder/move/{id}', $controller .'@moveItem');
         Route::get($uri . $delimiter .'per-page/{per_page}', $controller .'@perPage');
         Route::get($uri . $delimiter .'order/{column}/{direction}', $controller .'@orderBy');
         Route::get($uri . $delimiter .'create', $controller .'@create');
