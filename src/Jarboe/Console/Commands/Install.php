@@ -3,6 +3,7 @@
 namespace Yaro\Jarboe\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use PhpSchool\CliMenu\CliMenu;
 
 class Install extends Command
@@ -87,7 +88,7 @@ class Install extends Command
             ->addItem('Publish configuration files', [$this, 'publishConfigs'], $this->isConfigsPublished())
             ->addItem('Create navigation view', [$this, 'copyNavigationView'], $this->isNavigationViewExists())
             ->addItem('Create migration files', [$this, 'copyMigrationFiles'], $this->isMigrationFilesExist())
-            ->addItem('Publish third-party migration files', [$this, 'copyThirdPartyMigrationFiles'], false)//$this->isThirdPartyMigrationFilesExist()
+            ->addItem('Publish third-party migration files', [$this, 'copyThirdPartyMigrationFiles'], $this->isThirdPartyMigrationFilesExist())
             ->setItemExtra('[COMPLETE!]')
             ->addLineBreak('-')
             ->setBackgroundColour('cyan')
@@ -97,9 +98,31 @@ class Install extends Command
         $menu->open();
     }
 
+    public function copyThirdPartyMigrationFiles(CliMenu $menu)
+    {
+        Artisan::call('vendor:publish', [
+            '--provider' => 'Spatie\Permission\PermissionServiceProvider',
+            '--tag' => 'migrations',
+        ]);
+        Artisan::call('vendor:publish', [
+            '--provider' => 'Spatie\Permission\PermissionServiceProvider',
+            '--tag' => 'config',
+        ]);
+
+        $this->flash('Migration files and configuration files created for `spatie/laravel-permission` package', $menu);
+        $menu->closeThis();
+
+        $this->buildMenu();
+    }
+
     public function publishAssets(CliMenu $menu)
     {
-        $menu->confirm('Run command: php artisan vendor:publish --provider="Yaro\Jarboe\ServiceProvider" --tag=public --force')->display('Ok');
+        shell_exec('php artisan vendor:publish --provider="Yaro\Jarboe\ServiceProvider" --tag=public --force > /dev/null 2>/dev/null &');
+
+        $this->flash('Assets will be published shortly', $menu);
+        $menu->closeThis();
+
+        $this->buildMenu();
     }
 
     private function isAssetsPublished()
@@ -109,11 +132,21 @@ class Install extends Command
 
     public function publishConfigs(CliMenu $menu)
     {
-        $menu->confirm('Run command: php artisan vendor:publish --provider="Yaro\Jarboe\ServiceProvider" --tag=config')->display('Ok');
+        shell_exec('php artisan vendor:publish --provider="Yaro\Jarboe\ServiceProvider" --tag=config > /dev/null 2>/dev/null &');
+
+        $this->flash('Config files will be published shortly', $menu);
+        $menu->closeThis();
+
+        $this->buildMenu();
     }
 
     private function isConfigsPublished()
     {
         return file_exists(config_path('jarboe'));
+    }
+
+    private function isThirdPartyMigrationFilesExist()
+    {
+        return (bool) glob(database_path('migrations/*_create_permission_tables.php'));
     }
 }
