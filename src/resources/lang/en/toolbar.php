@@ -16,6 +16,7 @@ return [
         'delete_failed_message' => 'Failed to delete records.',
         'delete_failed_for_row' => 'Delete failed: row #',
         'delete_event_failed' => 'Delete event for model failed.',
+        'button' => 'mass delete,'
     ],
 
 ];

@@ -5,7 +5,7 @@
            rel="tooltip"
            data-placement="top"
            data-original-title="{!! __('jarboe::toolbar.mass_delete.mass_delete_tooltip') !!}">
-            <span class="fa fa-times"></span>
+            {{ __('jarboe::toolbar.mass_delete.button') }}
         </a>
     </div>
 </div>
