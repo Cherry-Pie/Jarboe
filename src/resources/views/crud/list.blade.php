@@ -79,7 +79,7 @@
                                             <th class="check-all-column smart-form">
                                                 <label class="checkbox">
                                                     <input type="checkbox" name="checkbox-inline">
-                                                    <i rel="tooltip" data-placement="right" data-original-title="[un]check&nbsp;all"></i>
+                                                    <i rel="tooltip" data-placement="right" data-original-title="{!! __('jarboe::common.list.check_all_tooltip') !!}"></i>
                                                 </label>
                                             </th>
                                             @endif

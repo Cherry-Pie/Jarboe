@@ -41,7 +41,8 @@ return [
             'failed' => 'Failed to save new order',
             'activate' => 'change&nbsp;order&nbsp;to&nbsp;make&nbsp;table&nbsp;sortable',
             'deactivate' => 'disable&nbsp;sortable&nbsp;order',
-        ]
+        ],
+        'check_all_tooltip' => '[un]check&nbsp;all',
     ],
 
 ];
