@@ -10,7 +10,7 @@
     </div>
 @endif
 
-<span id="xeditable-textarea-{{ $field->name() }}-{{ $model->getKey() }}-{{ $locale ?? 'default' }}" style="white-space: pre-wrap;">{{ $field->getAttribute($model, $locale ?? null) }}</span>
+<span id="xeditable-textarea-{{ $field->name() }}-{{ $model->getKey() }}-{{ $locale ?? 'default' }}" style="white-space: pre-wrap;">{{ mb_strimwidth($field->getAttribute($model, $locale ?? null), 0, 50, '...') }}</span>
 
 @if ($field->isInline())
     @pushonce('script_files', <script src="/vendor/jarboe/js/plugin/x-editable/jquery.mockjax.min.js"></script>)
