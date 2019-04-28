@@ -1,5 +1,6 @@
 
 <span id="xeditable-number-{{ $field->name() }}-{{ $model->getKey() }}"
+      style="display: none;"
       class="parse-to-format-moment"
       data-value="{{ $model->{$field->name()} }}"
       data-momentformat="{{ $field->getDateFormat() }}">{{ $model->{$field->name()} }}</span>
@@ -10,6 +11,7 @@
         if ($ctx.data('value')) {
             $ctx.text(moment($ctx.data('value')).format($ctx.data('momentformat')));
         }
+        $ctx.show();
     });
 </script>)
 
