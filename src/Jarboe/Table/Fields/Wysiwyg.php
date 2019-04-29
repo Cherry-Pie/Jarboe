@@ -2,13 +2,14 @@
 
 namespace Yaro\Jarboe\Table\Fields;
 
-
 use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
+use Yaro\Jarboe\Table\Fields\Traits\Translatable;
 
 class Wysiwyg extends AbstractField
 {
     use Orderable;
+    use Translatable;
 
     const SUMMERNOTE = 'summernote';
 
@@ -19,7 +20,9 @@ class Wysiwyg extends AbstractField
 
     public function value(Request $request)
     {
-        return (string) parent::value($request);
+        $value = parent::value($request);
+
+        return is_array($value) ? $value : (string) $value;
     }
 
     public function type($type = null)
@@ -38,7 +41,12 @@ class Wysiwyg extends AbstractField
 
     public function getListValue($model)
     {
-        return view(sprintf('jarboe::crud.fields.wysiwyg.%s.list', $this->getType()), [
+        $template = 'list';
+        if ($this->isTranslatable()) {
+            $template .= '_translatable';
+        }
+
+        return view(sprintf('jarboe::crud.fields.wysiwyg.%s.%s', $this->getType(), $template), [
             'model' => $model,
             'field' => $this,
         ])->render();
@@ -60,5 +68,4 @@ class Wysiwyg extends AbstractField
             'field' => $this,
         ])->render();
     }
-
 }

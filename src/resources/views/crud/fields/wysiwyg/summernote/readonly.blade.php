@@ -1,47 +1,32 @@
 
-<label class="label">{{ $field->title() }}</label>
+<label class="label">
+    {{ $field->title() }}
+    @include('jarboe::crud.fields.wysiwyg.summernote.inc.translatable_locales_selector')
+</label>
 
-<div class="summernote-{{ $field->name() }}"></div>
-<textarea class="summernote-{{ $field->name() }}-content" style="display: none;">{!! $model->{$field->name()} !!}</textarea>
-
-
-
-@pushonce('style_files', <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.css">)
-@pushonce('style_files', <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/monokai.css">)
-
-
-@pushonce('script_files', <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.js"></script>)
-@pushonce('script_files', <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.js"></script>)
-@pushonce('script_files', <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.js"></script>)
-@pushonce('script_files', <script src="/vendor/jarboe/js/plugin/summernote/summernote.min.js"></script>)
+@if ($field->isTranslatable())
+    @foreach ($field->getLocales() as $locale => $title)
+        <div class="locale-field locale-tab-{{ $locale }} locale-field-{{ $field->name() }} locale-field-{{ $field->name() }}-{{ $locale }}"
+             style="{{ $field->isCurrentLocale($locale) ? '' : 'display:none;' }}">
+            <div class="summernote-{{ $field->name() }}-{{ $locale }}"></div>
+            <textarea class="summernote-{{ $field->name() }}-{{ $locale }}-content" style="display: none;">{!! $model->{$field->name()} !!}</textarea>
+        </div>
+        @include('jarboe::crud.fields.wysiwyg.summernote.inc.styles_and_scripts', compact('field', 'locale'))
+    @endforeach
+@else
+    <div class="summernote-{{ $field->name() }}-default"></div>
+    <textarea class="summernote-{{ $field->name() }}-default-content" style="display: none;">{!! $model->{$field->name()} !!}</textarea>
+    @include('jarboe::crud.fields.wysiwyg.summernote.inc.styles_and_scripts', [
+        'field' => $field,
+        'locale' => 'default',
+    ])
+@endif
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        var $field_{{ $field->name() }} = $('.summernote-{{ $field->name() }}-content');
-        $('.summernote-{{ $field->name() }}').summernote({
-            height: 200,
-            codemirror: {
-                theme: 'monokai'
-            },
-            toolbar: [
-                ['style', ['style']],
-                ['font', ['bold', 'italic', 'underline', 'clear']],
-                ['fontname', ['fontname']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['height', ['height']],
-                ['table', ['table']],
-                ['insert', ['link', 'picture', 'hr']],
-                ['view', ['codeview', 'fullscreen']]
-            ],
-            callbacks: {
-                onInit: function(e) {
-                    $('.summernote-{{ $field->name() }}').summernote('code', $field_{{ $field->name() }}.val());
-                    $('.summernote-{{ $field->name() }}').summernote('disable');
-                },
-            }
-        });
-    });
-</script>
+    <script>
+      $('label.translation-{{ $field->name() }}-locale-label').on('click', function() {
+        $('.locale-field-{{ $field->name() }}').hide();
+        $('.locale-field-{{ $field->name() }}-'+ $(this).data('locale')).show();
+      });
+    </script>
 @endpush

@@ -1,2 +1,2 @@
 
-{{ mb_strimwidth(strip_tags($model->{$field->name()}), 0, 50, '...') }}
+{{ mb_strimwidth(strip_tags($field->getAttribute($model, $locale ?? null)), 0, 50, '...') }}
