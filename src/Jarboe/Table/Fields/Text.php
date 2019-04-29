@@ -28,7 +28,7 @@ class Text extends AbstractField
             return null;
         }
 
-        return (string) $value;
+        return is_array($value) ? $value : (string) $value;
     }
 
     public function getListValue($model)
