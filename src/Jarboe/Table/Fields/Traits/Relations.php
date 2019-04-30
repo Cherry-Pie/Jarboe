@@ -59,7 +59,7 @@ trait Relations
     public function getOptions(int $page = null, int $perPage = null, $query = null, &$total = 0, $relationIndex = 0)
     {
         $options = $this->options;
-        if ($this->isRelationField()) {
+        if ($this->isRelationField() && !$options) {
             $options = [];
             $model = $this->model;
 
