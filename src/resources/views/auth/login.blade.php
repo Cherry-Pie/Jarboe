@@ -42,11 +42,16 @@
 <header id="header">
 
     <div id="logo-group">
-        <span id="logo"> <img src="/vendor/jarboe/img/logo.png" alt="Jarboe"> </span>
+        <span id="logo">
+            @include('jarboe::inc.auth.logo')
+        </span>
     </div>
 
     @if (config('jarboe.admin_panel.registration_enabled'))
-    <span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">{{ __('jarboe::auth.login.need_account') }}</span> <a href="{{ admin_url('register') }}" class="btn btn-danger">{{ __('jarboe::auth.login.create_account') }}</a> </span>
+        <span id="extr-page-header-space">
+            <span class="hidden-mobile hiddex-xs">{{ __('jarboe::auth.login.need_account') }}</span>
+            <a href="{{ admin_url('register') }}" class="btn btn-danger">{{ __('jarboe::auth.login.create_account') }}</a>
+        </span>
     @endif
 </header>
 

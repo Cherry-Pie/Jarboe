@@ -43,12 +43,17 @@
     <!--<span id="logo"></span>-->
 
     <div id="logo-group">
-        <span id="logo"> <img src="/vendor/jarboe/img/logo.png" alt="Jarboe"> </span>
+        <span id="logo">
+            @include('jarboe::inc.auth.logo')
+        </span>
 
         <!-- END AJAX-DROPDOWN -->
     </div>
 
-    <span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">{{ __('jarboe::auth.registration.already_registered') }}</span> <a href="{{ admin_url('login') }}" class="btn btn-danger">{{ __('jarboe::auth.registration.sign_in') }}</a> </span>
+    <span id="extr-page-header-space">
+        <span class="hidden-mobile hiddex-xs">{{ __('jarboe::auth.registration.already_registered') }}</span>
+        <a href="{{ admin_url('login') }}" class="btn btn-danger">{{ __('jarboe::auth.registration.sign_in') }}</a>
+    </span>
 
 </header>
 
