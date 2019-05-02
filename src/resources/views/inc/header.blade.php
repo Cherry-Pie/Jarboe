@@ -3,7 +3,9 @@
     <div id="logo-group">
 
         <!-- PLACE YOUR LOGO HERE -->
-        <span id="logo"> <img src="/vendor/jarboe/img/logo.png" alt="Jarboe"> </span>
+        <span id="logo">
+            @include('jarboe::inc.header.logo')
+        </span>
         <!-- END LOGO PLACEHOLDER -->
 
 {{--        @include('jarboe::inc.activity')--}}
