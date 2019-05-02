@@ -113,6 +113,7 @@
 
                 </div>
 
+                {{--
                 <h5 class="text-center"> - {{ __('jarboe::auth.login.or_sign_in_using') }} -</h5>
 
                 <ul class="list-inline text-center">
@@ -126,6 +127,7 @@
                         <a href="javascript:void(0);" class="btn btn-warning btn-circle disabled"><i class="fa fa-linkedin"></i></a>
                     </li>
                 </ul>
+                --}}
 
             </div>
         </div>
