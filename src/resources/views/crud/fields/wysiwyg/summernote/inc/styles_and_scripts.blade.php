@@ -1,5 +1,5 @@
-@pushonce('style_files', <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.css">)
-@pushonce('style_files', <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/monokai.css">)
+@pushonce('style_files', <link rel="stylesheet" type="text/css" href="/vendor/jarboe/js/plugin/codemirror/3.20.0/codemirror.css">)
+@pushonce('style_files', <link rel="stylesheet" type="text/css" href="/vendor/jarboe/js/plugin/codemirror/3.20.0/theme/monokai.css">)
 
 @pushonce('style_files',
 <style>
@@ -46,9 +46,9 @@
     }
 </style>)
 
-@pushonce('script_files', <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.js"></script>)
-@pushonce('script_files', <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.js"></script>)
-@pushonce('script_files', <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.js"></script>)
+@pushonce('script_files', <script type="text/javascript" src="/vendor/jarboe/js/plugin/codemirror/3.20.0/codemirror.js"></script>)
+@pushonce('script_files', <script type="text/javascript" src="/vendor/jarboe/js/plugin/codemirror/3.20.0/mode/xml/xml.js"></script>)
+@pushonce('script_files', <script type="text/javascript" src="/vendor/jarboe/js/plugin/codemirror/2.36.0/formatting.js"></script>)
 @pushonce('script_files', <script type="text/javascript" src="/vendor/jarboe/js/plugin/summernote/summernote.min.js"></script>)
 
 @push('scripts')
