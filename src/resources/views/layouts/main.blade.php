@@ -161,6 +161,9 @@
     @stack('styles')
     @stack('head_scripts')
 
+
+    @include('jarboe::inc.head_attach')
+
 </head>
 
 
@@ -469,6 +472,8 @@
 
 
 @stack('body_end')
+
+@include('jarboe::inc.body_attach')
 
 </body>
 
