@@ -326,6 +326,17 @@
 <script src="/vendor/jarboe/js/plugin/js.cookie/js.cookie.js"></script>
 
 
+<audio preload="auto" autobuffer="auto" style="display: none;">
+    <source src="/vendor/jarboe/sound/messagebox.mp3" type="audio/mpeg">
+</audio>
+<audio preload="auto" autobuffer="auto" style="display: none;">
+    <source src="/vendor/jarboe/sound/bigbox.mp3" type="audio/mpeg">
+</audio>
+<audio preload="auto" autobuffer="auto" style="display: none;">
+    <source src="/vendor/jarboe/sound/smallbox.mp3" type="audio/mpeg">
+</audio>
+
+
 <!--[if IE 8]>
 
 <h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
