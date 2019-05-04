@@ -131,7 +131,7 @@
                                                 @endif
 
                                                 @if ($crud->isBatchCheckboxesEnabled())
-                                                <td class="smart-form">
+                                                <td class="smart-form mass-checkbox-td">
                                                     <label class="checkbox">
                                                         <input type="checkbox" name="mass[]" value="{{ $item->getKey() }}" class="mass-check">
                                                         <i></i>

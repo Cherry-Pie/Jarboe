@@ -24,13 +24,6 @@
     <!-- SmartAdmin RTL Support -->
     <link rel="stylesheet" type="text/css" media="screen" href="/vendor/jarboe/css/smartadmin-rtl.min.css">
 
-    <!-- We recommend you use "your_style.css" to override SmartAdmin
-         specific styles this will also ensure you retrain your customization with each SmartAdmin update.
-    <link rel="stylesheet" type="text/css" media="screen" href="/vendor/jarboe/css/your_style.css"> -->
-
-    <!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
-    <link rel="stylesheet" type="text/css" media="screen" href="/vendor/jarboe/css/demo.min.css">
-
     <!-- FAVICONS -->
     <link rel="shortcut icon" href="/vendor/jarboe/img/favicon/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/vendor/jarboe/img/favicon/favicon.ico" type="image/x-icon">
@@ -40,11 +33,6 @@
 
     <!-- Specifying a Webpage Icon for Web Clip
          Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
-    <link rel="apple-touch-icon" href="/vendor/jarboe/img/splash/touch-icon-iphone.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/vendor/jarboe/img/splash/touch-icon-ipad.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/vendor/jarboe/img/splash/touch-icon-iphone-retina.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/vendor/jarboe/img/splash/touch-icon-ipad-retina.png">
-
     <link rel="apple-touch-icon" href="/vendor/jarboe/img/splash/apple-touch-icon.png" />
     <link rel="apple-touch-icon" sizes="57x57" href="/vendor/jarboe/img/splash/apple-touch-icon-57x57.png" />
     <link rel="apple-touch-icon" sizes="72x72" href="/vendor/jarboe/img/splash/apple-touch-icon-72x72.png" />
@@ -137,6 +125,9 @@
         th.check-all-column {
             width: 1px;
         }
+        td.mass-checkbox-td {
+            width: 1px;
+        }
 
         label.btn.translation-locale-label.focus {
             outline: none;
@@ -155,15 +146,14 @@
         .smart-style-2 #logo img {
             filter: invert(100%);
         }
+
     </style>
 
     @stack('style_files')
     @stack('styles')
     @stack('head_scripts')
 
-
     @include('jarboe::inc.head_attach')
-
 </head>
 
 
@@ -194,14 +184,6 @@
     <!-- RIBBON -->
     <div id="ribbon">
 
-        {{--
-        <span class="ribbon-button-alignment">
-            <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
-                <i class="fa fa-refresh"></i>
-            </span>
-        </span>
-        --}}
-
         <!-- breadcrumb -->
         @yield('breadcrumbs')
         <!-- end breadcrumb -->
@@ -222,44 +204,7 @@
 
     <!-- MAIN CONTENT -->
     <div id="content">
-        {{--
-        <div class="row">
-            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-                <h1 class="page-title txt-color-blueDark">
-                    <i class="fa fa-table fa-fw "></i>
-                    Table
-                    <span>>
-								Normal Tables
-							</span>
-                </h1>
-            </div>
-            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-                <ul id="sparks" class="">
-                    <li class="sparks-info">
-                        <h5> My Income <span class="txt-color-blue">$47,171</span></h5>
-                        <div class="sparkline txt-color-blue hidden-mobile hidden-md hidden-sm">
-                            1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471
-                        </div>
-                    </li>
-                    <li class="sparks-info">
-                        <h5> Site Traffic <span class="txt-color-purple"><i class="fa fa-arrow-circle-up" data-rel="bootstrap-tooltip" title="Increased"></i>&nbsp;45%</span></h5>
-                        <div class="sparkline txt-color-purple hidden-mobile hidden-md hidden-sm">
-                            110,150,300,130,400,240,220,310,220,300, 270, 210
-                        </div>
-                    </li>
-                    <li class="sparks-info">
-                        <h5> Site Orders <span class="txt-color-greenDark"><i class="fa fa-shopping-cart"></i>&nbsp;2447</span></h5>
-                        <div class="sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm">
-                            110,150,300,130,400,240,220,310,220,300, 270, 210
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        --}}
         @yield('content')
-
-
     </div>
     <!-- END MAIN CONTENT -->
 
@@ -291,18 +236,6 @@
 
 <!-- CUSTOM NOTIFICATION -->
 <script src="/vendor/jarboe/js/notification/SmartNotification.min.js"></script>
-
-<!-- JARVIS WIDGETS -->
-<script src="/vendor/jarboe/js/smartwidgets/jarvis.widget.min.js"></script>
-
-<!-- EASY PIE CHARTS -->
-<script src="/vendor/jarboe/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
-
-<!-- SPARKLINES -->
-<script src="/vendor/jarboe/js/plugin/sparkline/jquery.sparkline.min.js"></script>
-
-<!-- JQUERY VALIDATE -->
-<script src="/vendor/jarboe/js/plugin/jquery-validate/jquery.validate.min.js"></script>
 
 <!-- JQUERY MASKED INPUT -->
 <script src="/vendor/jarboe/js/plugin/masked-input/jquery.maskedinput.min.js"></script>
@@ -346,21 +279,9 @@
 
 <![endif]-->
 
-<!-- Demo purpose only
-<script src="/vendor/jarboe/js/demo.min.js"></script>
--->
 <!-- MAIN APP JS FILE -->
 <script src="/vendor/jarboe/js/app.js"></script>
 
-{{--
-<!-- ENHANCEMENT PLUGINS : NOT A REQUIREMENT -->
-<!-- Voice command : plugin -->
-<script src="/vendor/jarboe/js/speech/voicecommand.min.js"></script>
-
-<!-- SmartChat UI : plugin -->
-<script src="/vendor/jarboe/js/smart-chat-ui/smart.chat.ui.min.js"></script>
-<script src="/vendor/jarboe/js/smart-chat-ui/smart.chat.manager.min.js"></script>
---}}
 <!-- PAGE RELATED PLUGIN(S) -->
 
 
