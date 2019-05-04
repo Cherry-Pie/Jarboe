@@ -11,6 +11,8 @@ use Yaro\Jarboe\Table\Actions\AbstractAction;
 use Yaro\Jarboe\Table\Actions\CreateAction;
 use Yaro\Jarboe\Table\Actions\DeleteAction;
 use Yaro\Jarboe\Table\Actions\EditAction;
+use Yaro\Jarboe\Table\Actions\ForceDeleteAction;
+use Yaro\Jarboe\Table\Actions\RestoreAction;
 use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\AbstractField;
 use Yaro\Jarboe\Table\Fields\Select;
@@ -38,7 +40,9 @@ abstract class AbstractTableController
         $this->crud()->actions()->set([
             CreateAction::make(),
             EditAction::make(),
+            RestoreAction::make(),
             DeleteAction::make(),
+            ForceDeleteAction::make(),
         ]);
     }
 
@@ -340,6 +344,12 @@ abstract class AbstractTableController
         return $tool->handle($request);
     }
 
+    /**
+     * Switch table order for making sortable table.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws PermissionDenied
+     */
     public function switchSortable()
     {
         $this->init();
@@ -355,6 +365,14 @@ abstract class AbstractTableController
         return back();
     }
 
+    /**
+     * Change sort weight of dragged row.
+     *
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws PermissionDenied
+     */
     public function moveItem($id, Request $request)
     {
         $this->init();
@@ -371,6 +389,63 @@ abstract class AbstractTableController
         ]);
     }
 
+    /**
+     * Restore record by its id.
+     *
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws PermissionDenied
+     */
+    public function handleRestore(Request $request, $id)
+    {
+        $this->init();
+        $this->bound();
+
+        if (!$this->crud()->isSoftDeleteEnabled()) {
+            throw new PermissionDenied();
+        }
+
+        $model = $this->crud()->repo()->find($id);
+        if ($this->crud()->repo()->restore($id) || !$model->trashed()) {
+            return response()->json([
+                'message' => __('jarboe::common.list.restore_success_message', ['id' => $id]),
+            ]);
+        }
+
+        return response()->json([
+            'message' => __('jarboe::common.list.restore_failed_message', ['id' => $id]),
+        ], 422);
+    }
+
+    /**
+     * Force delete record by its id.
+     *
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws PermissionDenied
+     */
+    public function handleForceDelete(Request $request, $id)
+    {
+        $this->init();
+        $this->bound();
+
+        $model = $this->crud()->repo()->find($id);
+        if (!$this->crud()->isSoftDeleteEnabled() || !$model->trashed()) {
+            throw new PermissionDenied();
+        }
+
+        if ($this->crud()->repo()->forceDelete($id)) {
+            return response()->json([
+                'message' => __('jarboe::common.list.force_delete_success_message', ['id' => $id]),
+            ]);
+        }
+
+        return response()->json([
+            'message' => __('jarboe::common.list.force_delete_failed_message', ['id' => $id]),
+        ], 422);
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -461,6 +536,16 @@ abstract class AbstractTableController
     }
 
     /**
+     * Enable soft deletes for table.
+     *
+     * @param bool $enabled
+     */
+    public function softDeletes(bool $enabled = true)
+    {
+        $this->crud()->enableSoftDelete($enabled);
+    }
+
+    /**
      * Allows to reorder table rows.
      *
      * @param string $field
@@ -519,6 +604,10 @@ abstract class AbstractTableController
                 return $this->handleStore($request);
             case 'delete':
                 return $this->handleDelete($request, $arguments[0]);
+            case 'restore':
+                return $this->handleRestore($request, $arguments[0]);
+            case 'forceDelete':
+                return $this->handleForceDelete($request, $arguments[0]);
 
             default:
                 throw new \RuntimeException('Invalid method '. $name);
@@ -542,6 +631,8 @@ abstract class AbstractTableController
                 break;
             }
         }
+
+        $this->crud()->actions()->setCrud($this->crud());
     }
 
     /*

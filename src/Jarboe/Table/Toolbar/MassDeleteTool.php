@@ -44,6 +44,7 @@ class MassDeleteTool extends AbstractTool
     {
         return view('jarboe::crud.toolbar.mass_delete', [
             'tool' => $this,
+            'crud' => $this->crud(),
         ]);
     }
 

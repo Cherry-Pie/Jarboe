@@ -213,4 +213,18 @@ class ModelRepository
             $query->where($key, '!=', $id)->where($sort, '<=', $weight)->decrement($sort);
         }
     }
+
+    public function restore($id)
+    {
+        $model = $this->find($id);
+
+        return $model->restore();
+    }
+
+    public function forceDelete($id)
+    {
+        $model = $this->find($id);
+
+        return $model->forceDelete();
+    }
 }

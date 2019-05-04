@@ -2,8 +2,6 @@
 @if ($tools)
 <div class="widget-body-toolbar">
 
-    <div class="row">
-
         @foreach ($tools as $tool)
             {!! $tool->render() !!}
         @endforeach
@@ -22,7 +20,5 @@
 
         </div>
         --}}
-    </div>
-
 </div>
 @endif

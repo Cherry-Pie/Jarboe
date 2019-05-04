@@ -19,4 +19,17 @@ return [
         'button' => 'mass delete',
     ],
 
+    'mass_restore' => [
+        'mass_restore_tooltip' => 'Restore&nbsp;all&nbsp;selected',
+        'button' => 'mass restore',
+        'no_rows_title' => 'Mass Restore',
+        'no_rows_description' => 'no rows specified',
+        'restore_title' => 'Restore selected records?',
+        'restore_description' => 'Records will be removed from trash.',
+        'restore_confirm_no' => 'No',
+        'restore_confirm_yes' => 'Yes',
+        'restore_failed_for_row' => 'Restore failed: row #',
+        'restore_event_failed' => 'Restore event for model failed.',
+    ],
+
 ];

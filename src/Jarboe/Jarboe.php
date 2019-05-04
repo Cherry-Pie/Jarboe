@@ -25,6 +25,8 @@ class Jarboe
         Route::get($uri . $delimiter .'{id}', $controller .'@edit');
         Route::post($uri . $delimiter .'{id}', $controller .'@update');
         Route::post($uri . $delimiter .'{id}/delete', $controller .'@delete');
+        Route::post($uri . $delimiter .'{id}/restore', $controller .'@restore');
+        Route::post($uri . $delimiter .'{id}/force-delete', $controller .'@forceDelete');
         Route::any($uri . $delimiter .'toolbar/{toolbar}', $controller .'@toolbar');
     }
 

@@ -2,7 +2,9 @@
 
 namespace Yaro\Jarboe\Table\Actions;
 
-class ActionsAggregator
+use Yaro\Jarboe\Table\CRUD;
+
+class ActionsContainer
 {
     private $actions = [];
 
@@ -68,7 +70,18 @@ class ActionsAggregator
         if (!$action) {
             return false;
         }
+
         return $action->isAllowed($model);
+    }
+
+    public function shouldRender($ident, $model = null): bool
+    {
+        $action = $this->find($ident);
+        if (!$action) {
+            return false;
+        }
+
+        return $action->shouldRender($model);
     }
 
     public function moveAfter($baseActionIdent, $movableActionIdent)
@@ -105,5 +118,13 @@ class ActionsAggregator
         }
 
         $this->actions = $actions;
+    }
+
+    public function setCrud(CRUD $crud)
+    {
+        /** @var AbstractAction $action */
+        foreach ($this->actions as $action) {
+            $action->setCrud($crud);
+        }
     }
 }

@@ -89,8 +89,8 @@
                                                 'fields' => $crud->getColumnsAsFields(),
                                             ])
                                             <th class="jarboe-table-actions">
-                                                @if ($crud->actions()->isAllowed('create'))
-                                                    {!! $crud->actions()->find('create')->render($crud) !!}
+                                                @if ($crud->actions()->shouldRender('create'))
+                                                    {!! $crud->actions()->find('create')->render() !!}
                                                 @endif
                                             </th>
                                         </tr>
@@ -146,8 +146,8 @@
 
                                                 <td class="jarboe-table-actions">
                                                     @foreach ($crud->actions()->getRowActions() as $action)
-                                                        @if ($action->isAllowed($item))
-                                                            {!! $action->render($crud, $item) !!}
+                                                        @if ($action->shouldRender($item))
+                                                            {!! $action->render($item) !!}
                                                         @endif
                                                     @endforeach
                                                 </td>

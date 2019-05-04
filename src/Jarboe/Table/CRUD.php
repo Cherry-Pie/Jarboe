@@ -2,8 +2,7 @@
 
 namespace Yaro\Jarboe\Table;
 
-use Yaro\Jarboe\Table\Actions\AbstractAction;
-use Yaro\Jarboe\Table\Actions\ActionsAggregator;
+use Yaro\Jarboe\Table\Actions\ActionsContainer;
 use Yaro\Jarboe\Table\Fields\AbstractField;
 use Yaro\Jarboe\Table\Toolbar\Interfaces\ToolInterface;
 
@@ -23,11 +22,12 @@ class CRUD
     private $locales = [];
     private $batchCheckboxesEnabled = false;
     private $sortableWeightField = null;
+    private $softDeleteEnabled = false;
 
     public function __construct()
     {
         $this->repo = new ModelRepository($this);
-        $this->actions = new ActionsAggregator();
+        $this->actions = new ActionsContainer();
     }
 
     public function formClass(string $class = null)
@@ -241,6 +241,16 @@ class CRUD
     public function deleteUrl($id)
     {
         return sprintf('%s%s%s/delete', $this->baseUrl(), self::BASE_URL_DELIMITER, $id);
+    }
+
+    public function restoreUrl($id)
+    {
+        return sprintf('%s%s%s/restore', $this->baseUrl(), self::BASE_URL_DELIMITER, $id);
+    }
+
+    public function forceDeleteUrl($id)
+    {
+        return sprintf('%s%s%s/force-delete', $this->baseUrl(), self::BASE_URL_DELIMITER, $id);
     }
 
     public function toolbarUrl($identifier)
@@ -503,5 +513,15 @@ class CRUD
         $key = sprintf('jarboe.%s.reorder', $this->tableIdentifier());
 
         session()->put($key, $active);
+    }
+
+    public function enableSoftDelete(bool $enabled = true)
+    {
+        $this->softDeleteEnabled = $enabled;
+    }
+
+    public function isSoftDeleteEnabled(): bool
+    {
+        return $this->softDeleteEnabled;
     }
 }

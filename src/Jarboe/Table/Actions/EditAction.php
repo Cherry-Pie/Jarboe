@@ -2,14 +2,14 @@
 
 namespace Yaro\Jarboe\Table\Actions;
 
-use Yaro\Jarboe\Table\CRUD;
-
 class EditAction extends AbstractAction
 {
     protected $ident = 'edit';
 
-    public function render(CRUD $crud, $model = null)
+    public function render($model = null)
     {
+        $crud = $this->crud();
+
         return view('jarboe::crud.actions.edit', compact('crud', 'model'));
     }
 }

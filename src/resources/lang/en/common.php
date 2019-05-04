@@ -27,6 +27,7 @@ return [
         'pagination' => 'Showing :from to :to of :total entries',
         'delete_title' => 'Delete record?',
         'delete_description' => 'This action cannot be undone.',
+        'soft_delete_description' => 'Record will be moved to trash.',
         'delete_confirm_yes' => 'Yes',
         'delete_confirm_no' => 'No',
         'delete_success' => 'Success',
@@ -43,6 +44,24 @@ return [
             'deactivate' => 'disable&nbsp;sortable&nbsp;order',
         ],
         'check_all_tooltip' => '[un]check&nbsp;all',
+
+        'restore_title' => 'Restore record?',
+        'restore_description' => 'Record will be removed from trash.',
+        'restore_confirm_no' => 'No',
+        'restore_confirm_yes' => 'Yes',
+        'restore_success' => 'Success',
+        'restore_success_message' => 'Record #:id successfully restored.',
+        'restore_failed' => 'Failed',
+        'restore_failed_message' => 'Failed to restore record #:id.',
+
+        'force_delete_title' => 'Delete record?',
+        'force_delete_description' => 'This action cannot be undone.',
+        'force_delete_confirm_no' => 'No',
+        'force_delete_confirm_yes' => 'Yes',
+        'force_delete_success' => 'Success',
+        'force_delete_success_message' => 'Record #:id successfully deleted.',
+        'force_delete_failed' => 'Failed',
+        'force_delete_failed_message' => 'Failed to delete record #:id.',
     ],
 
 ];

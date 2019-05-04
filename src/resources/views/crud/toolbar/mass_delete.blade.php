@@ -1,13 +1,11 @@
-<div class="col-xs-9 col-sm-5 col-md-5 col-lg-5">
-    <div class="btn-group">
-        <a id="mass-delete"
-           class="btn btn-xs btn-danger"
-           rel="tooltip"
-           data-placement="top"
-           data-original-title="{!! __('jarboe::toolbar.mass_delete.mass_delete_tooltip') !!}">
-            {{ __('jarboe::toolbar.mass_delete.button') }}
-        </a>
-    </div>
+<div class="btn-group m-r-xs">
+    <a id="mass-delete"
+       class="btn btn-xs btn-danger"
+       rel="tooltip"
+       data-placement="top"
+       data-original-title="{!! __('jarboe::toolbar.mass_delete.mass_delete_tooltip') !!}">
+        {{ __('jarboe::toolbar.mass_delete.button') }}
+    </a>
 </div>
 
 @push('scripts')
@@ -43,7 +41,14 @@
               type: "POST",
               success: function (response) {
                 $.each(response.removed, function (index, key) {
-                  $('tr.jarboe-table-row-' + key).remove();
+                  @if ($crud->isSoftDeleteEnabled())
+                    var $tr = $('tr.jarboe-table-row-' + key);
+                    var $td = $tr.find('.jarboe-table-actions');
+                    $td.find('.jarboe-restore, .jarboe-force-delete').show();
+                    $td.find('.jarboe-delete').hide();
+                  @else
+                    $('tr.jarboe-table-row-' + key).remove();
+                  @endif
                 });
 
                 var sound = true;
