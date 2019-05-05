@@ -33,11 +33,11 @@
               timeout : 4000
             });
 
-            if ($btn.data('soft-delete')) {
+            if ($btn.data('soft-delete') && response.type == 'hidden') {
               $btn.hide();
               var $td = $btn.closest('.jarboe-table-actions');
               $td.find('.jarboe-restore, .jarboe-force-delete').show();
-            } else {
+            } else if (response.type == 'removed') {
               $btn.closest('.jarboe-table-row').remove();
             }
           },

@@ -58,13 +58,20 @@ class MassDeleteTool extends AbstractTool
     public function handle(Request $request)
     {
         $errors = [];
+        $hidden = [];
         $removed = [];
         foreach ($request->get('ids') as $id) {
             try {
                 if (!$this->crud()->repo()->delete($id)) {
                     throw new \Exception(__('jarboe::toolbar.mass_delete.delete_event_failed'));
                 }
-                $removed[] = $id;
+
+                try {
+                    $this->crud()->repo()->find($id);
+                    $hidden[] = $id;
+                } catch (\Exception $e) {
+                    $removed[] = $id;
+                }
             } catch (\Exception $e) {
                 $errors[$id] = $e->getMessage();
             }
@@ -72,6 +79,7 @@ class MassDeleteTool extends AbstractTool
 
         return response()->json([
             'errors' => $errors,
+            'hidden' => $hidden,
             'removed' => $removed,
         ]);
     }

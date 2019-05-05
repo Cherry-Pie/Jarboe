@@ -41,14 +41,14 @@
               type: "POST",
               success: function (response) {
                 $.each(response.removed, function (index, key) {
-                  @if ($crud->isSoftDeleteEnabled())
-                    var $tr = $('tr.jarboe-table-row-' + key);
-                    var $td = $tr.find('.jarboe-table-actions');
-                    $td.find('.jarboe-restore, .jarboe-force-delete').show();
-                    $td.find('.jarboe-delete').hide();
-                  @else
-                    $('tr.jarboe-table-row-' + key).remove();
-                  @endif
+                  $('tr.jarboe-table-row-' + key).remove();
+                });
+
+                $.each(response.hidden, function (index, key) {
+                  var $tr = $('tr.jarboe-table-row-' + key);
+                  var $td = $tr.find('.jarboe-table-actions');
+                  $td.find('.jarboe-restore, .jarboe-force-delete').show();
+                  $td.find('.jarboe-delete').hide();
                 });
 
                 var sound = true;

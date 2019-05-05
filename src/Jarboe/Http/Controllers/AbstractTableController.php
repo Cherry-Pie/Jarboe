@@ -242,7 +242,15 @@ abstract class AbstractTableController
         }
 
         if ($this->crud()->repo()->delete($id)) {
+            $type = 'hidden';
+            try {
+                $this->crud()->repo()->find($id);
+            } catch (\Exception $e) {
+                $type = 'removed';
+            }
+
             return response()->json([
+                'type' => $type,
                 'message' => __('jarboe::common.list.delete_success_message', ['id' => $id]),
             ]);
         }
