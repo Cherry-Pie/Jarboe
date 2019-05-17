@@ -2,20 +2,18 @@
 
 namespace Yaro\Jarboe\Http\Controllers;
 
-
+use Yaro\Jarboe\Etc\CustomFields\PermissionField;
+use Yaro\Jarboe\Etc\CustomFields\RoleField;
 use Yaro\Jarboe\Http\Requests\Admins\CreateRequest;
 use Yaro\Jarboe\Http\Requests\Admins\UpdateRequest;
 use Yaro\Jarboe\Models\Admin;
 use Yaro\Jarboe\Table\Fields\Image;
-use Yaro\Jarboe\Table\Fields\Markup\DummyField;
 use Yaro\Jarboe\Table\Fields\Markup\RowMarkup;
 use Yaro\Jarboe\Table\Fields\Password;
-use Yaro\Jarboe\Table\Fields\Select;
 use Yaro\Jarboe\Table\Fields\Text;
 
 class AdminsController extends AbstractTableController
 {
-
     protected function init()
     {
         $this->setModel(config('jarboe.admin_panel.admin_model', Admin::class));
@@ -37,14 +35,10 @@ class AdminsController extends AbstractTableController
                 Password::make('password', 'Password')->col(6),
                 Text::make('email', 'Email')->col(6),
                 Password::make('password_confirmation', 'Repeat password')->col(6),
-                Select::make('roles', 'Roles')
-                    ->multiple()
-                    ->type('select2')
+                RoleField::make('roles', 'Roles')
                     ->relation('roles', 'name')
                     ->col(6),
-                Select::make('permissions', 'Permissions')
-                    ->multiple()
-                    ->type('select2')
+                PermissionField::make('permissions', 'Permissions')
                     ->relation('permissions', 'name')
                     ->col(6),
             ]),
@@ -60,5 +54,4 @@ class AdminsController extends AbstractTableController
     {
         return parent::handleStore($request);
     }
-
 }
