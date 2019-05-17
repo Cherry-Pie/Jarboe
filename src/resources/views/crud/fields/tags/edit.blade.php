@@ -2,7 +2,7 @@
 <label class="label">{{ $field->title() }}</label>
 <label class="input {{ $errors->has($field->name()) ? 'state-error' : '' }}">
 
-    <select class="select-2-{{ $field->name() }} form-control" multiple="multiple" name="{{ $field->name() }}[]">
+    <select class="select-2--tags form-control" multiple="multiple" name="{{ $field->name() }}[]">
         @if ($field->isOptionsHidden())
             @foreach ($field->getSelectedOptions($model) as $id => $value)
                 <option value="{{ $value }}" selected>{{ $value }}</option>
@@ -22,7 +22,7 @@
 @endforeach
 
 @pushonce('script_files', <script>
-    $(".select-2-{{ $field->name() }}").select2({
+    $(".select-2--tags").select2({
         tags: true
     });
 </script>)
