@@ -2,10 +2,10 @@
 <html lang="en-us" id="extr-page">
 <head>
     <meta charset="utf-8">
-    <title>Jarboe</title>
+    @include('jarboe::inc.meta.title')
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <!-- #CSS Links -->
     <!-- Basic Styles -->
@@ -28,13 +28,26 @@
     <link rel="stylesheet" type="text/css" media="screen" href="/vendor/jarboe/css/demo.min.css">
 
     <!-- #FAVICONS -->
-    <link rel="shortcut icon" href="/vendor/jarboe/img/favicon/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/vendor/jarboe/img/favicon/favicon.ico" type="image/x-icon">
+    @include('jarboe::inc.meta.favicon')
 
     <!-- #GOOGLE FONT -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+    @include('jarboe::inc.meta.apple_touch_icon')
 
-
+    <style>
+        #extr-page div#main {
+            background: url("/vendor/jarboe/img/6-reversed.jpg") #fff;
+            background-size: cover;
+            min-height: 100vh;
+            padding-top: 142px;
+            margin-top: -71px !important;
+        }
+        #logo img {
+            height: 48px !important;
+            width: auto !important;
+            margin-top: -10px !important;
+        }
+    </style>
 </head>
 
 <body class="animated fadeInDown">
@@ -212,20 +225,6 @@
     });
 </script>
 
-<style>
-    #extr-page div#main {
-        background: url("/vendor/jarboe/img/6-reversed.jpg") #fff;
-        background-size: cover;
-        min-height: 100vh;
-        padding-top: 142px;
-        margin-top: -71px !important;
-    }
-    #logo img {
-        height: 48px !important;
-        width: auto !important;
-        margin-top: -10px !important;
-    }
-</style>
 
 </body>
 </html>
