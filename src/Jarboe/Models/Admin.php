@@ -19,6 +19,7 @@ class Admin extends Authenticatable
         'email',
         'password',
         'avatar',
+        'otp_secret',
     ];
 
     /**

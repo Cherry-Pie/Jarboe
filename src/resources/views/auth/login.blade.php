@@ -74,7 +74,7 @@
     <div id="content" class="container">
 
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8 hidden-xs hidden-sm">
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -110,6 +110,15 @@
                                     <input type="password" name="password">
                                     <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> {{ __('jarboe::auth.login.password_tooltip') }}</b></label>
                             </section>
+
+                            @if ($shouldOTP)
+                                <section>
+                                    <label class="label">{{ __('jarboe::auth.login.otp_password') }}</label>
+                                    <label class="input"> <i class="icon-append fa fa-key"></i>
+                                        <input type="text" name="otp">
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> {{ __('jarboe::auth.login.otp_password_tooltip') }}</b></label>
+                                </section>
+                            @endif
 
                             <section>
                                 <label class="checkbox">
@@ -203,7 +212,14 @@
                     required : true,
                     minlength : 3,
                     maxlength : 20
-                }
+                },
+                @if ($shouldOTP)
+                otp : {
+                    required : true,
+                    minlength : 6,
+                    maxlength : 6
+                },
+                @endif
             },
 
             // Messages for form validation
@@ -214,7 +230,10 @@
                 },
                 password : {
                     required : '{{ __('jarboe::auth.login.password_required_message') }}'
-                }
+                },
+                otp : {
+                    required : '{{ __('jarboe::auth.login.otp_password_required_message') }}'
+                },
             },
 
             // Do not change code below

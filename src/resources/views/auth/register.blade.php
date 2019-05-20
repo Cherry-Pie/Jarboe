@@ -76,7 +76,7 @@
     <div id="content" class="container">
 
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 hidden-xs hidden-sm">
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
 
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -242,15 +242,6 @@
                     required : '{{ __('jarboe::auth.registration.password_confirmation_required_message') }}',
                     equalTo : '{{ __('jarboe::auth.registration.password_confirmation_equal_to_message') }}'
                 },
-            },
-
-            // Ajax form submition
-            submitHandler : function(form) {
-                $(form).ajaxSubmit({
-                    success : function() {
-                        $("#smart-form-register").addClass('submited');
-                    }
-                });
             },
 
             // Do not change code below

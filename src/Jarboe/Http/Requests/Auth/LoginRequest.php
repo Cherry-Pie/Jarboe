@@ -25,6 +25,11 @@ class LoginRequest extends FormRequest
      */
     public function rules()
     {
+        $otpData = [];
+        if (config('jarboe.admin_panel.two_factor_auth.enabled')) {
+            $otpData['otp'] = 'required';
+        }
+
         return [
             'email'    => 'required|email',
             'password' => 'required',

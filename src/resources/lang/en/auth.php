@@ -16,6 +16,9 @@ return [
         'email_required_message' => 'Please enter your email address',
         'email_email_message' => 'Please enter a VALID email address',
         'password_required_message' => 'Please enter your password',
+        'otp_password' => 'OTP Password',
+        'otp_password_tooltip' => 'Enter your OTP password',
+        'otp_password_required_message' => 'Please enter your OTP password',
     ],
     'registration' => [
         'already_registered' => 'Already registered?',
@@ -23,8 +26,8 @@ return [
         'register_header' => 'Register',
         'password_tooltip' => "Don't forget your password",
         'confirm_password_tooltip' => "Don't forget your password",
-        'name_tooltip' => '',
-        'email_tooltip' => '',
+        'name_tooltip' => 'Your Name',
+        'email_tooltip' => 'Your email address',
         'name_placeholder' => 'Your Name',
         'email_placeholder' => 'Email address',
         'password_placeholder' => 'Password',
@@ -37,6 +40,10 @@ return [
         'password_required_message' => 'Please enter your password',
         'password_confirmation_required_message' => 'Please enter your password one more time',
         'password_confirmation_equal_to_message' => 'Please enter the same password as above',
+    ],
+    'otp' => [
+        'description' => 'Scan image with the two-factor authentication app on your phone. Or enter the code above.',
+        'proceed_button' => 'Proceed',
     ],
 
     'user_not_found' => 'User not found.',

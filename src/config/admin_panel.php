@@ -28,6 +28,21 @@ return [
     'auth_guard' => '',
 
     /**
+     * OTP 2-factor authentication settings.
+     */
+    'two_factor_auth' => [
+        /**
+         * Enable/disable 2-factor authentication.
+         */
+        'enabled' => false,
+
+        /**
+         * Issuer name. Leave null for using application name.
+         */
+        'issuer' => null,
+    ],
+
+    /**
      * Dashboard uri without prefix. Will be redirected to after successful login.
      */
     'dashboard' => 'dashboard',
