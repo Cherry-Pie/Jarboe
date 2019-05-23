@@ -4,11 +4,13 @@ namespace Yaro\Jarboe\Table\Fields;
 
 use Yaro\Jarboe\Table\Fields\Traits\Nullable;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
+use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
 
 class Datetime extends AbstractField
 {
     use Orderable;
     use Nullable;
+    use Placeholder;
 
     protected $format = 'YYYY-MM-DD HH:mm:ss';
 

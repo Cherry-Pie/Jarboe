@@ -7,6 +7,7 @@ use Yaro\Jarboe\Table\Fields\Traits\Clipboard;
 use Yaro\Jarboe\Table\Fields\Traits\Inline;
 use Yaro\Jarboe\Table\Fields\Traits\Nullable;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
+use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
 use Yaro\Jarboe\Table\Fields\Traits\Tooltip;
 
 class Number extends AbstractField
@@ -16,6 +17,7 @@ class Number extends AbstractField
     use Tooltip;
     use Clipboard;
     use Inline;
+    use Placeholder;
 
     public function value(Request $request)
     {

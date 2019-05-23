@@ -50,7 +50,7 @@ class TextFilter extends AbstractFilter
         }
 
         $query->where(
-            $this->field()->name(),
+            $this->field->name(),
             $sign,
             $leftPart . $value . $rightPart
         );

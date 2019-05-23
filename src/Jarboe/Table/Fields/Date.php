@@ -5,12 +5,14 @@ namespace Yaro\Jarboe\Table\Fields;
 use Yaro\Jarboe\Table\Fields\Traits\Inline;
 use Yaro\Jarboe\Table\Fields\Traits\Nullable;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
+use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
 
 class Date extends AbstractField
 {
     use Orderable;
     use Nullable;
     use Inline;
+    use Placeholder;
 
     protected $format = 'YYYY-MM-DD';
     protected $months = 1;

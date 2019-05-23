@@ -4,12 +4,6 @@ namespace Yaro\Jarboe\Table\Fields;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Yaro\Jarboe\Table\Fields\Traits\Clipboard;
-use Yaro\Jarboe\Table\Fields\Traits\Inline;
-use Yaro\Jarboe\Table\Fields\Traits\Nullable;
-use Yaro\Jarboe\Table\Fields\Traits\Orderable;
-use Yaro\Jarboe\Table\Fields\Traits\Relations;
-use Yaro\Jarboe\Table\Fields\Traits\Tooltip;
 
 class Tags extends AbstractField
 {

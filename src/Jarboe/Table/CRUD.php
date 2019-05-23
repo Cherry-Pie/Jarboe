@@ -57,6 +57,11 @@ class CRUD
         return $this->columns;
     }
 
+    /**
+     * Get columns as field objects, or fields if there are no columns.
+     *
+     * @return array
+     */
     public function getColumnsAsFields()
     {
         $columns = [];
@@ -73,6 +78,11 @@ class CRUD
         return $columns ?: $this->getFields();
     }
 
+    /**
+     * Get list of columns that initialized as field object.
+     *
+     * @return array
+     */
     public function getColumnsWithoutRelatedField()
     {
         $columns = [];

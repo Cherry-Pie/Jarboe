@@ -41,4 +41,9 @@ trait Translatable
     {
         return $this->currentLocale == $locale;
     }
+
+    public function getCurrentLocale()
+    {
+        return $this->currentLocale;
+    }
 }

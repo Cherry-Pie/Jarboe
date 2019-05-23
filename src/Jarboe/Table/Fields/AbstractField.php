@@ -26,7 +26,6 @@ abstract class AbstractField implements FieldPropsInterface
     protected $filter = null;
     protected $tab = self::DEFAULT_TAB_IDENT;
     protected $col = 12;
-    protected $placeholder;
 
     public static function make($name = '', $title = '')
     {
@@ -64,18 +63,6 @@ abstract class AbstractField implements FieldPropsInterface
     public function shouldSkip(Request $request)
     {
         return false;
-    }
-
-    public function placeholder($placeholder)
-    {
-        $this->placeholder = $placeholder;
-
-        return $this;
-    }
-
-    public function getPlaceholder()
-    {
-        return $this->placeholder;
     }
 
     public function col(int $col)

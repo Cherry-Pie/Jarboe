@@ -7,6 +7,7 @@ use Yaro\Jarboe\Table\Fields\Traits\Clipboard;
 use Yaro\Jarboe\Table\Fields\Traits\Inline;
 use Yaro\Jarboe\Table\Fields\Traits\Nullable;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
+use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
 use Yaro\Jarboe\Table\Fields\Traits\Tooltip;
 use Yaro\Jarboe\Table\Fields\Traits\Translatable;
 
@@ -18,6 +19,7 @@ class Textarea extends AbstractField
     use Clipboard;
     use Inline;
     use Translatable;
+    use Placeholder;
 
     protected $rows = 3;
     protected $expandable = false;

@@ -2,9 +2,9 @@
 
 namespace Yaro\Jarboe\Table\Fields;
 
-
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
 use Yaro\Jarboe\Table\Fields\Traits\Storage;
 use Illuminate\Support\Facades\Storage as IlluminateStorage;
 use Intervention\Image\ImageManagerStatic as InterventionImage;
@@ -12,6 +12,7 @@ use Intervention\Image\ImageManagerStatic as InterventionImage;
 class Image extends AbstractField
 {
     use Storage;
+    use Placeholder;
 
     protected $encode = false;
     protected $crop = false;
@@ -161,5 +162,4 @@ class Image extends AbstractField
             'field' => $this,
         ])->render();
     }
-
 }

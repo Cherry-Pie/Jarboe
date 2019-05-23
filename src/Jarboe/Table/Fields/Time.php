@@ -4,11 +4,13 @@ namespace Yaro\Jarboe\Table\Fields;
 
 use Yaro\Jarboe\Table\Fields\Traits\Nullable;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
+use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
 
 class Time extends AbstractField
 {
     use Orderable;
     use Nullable;
+    use Placeholder;
 
     const TOP    = 'top';
     const RIGHT  = 'right';

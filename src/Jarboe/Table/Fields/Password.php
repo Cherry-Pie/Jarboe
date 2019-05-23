@@ -2,10 +2,10 @@
 
 namespace Yaro\Jarboe\Table\Fields;
 
-
 use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\Fields\Traits\Nullable;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
+use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
 use Yaro\Jarboe\Table\Fields\Traits\Tooltip;
 
 class Password extends AbstractField
@@ -13,6 +13,7 @@ class Password extends AbstractField
     use Orderable;
     use Nullable;
     use Tooltip;
+    use Placeholder;
 
     protected $hash = 'bcrypt';
 
@@ -75,5 +76,4 @@ class Password extends AbstractField
             'field' => $this,
         ])->render();
     }
-
 }

@@ -4,10 +4,12 @@ namespace Yaro\Jarboe\Table\Fields;
 
 use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
+use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
 
 class ColorPicker extends AbstractField
 {
     use Orderable;
+    use Placeholder;
 
     const HEX = 'hex';
     const RGBA = 'rgba';
@@ -64,5 +66,4 @@ class ColorPicker extends AbstractField
             'field' => $this,
         ])->render();
     }
-
 }

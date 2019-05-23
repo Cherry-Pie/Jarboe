@@ -8,6 +8,7 @@ use Yaro\Jarboe\Table\Fields\Traits\Inline;
 use Yaro\Jarboe\Table\Fields\Traits\Maskable;
 use Yaro\Jarboe\Table\Fields\Traits\Nullable;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
+use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
 use Yaro\Jarboe\Table\Fields\Traits\Tooltip;
 use Yaro\Jarboe\Table\Fields\Traits\Translatable;
 
@@ -20,6 +21,7 @@ class Text extends AbstractField
     use Inline;
     use Translatable;
     use Maskable;
+    use Placeholder;
 
     public function value(Request $request)
     {
