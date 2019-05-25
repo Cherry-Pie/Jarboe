@@ -1,5 +1,4 @@
 
-
 <label class="input smart-form">
     <i class="icon-append fa fa-calendar"></i>
     <input type="text"
