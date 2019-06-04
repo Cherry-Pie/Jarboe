@@ -18,7 +18,7 @@ trait Inline
 
     public function isInline(): bool
     {
-        return $this->inline;
+        return !$this->isReadonly() && $this->inline;
     }
 
     public function getInlineOptions(): array

@@ -166,11 +166,12 @@ abstract class AbstractTableController
 
         $id = $request->get('_pk');
         $value = $request->get('_value');
+        /** @var AbstractField $field */
         $field = $this->crud()->getFieldByName($request->get('_name'));
         $locale = $request->get('_locale');
 
         $model = $this->crud()->repo()->find($id);
-        if (!$field->isInline() && !$this->crud()->actions()->isAllowed('edit', $model)) {
+        if ((!$field->isInline() && !$this->crud()->actions()->isAllowed('edit', $model)) || $field->isReadonly()) {
             throw new PermissionDenied();
         }
 
