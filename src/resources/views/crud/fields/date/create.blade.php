@@ -38,7 +38,6 @@
                 ('0' + (d.getMonth() + 1)).slice(-2),
                 ('0' + d.getDate()).slice(-2)
             ].join('-');
-            console.log(date);
             $('.datepicker-{{ $field->name() }}-value-field').val(date);
         });
     </script>

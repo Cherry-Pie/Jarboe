@@ -288,12 +288,14 @@
 
     $.datepicker.parseDate = function(format, value) {
         if (value) {
-            return moment(value, format).toDate();
+            var date = moment(value, format).toDate();
+            return date == 'Invalid Date' ? null : date;
         }
         return new Date();
     };
     $.datepicker.formatDate = function (format, value) {
-        return moment(value).format(format);
+        var date = moment(value).format(format);
+        return date == 'Invalid Date' ? null : date;
     };
 
     (new ClipboardJS('.clipclip')).on('success', function(e) {

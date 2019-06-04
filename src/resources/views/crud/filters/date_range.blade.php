@@ -4,8 +4,6 @@
             <label class="input smart-form">
                 <i class="icon-append fa fa-calendar"></i>
                 <input type="text"
-                       name="search[{{ $filter->field()->name() }}][from]"
-                       value="{{ $filter->value()['from'] ?? '' }}"
                        placeholder="{{ $filter->field()->getPlaceholder() }}"
                        class="datepicker-{{ $filter->field()->name() }}-range-from form-control"
                        autocomplete="off">
@@ -18,14 +16,14 @@
             <label class="input smart-form">
                 <i class="icon-append fa fa-calendar"></i>
                 <input type="text"
-                       name="search[{{ $filter->field()->name() }}][to]"
-                       value="{{ $filter->value()['to'] ?? '' }}"
                        placeholder="{{ $filter->field()->getPlaceholder() }}"
                        class="datepicker-{{ $filter->field()->name() }}-range-to form-control"
                        autocomplete="off">
             </label>
         </div>
     </div>
+    <input type="hidden" name="search[{{ $filter->field()->name() }}][from]" value="{{ $filter->value()['from'] ?? '' }}" class="datepicker-s-{{ $filter->field()->name() }}-from-value-field">
+    <input type="hidden" name="search[{{ $filter->field()->name() }}][to]" value="{{ $filter->value()['to'] ?? '' }}" class="datepicker-s-{{ $filter->field()->name() }}-to-value-field">
     <div class="clearfix"></div>
 </div>
 
@@ -38,22 +36,33 @@
                     numberOfMonths: {{ $filter->field()->getMonths() }},
                     prevText: '<i class="fa fa-chevron-left"></i>',
                     nextText: '<i class="fa fa-chevron-right"></i>',
+                    altField: '.datepicker-s-{{ $filter->field()->name() }}-from-value-field',
+                    altFormat: "YYYY-MM-DD",
                 }).on("change", function () {
-                    to.datepicker("option", "minDate", getDate(this));
+                    to.datepicker("option", "minDate", getDate(this.value, "{{ $filter->field()->getDateFormat() }}"));
                 });
+            @if ($filter->value()['from'] ?? false)
+                from.datepicker('setDate', getDate("{{ $filter->value()['from'] ?? '' }}", "YYYY-MM-DD"));
+            @endif
+
             var to = $(".datepicker-{{ $filter->field()->name() }}-range-to")
                 .datepicker({
                     dateFormat: "{{ $filter->field()->getDateFormat() }}",
                     numberOfMonths: {{ $filter->field()->getMonths() }},
                     prevText: '<i class="fa fa-chevron-left"></i>',
                     nextText: '<i class="fa fa-chevron-right"></i>',
+                    altField: '.datepicker-s-{{ $filter->field()->name() }}-to-value-field',
+                    altFormat: "YYYY-MM-DD",
                 }).on("change", function () {
-                    from.datepicker("option", "maxDate", getDate(this));
+                    from.datepicker("option", "maxDate", getDate(this.value, "{{ $filter->field()->getDateFormat() }}"));
                 });
+            @if ($filter->value()['to'] ?? false)
+                to.datepicker('setDate', getDate("{{ $filter->value()['to'] ?? '' }}", "YYYY-MM-DD"));
+            @endif
 
-            function getDate(element) {
+            function getDate(value, format) {
                 try {
-                    return $.datepicker.parseDate("{{ $filter->field()->getDateFormat() }}", element.value);
+                    return $.datepicker.parseDate(format, value);
                 } catch (error) {}
 
                 return null;
