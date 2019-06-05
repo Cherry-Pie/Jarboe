@@ -4,6 +4,8 @@ namespace Yaro\Jarboe\Table;
 
 use Yaro\Jarboe\Table\Actions\ActionsContainer;
 use Yaro\Jarboe\Table\Fields\AbstractField;
+use Yaro\Jarboe\Table\Repositories\ModelRepository;
+use Yaro\Jarboe\Table\Repositories\PreferencesRepository;
 use Yaro\Jarboe\Table\Toolbar\Interfaces\ToolInterface;
 
 class CRUD
@@ -14,6 +16,7 @@ class CRUD
     private $actions;
     private $model = '';
     private $repo;
+    private $preferences;
     private $tableIdentifier;
     private $rawPerPage;
     private $columns = [];
@@ -27,6 +30,7 @@ class CRUD
     public function __construct()
     {
         $this->repo = new ModelRepository($this);
+        $this->preferences = new PreferencesRepository();
         $this->actions = new ActionsContainer();
     }
 
@@ -188,6 +192,11 @@ class CRUD
         return $this->repo;
     }
 
+    public function preferences()
+    {
+        return $this->preferences;
+    }
+
     /**
      * @param int|array $perPage
      */
@@ -326,57 +335,37 @@ class CRUD
 
     public function saveSearchFilterParams(array $params)
     {
-        if (!$params) {
-            return;
-        }
-
-        $key = sprintf('jarboe.%s.search', $this->tableIdentifier());
-
-        session()->put($key, $params);
+        $this->preferences()->saveSearchFilterParams($this->tableIdentifier(), $params);
     }
 
     public function getOrderFilterParam($column)
     {
-        $key = sprintf('jarboe.%s.order.%s', $this->tableIdentifier(), $column);
-
-        return session($key);
+        return $this->preferences()->getOrderFilterParam($this->tableIdentifier(), $column);
     }
 
     public function saveOrderFilterParam($column, $direction)
     {
-        $key = sprintf('jarboe.%s.order', $this->tableIdentifier());
-
-        session()->put($key, [
-            $column => $direction,
-        ]);
+        $this->preferences()->saveOrderFilterParam($this->tableIdentifier(), $column, $direction);
     }
 
     public function getPerPageParam()
     {
-        $key = sprintf('jarboe.%s.per_page', $this->tableIdentifier());
-
-        return session($key);
+        $this->preferences()->getPerPageParam($this->tableIdentifier());
     }
 
     public function setPerPageParam($perPage)
     {
-        $key = sprintf('jarboe.%s.per_page', $this->tableIdentifier());
-
-        return session()->put($key, $perPage);
+        $this->preferences()->setPerPageParam($this->tableIdentifier(), $perPage);
     }
 
     public function getCurrentLocale()
     {
-        $key = sprintf('jarboe.%s.locale', $this->tableIdentifier());
-
-        return session($key, key($this->getLocales()));
+        return $this->preferences()->getCurrentLocale($this->tableIdentifier()) ?: key($this->getLocales());
     }
 
     public function saveCurrentLocale($locale)
     {
-        $key = sprintf('jarboe.%s.locale', $this->tableIdentifier());
-
-        return session()->put($key, $locale);
+        $this->preferences()->saveCurrentLocale($this->tableIdentifier(), $locale);
     }
 
     public function getTool($ident)
@@ -508,9 +497,7 @@ class CRUD
 
     public function isSortableByWeightActive()
     {
-        $key = sprintf('jarboe.%s.reorder', $this->tableIdentifier());
-
-        return session($key, false);
+        return $this->preferences()->isSortableByWeightActive($this->tableIdentifier());
     }
 
     public function getSortableWeightFieldName()
@@ -520,9 +507,7 @@ class CRUD
 
     public function setSortableOrderState(bool $active)
     {
-        $key = sprintf('jarboe.%s.reorder', $this->tableIdentifier());
-
-        session()->put($key, $active);
+        $this->preferences()->setSortableOrderState($this->tableIdentifier(), $active);
     }
 
     public function enableSoftDelete(bool $enabled = true)

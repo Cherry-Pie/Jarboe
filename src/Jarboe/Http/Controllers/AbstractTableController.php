@@ -34,7 +34,7 @@ abstract class AbstractTableController
 
     public function __construct()
     {
-        $this->crud = new CRUD();
+        $this->crud = app(CRUD::class);
         $this->crud()->tableIdentifier(crc32(static::class));
         $this->crud()->formClass(config('jarboe.crud.form_class'));
         $this->crud()->actions()->set([

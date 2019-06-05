@@ -1,8 +1,9 @@
 <?php
 
-namespace Yaro\Jarboe\Table;
+namespace Yaro\Jarboe\Table\Repositories;
 
 use Illuminate\Http\Request;
+use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\AbstractField;
 
 class ModelRepository

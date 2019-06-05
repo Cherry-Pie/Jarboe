@@ -40,6 +40,7 @@ class ServiceProvider extends IlluminateServiceProvider
         }
 
         //$this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadRoutesFrom(__DIR__.'/../routes/common.php');
         $this->loadRoutesFrom(__DIR__.'/../routes/auth.php');
         $this->loadRoutesFrom(__DIR__.'/../routes/admins.php');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'jarboe');

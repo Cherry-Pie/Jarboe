@@ -11,6 +11,10 @@ return [
         'creating' => 'Creating',
     ],
 
+    'refresh' => [
+        'tooltip' => "<i class='text-warning fa fa-warning'></i> Warning!<br>This will reset all your panel and tables preferences.",
+    ],
+
     'create' => [
         'title' => 'Create',
         'back' => 'Back',

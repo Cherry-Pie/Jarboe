@@ -189,7 +189,7 @@
         <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
         <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
         </span> -->
-
+        @include('jarboe::inc.reset_panel_settings')
     </div>
     <!-- END RIBBON -->
 
