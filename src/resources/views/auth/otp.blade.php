@@ -25,7 +25,7 @@
     <!-- #FAVICONS -->
     @include('jarboe::inc.meta.favicon')
 
-<!-- #GOOGLE FONT -->
+    <!-- #GOOGLE FONT -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
     @include('jarboe::inc.meta.apple_touch_icon')
 
