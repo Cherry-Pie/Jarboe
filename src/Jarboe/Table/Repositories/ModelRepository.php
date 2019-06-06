@@ -19,9 +19,11 @@ class ModelRepository
         'direction' => false,
     ];
 
-    public function __construct(CRUD $crud)
+    public function setCrud(CRUD $crud)
     {
         $this->crud = $crud;
+
+        return $this;
     }
 
     public function get()

@@ -4,6 +4,7 @@ namespace Yaro\Jarboe\Table;
 
 use Yaro\Jarboe\Table\Actions\ActionsContainer;
 use Yaro\Jarboe\Table\Fields\AbstractField;
+use Yaro\Jarboe\Table\Fields\Text;
 use Yaro\Jarboe\Table\Repositories\ModelRepository;
 use Yaro\Jarboe\Table\Repositories\PreferencesRepository;
 use Yaro\Jarboe\Table\Toolbar\Interfaces\ToolInterface;
@@ -71,7 +72,7 @@ class CRUD
         $columns = [];
         foreach ($this->getColumns() as $column) {
             if (!is_object($column)) {
-                $column = $this->getFieldByName($column);
+                $column = $this->getFieldByName($column) ?: $this->makeDefaultColumnField($column);
             }
 
             if ($column) {
@@ -189,7 +190,7 @@ class CRUD
 
     public function repo()
     {
-        return $this->repo;
+        return $this->repo->setCrud($this);
     }
 
     public function preferences()
@@ -518,5 +519,10 @@ class CRUD
     public function isSoftDeleteEnabled(): bool
     {
         return $this->softDeleteEnabled;
+    }
+
+    private function makeDefaultColumnField($column)
+    {
+        return Text::make($column);
     }
 }
