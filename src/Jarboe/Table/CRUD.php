@@ -28,11 +28,11 @@ class CRUD
     private $sortableWeightField = null;
     private $softDeleteEnabled = false;
 
-    public function __construct()
+    public function __construct(ModelRepository $repo, PreferencesRepository $preferences, ActionsContainer $actions)
     {
-        $this->repo = new ModelRepository($this);
-        $this->preferences = new PreferencesRepository();
-        $this->actions = new ActionsContainer();
+        $this->repo = $repo;
+        $this->preferences = $preferences;
+        $this->actions = $actions;
     }
 
     public function formClass(string $class = null)
