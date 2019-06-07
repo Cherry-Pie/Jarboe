@@ -88,12 +88,10 @@ class Tags extends AbstractField
         $model = $this->model;
         $relationClassObject = $this->getRelationClassObject(new $model);
 
-        $options = $relationClassObject->pluck(
+        return $relationClassObject->pluck(
             $this->getRelationTitleField(),
             $relationClassObject->getKeyName()
-        );
-
-        return $options;
+        )->toArray();
     }
 
     public function getSelectedOptions($model)
@@ -103,7 +101,7 @@ class Tags extends AbstractField
         return $model->{$this->getRelationMethod()}->pluck(
             $this->getRelationTitleField(),
             $relationClassObject->getKeyName()
-        );
+        )->toArray();
     }
 
     private function getRelationClassObject($model)
