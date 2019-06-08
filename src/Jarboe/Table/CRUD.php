@@ -114,7 +114,7 @@ class CRUD
     {
         $fields = $this->getFieldsWithoutMarkup();
         foreach ($fields as $field) {
-            if ($field->name() == $name) {
+            if ($field->name() === $name) {
                 return $field;
             }
         }

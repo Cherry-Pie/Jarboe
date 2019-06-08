@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as RequestFacade;
+use Illuminate\Validation\ValidationException;
 use Yaro\Jarboe\Exceptions\PermissionDenied;
 use Yaro\Jarboe\Table\Actions\AbstractAction;
 use Yaro\Jarboe\Table\Actions\CreateAction;
@@ -606,20 +607,29 @@ abstract class AbstractTableController
     {
         $request = RequestFacade::instance();
 
-        switch ($name) {
-            case 'update':
-                return $this->handleUpdate($request, $arguments[0]);
-            case 'store':
-                return $this->handleStore($request);
-            case 'delete':
-                return $this->handleDelete($request, $arguments[0]);
-            case 'restore':
-                return $this->handleRestore($request, $arguments[0]);
-            case 'forceDelete':
-                return $this->handleForceDelete($request, $arguments[0]);
+        try {
+            switch ($name) {
+                case 'update':
+                    return $this->handleUpdate($request, $arguments[0]);
+                case 'store':
+                    return $this->handleStore($request);
+                case 'delete':
+                    return $this->handleDelete($request, $arguments[0]);
+                case 'restore':
+                    return $this->handleRestore($request, $arguments[0]);
+                case 'forceDelete':
+                    return $this->handleForceDelete($request, $arguments[0]);
 
-            default:
-                throw new \RuntimeException('Invalid method '. $name);
+                default:
+                    throw new \RuntimeException('Invalid method ' . $name);
+            }
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->withInput($request->input())
+                ->withErrors($e->getMessage());
         }
     }
 

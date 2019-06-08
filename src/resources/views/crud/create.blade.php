@@ -10,6 +10,11 @@
 
 @section('content')
 
+    @include('jarboe::crud.inc.errors_on_top', [
+        'crud' => $crud,
+        'errors' => $errors,
+    ])
+
     <!-- widget grid -->
     <section id="widget-grid" class="">
 
