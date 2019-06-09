@@ -69,6 +69,8 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->app->singleton('jarboe', function($app) {
             return new Jarboe();
         });
+
+        $this->initFallbackRoute();
     }
 
     private function registerBladeDirectives()
@@ -113,6 +115,18 @@ class ServiceProvider extends IlluminateServiceProvider
 
         View::composer('jarboe::inc.locale_selector', function ($view) {
             $view->localeHelper = new Locale();
+        });
+    }
+
+    private function initFallbackRoute()
+    {
+        $this->app->booted(function() {
+            $router = $this->app->get('router');
+            $router->group(app('jarboe')->routeGroupOptions(), function () use ($router) {
+                $router->get('{any}', function () {
+                    return response()->view('jarboe::errors.404')->setStatusCode(404);
+                })->where('any', '.*');
+            });
         });
     }
 }

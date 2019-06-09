@@ -68,4 +68,8 @@ return [
         'force_delete_failed_message' => 'Failed to delete record #:id.',
     ],
 
+    'errors' => [
+        '404_title' => 'Page not found.',
+    ],
+
 ];
