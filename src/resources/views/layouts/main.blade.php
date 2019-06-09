@@ -162,7 +162,7 @@
     * 'fixed-page-footer' - Fixes footer
     * 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
 -->
-<body class="{{ $themeClass }} {{ $menuOnTop ? 'menu-on-top' : '' }} {{ $_COOKIE['body_class'] ?? '' }}">
+<body class="{{ $themeClass }} {{ $menuOnTop ? 'menu-on-top' : '' }} {{ $_COOKIE['body_class'] ?? '' }} fixed-page-footer">
 
 @stack('body_start')
 
