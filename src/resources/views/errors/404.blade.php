@@ -8,12 +8,30 @@
             min-height: 100vh;
         }
         div#content {
+            overflow-x: hidden;
             overflow-y: hidden;
             height: 100vh;
         }
     </style>
 
     <style>
+        .all-wrap *,
+        .all-wrap *:before,
+        .all-wrap *:after {
+            box-sizing: border-box;
+            position: relative;
+            -webkit-animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+            animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+        .all-wrap *:before,
+        .all-wrap *:after {
+            content: '';
+            display: block;
+        }
+
         .all-wrap {
             -webkit-animation: bob 7s cubic-bezier(0.5, 0, 0.5, 1) infinite both;
             animation: bob 7s cubic-bezier(0.5, 0, 0.5, 1) infinite both;
@@ -934,29 +952,6 @@
                 transform: scaleY(0.1);
             }
         }
-        body, html {
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            background-color: #1F1F3C;
-            overflow: hidden;
-        }
-
-        *, *:before, *:after {
-            box-sizing: border-box;
-            position: relative;
-            -webkit-animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
-            animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
-            -webkit-animation-fill-mode: both;
-            animation-fill-mode: both;
-        }
-
-        *:before, *:after {
-            content: '';
-            display: block;
-        }
-
     </style>
 @endpush
 
