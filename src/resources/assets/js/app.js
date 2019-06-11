@@ -110,12 +110,12 @@ var calc_navbar_height = function() {
 
           // ask verification
           $.SmartMessageBox({
-            title : "<i class='fa fa-sign-out txt-color-orangeDark'></i> Logout <span class='txt-color-orangeDark'><strong>" + $('#show-shortcut').text() + "</strong></span> ?",
+            title : "<i class='fa fa-sign-out txt-color-orangeDark'></i> "+ $this.data('logout-title') +" <span class='txt-color-orangeDark'><strong>" + $('.login-info').text() + "</strong></span>?",
             content : $this.data('logout-msg') || "You can improve your security further after logging out by closing this opened browser",
-            buttons : '[No][Yes]'
+            buttons : '['+ $this.data('logout-no') +']['+ $this.data('logout-yes') +']'
 
           }, function(ButtonPressed) {
-            if (ButtonPressed == "Yes") {
+            if (ButtonPressed == $this.data('logout-yes')) {
               $.root_.addClass('animated fadeOutUp');
               setTimeout(logout, 1000);
             }

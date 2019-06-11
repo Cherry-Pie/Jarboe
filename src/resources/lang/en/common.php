@@ -72,4 +72,14 @@ return [
         '404_title' => 'Page not found.',
     ],
 
+    'fullscreen' => 'Full Screen',
+    'collapse_menu' => 'Collapse Menu',
+
+    'logout' => [
+        'title' => 'Logout',
+        'message' => 'You can improve your security further after logging out by closing this opened browser',
+        'confirm_no' => 'No',
+        'confirm_yes' => 'Yes',
+    ],
+
 ];

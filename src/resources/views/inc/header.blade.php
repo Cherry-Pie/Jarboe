@@ -22,7 +22,7 @@
 
         <!-- collapse menu button -->
         <div id="hide-menu" class="btn-header pull-right">
-            <span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
+            <span> <a href="javascript:void(0);" data-action="toggleMenu" title="{{ __('jarboe::common.collapse_menu') }}"><i class="fa fa-reorder"></i></a> </span>
         </div>
         <!-- end collapse menu -->
 
@@ -31,7 +31,17 @@
 
         <!-- logout button -->
         <div id="logout" class="btn-header transparent pull-right">
-            <span> <a href="{{ admin_url('logout') }}" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
+            <span>
+                <a href="{{ admin_url('logout') }}"
+                   title="{{ __('jarboe::common.logout.title') }}"
+                   data-action="userLogout"
+                   data-logout-yes="{{ __('jarboe::common.logout.confirm_yes') }}"
+                   data-logout-no="{{ __('jarboe::common.logout.confirm_no') }}"
+                   data-logout-title="{{ __('jarboe::common.logout.title') }}"
+                   data-logout-msg="{{ __('jarboe::common.logout.message') }}">
+                    <i class="fa fa-sign-out"></i>
+                </a>
+            </span>
         </div>
         <!-- end logout button -->
 
@@ -78,7 +88,7 @@
 
         <!-- fullscreen button -->
         <div id="fullscreen" class="btn-header transparent pull-right">
-            <span> <a href="javascript:void(0);" data-action="launchFullscreen" title="Full Screen"><i class="fa fa-arrows-alt"></i></a> </span>
+            <span> <a href="javascript:void(0);" data-action="launchFullscreen" title="{{ __('jarboe::common.fullscreen') }}"><i class="fa fa-arrows-alt"></i></a> </span>
         </div>
         <!-- end fullscreen button -->
 
