@@ -11,6 +11,10 @@
 
 @section('content')
 
+    @foreach($viewsAbove as $viewAbove)
+        {!! $viewAbove !!}
+    @endforeach
+
     @include('jarboe::crud.inc.errors_on_top', [
         'crud' => $crud,
         'errors' => $errors,
@@ -155,6 +159,10 @@
     </section>
     <!-- end widget grid -->
 
+
+    @foreach($viewsBelow as $viewBelow)
+        {!! $viewBelow !!}
+    @endforeach
 
 @endsection
 

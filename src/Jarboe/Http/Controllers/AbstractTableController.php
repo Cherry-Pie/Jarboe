@@ -288,7 +288,29 @@ abstract class AbstractTableController
         return view($this->viewCrudList, [
             'crud' => $this->crud,
             'items' => $this->crud()->repo()->get(),
+            'viewsAbove' => $this->getListViewsAbove(),
+            'viewsBelow' => $this->getListViewsBelow(),
         ]);
+    }
+
+    /**
+     * Get array of view's objects, that should be rendered above content of `list` view.
+     *
+     * @return array
+     */
+    protected function getListViewsAbove(): array
+    {
+        return [];
+    }
+
+    /**
+     * Get array of view's objects, that should be rendered below content of `list` view.
+     *
+     * @return array
+     */
+    protected function getListViewsBelow(): array
+    {
+        return [];
     }
 
     /**
@@ -310,7 +332,29 @@ abstract class AbstractTableController
         return view($this->viewCrudEdit, [
             'crud' => $this->crud,
             'item' => $model,
+            'viewsAbove' => $this->getEditViewsAbove(),
+            'viewsBelow' => $this->getEditViewsBelow(),
         ]);
+    }
+
+    /**
+     * Get array of view's objects, that should be rendered above content of `edit` view.
+     *
+     * @return array
+     */
+    protected function getEditViewsAbove(): array
+    {
+        return [];
+    }
+
+    /**
+     * Get array of view's objects, that should be rendered below content of `edit` view.
+     *
+     * @return array
+     */
+    protected function getEditViewsBelow(): array
+    {
+        return [];
     }
 
     /**
@@ -329,7 +373,29 @@ abstract class AbstractTableController
 
         return view($this->viewCrudCreate, [
             'crud' => $this->crud,
+            'viewsAbove' => $this->getCreateViewsAbove(),
+            'viewsBelow' => $this->getCreateViewsBelow(),
         ]);
+    }
+
+    /**
+     * Get array of view's objects, that should be rendered above content of `create` view.
+     *
+     * @return array
+     */
+    protected function getCreateViewsAbove(): array
+    {
+        return [];
+    }
+
+    /**
+     * Get array of view's objects, that should be rendered below content of `create` view.
+     *
+     * @return array
+     */
+    protected function getCreateViewsBelow(): array
+    {
+        return [];
     }
 
     /**

@@ -9,6 +9,10 @@
 
 @section('content')
 
+    @foreach($viewsAbove as $viewAbove)
+        {!! $viewAbove !!}
+    @endforeach
+
     <!-- widget grid -->
     <section id="widget-grid" class="">
 
@@ -224,6 +228,9 @@
     <!-- end widget grid -->
 
 
+    @foreach($viewsBelow as $viewBelow)
+        {!! $viewBelow !!}
+    @endforeach
 
 
 @endsection
