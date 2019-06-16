@@ -7,6 +7,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as RequestFacade;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 use Yaro\Jarboe\Exceptions\PermissionDenied;
 use Yaro\Jarboe\Table\Actions\AbstractAction;
 use Yaro\Jarboe\Table\Actions\CreateAction;
@@ -27,6 +28,24 @@ abstract class AbstractTableController
     protected $viewCrudList = 'jarboe::crud.list';
     protected $viewCrudCreate = 'jarboe::crud.create';
     protected $viewCrudEdit = 'jarboe::crud.edit';
+
+    /**
+     * Permission group name.
+     *
+     * @var string|array
+     * array(
+     *     'list'        => 'permission:list',
+     *     'search'      => 'permission:search',
+     *     'create'      => 'permission:create',
+     *     'store'       => 'permission:store',
+     *     'edit'        => 'permission:edit',
+     *     'update'      => 'permission:update',
+     *     'delete'      => 'permission:delete',
+     *     'restore'     => 'permission:restore',
+     *     'forceDelete' => 'permission:force-delete',
+     * )
+     */
+    protected $permissions = '';
 
     /**
      * @var CRUD
@@ -54,11 +73,19 @@ abstract class AbstractTableController
 
     /**
      * Handle search action.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws UnauthorizedException
      */
-    public function search(Request $request)
+    public function handleSearch(Request $request)
     {
         $this->init();
         $this->bound();
+
+        if (!$this->can('search')) {
+            throw UnauthorizedException::forPermissions(['search']);
+        }
 
         $this->crud()->saveSearchFilterParams($request->get('search', []));
 
@@ -72,6 +99,7 @@ abstract class AbstractTableController
      * @param string $field
      * @param string $page
      * @param string $term
+     * @return \Illuminate\Http\JsonResponse
      */
     public function searchRelation(Request $request)
     {
@@ -132,6 +160,7 @@ abstract class AbstractTableController
      *
      * @param $column
      * @param $direction
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function orderBy($column, $direction)
     {
@@ -142,6 +171,11 @@ abstract class AbstractTableController
 
     /**
      * Handle store action.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws PermissionDenied
+     * @throws UnauthorizedException
      */
     public function handleStore(Request $request)
     {
@@ -152,6 +186,10 @@ abstract class AbstractTableController
             throw new PermissionDenied();
         }
 
+        if (!$this->can('store')) {
+            throw UnauthorizedException::forPermissions(['store']);
+        }
+
         $this->crud()->repo()->store($request);
 
         return redirect($this->crud()->listUrl());
@@ -159,6 +197,11 @@ abstract class AbstractTableController
 
     /**
      * Handle inline update action.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws PermissionDenied
+     * @throws \ReflectionException
      */
     public function inline(Request $request)
     {
@@ -214,6 +257,12 @@ abstract class AbstractTableController
 
     /**
      * Handle update action.
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws PermissionDenied
+     * @throws UnauthorizedException
      */
     public function handleUpdate(Request $request, $id)
     {
@@ -225,6 +274,10 @@ abstract class AbstractTableController
             throw new PermissionDenied();
         }
 
+        if (!$this->can('update')) {
+            throw UnauthorizedException::forPermissions(['update']);
+        }
+
         $this->crud()->repo()->update($id, $request);
 
         return redirect($this->crud()->listUrl());
@@ -232,6 +285,12 @@ abstract class AbstractTableController
 
     /**
      * Handle delete action.
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws PermissionDenied
+     * @throws UnauthorizedException
      */
     public function handleDelete(Request $request, $id)
     {
@@ -241,6 +300,10 @@ abstract class AbstractTableController
         $model = $this->crud()->repo()->find($id);
         if (!$this->crud()->actions()->isAllowed('delete', $model)) {
             throw new PermissionDenied();
+        }
+
+        if (!$this->can('delete')) {
+            throw UnauthorizedException::forPermissions(['delete']);
         }
 
         if ($this->crud()->repo()->delete($id)) {
@@ -264,6 +327,9 @@ abstract class AbstractTableController
 
     /**
      * Handle setting per page param.
+     *
+     * @param $perPage
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function perPage($perPage)
     {
@@ -278,12 +344,18 @@ abstract class AbstractTableController
     /**
      * Show table list page.
      *
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws UnauthorizedException
      */
-    public function list()
+    public function handleList(Request $request)
     {
         $this->init();
         $this->bound();
+
+        if (!$this->can('list')) {
+            throw UnauthorizedException::forPermissions(['list']);
+        }
 
         return view($this->viewCrudList, [
             'crud' => $this->crud,
@@ -316,10 +388,13 @@ abstract class AbstractTableController
     /**
      * Show edit form page.
      *
+     * @param Request $request
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws PermissionDenied
+     * @throws UnauthorizedException
      */
-    public function edit($id)
+    public function handleEdit(Request $request, $id)
     {
         $this->init();
         $this->bound();
@@ -327,6 +402,10 @@ abstract class AbstractTableController
         $model = $this->crud()->repo()->find($id);
         if (!$this->crud()->actions()->isAllowed('edit', $model)) {
             throw new PermissionDenied();
+        }
+
+        if (!$this->can('edit')) {
+            throw UnauthorizedException::forPermissions(['edit']);
         }
 
         return view($this->viewCrudEdit, [
@@ -360,15 +439,22 @@ abstract class AbstractTableController
     /**
      * Show create form page.
      *
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws PermissionDenied
+     * @throws UnauthorizedException
      */
-    public function create()
+    public function handleCreate(Request $request)
     {
         $this->init();
         $this->bound();
 
         if (!$this->crud()->actions()->isAllowed('create')) {
             throw new PermissionDenied();
+        }
+
+        if (!$this->can('create')) {
+            throw UnauthorizedException::forPermissions(['create']);
         }
 
         return view($this->viewCrudCreate, [
@@ -472,6 +558,7 @@ abstract class AbstractTableController
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @throws PermissionDenied
+     * @throws UnauthorizedException
      */
     public function handleRestore(Request $request, $id)
     {
@@ -480,6 +567,10 @@ abstract class AbstractTableController
 
         if (!$this->crud()->isSoftDeleteEnabled()) {
             throw new PermissionDenied();
+        }
+
+        if (!$this->can('restore')) {
+            throw UnauthorizedException::forPermissions(['restore']);
         }
 
         $model = $this->crud()->repo()->find($id);
@@ -501,6 +592,7 @@ abstract class AbstractTableController
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @throws PermissionDenied
+     * @throws UnauthorizedException
      */
     public function handleForceDelete(Request $request, $id)
     {
@@ -510,6 +602,10 @@ abstract class AbstractTableController
         $model = $this->crud()->repo()->find($id);
         if (!$this->crud()->isSoftDeleteEnabled() || !$model->trashed()) {
             throw new PermissionDenied();
+        }
+
+        if (!$this->can('force-delete')) {
+            throw UnauthorizedException::forPermissions(['force-delete']);
         }
 
         if ($this->crud()->repo()->forceDelete($id)) {
@@ -661,7 +757,32 @@ abstract class AbstractTableController
     }
 
     /**
+     * Check if user has permission for the action.
+     *
+     * @param $action
+     * @return bool
+     */
+    protected function can($action): bool
+    {
+        if (!$this->permissions) {
+            return true;
+        }
+        if (is_array($this->permissions) && !array_key_exists($action, $this->permissions)) {
+            return true;
+        }
+
+        if (is_array($this->permissions)) {
+            $permission = $this->permissions[$action];
+        } else {
+            $permission = sprintf('%s:%s', $this->permissions, $action);
+        }
+
+        return admin_user()->can($permission);
+    }
+
+    /**
      * Add locales for all translatable fields.
+     *
      * @param array $locales
      */
     protected function locales(array $locales)
@@ -671,14 +792,23 @@ abstract class AbstractTableController
 
     public function __call($name, $arguments)
     {
+        /** @var Request $request */
         $request = RequestFacade::instance();
 
         try {
             switch ($name) {
-                case 'update':
-                    return $this->handleUpdate($request, $arguments[0]);
+                case 'list':
+                    return $this->handleList($request);
+                case 'search':
+                    return $this->handleSearch($request);
+                case 'create':
+                    return $this->handleCreate($request);
                 case 'store':
                     return $this->handleStore($request);
+                case 'edit':
+                    return $this->handleEdit($request, $arguments[0]);
+                case 'update':
+                    return $this->handleUpdate($request, $arguments[0]);
                 case 'delete':
                     return $this->handleDelete($request, $arguments[0]);
                 case 'restore':
@@ -691,6 +821,8 @@ abstract class AbstractTableController
             }
         } catch (ValidationException $e) {
             throw $e;
+        } catch(UnauthorizedException $e) {
+            return $this->createUnauthorizedResponse($request, $e);
         } catch (\Exception $e) {
             return redirect()
                 ->back()
@@ -718,6 +850,24 @@ abstract class AbstractTableController
         }
 
         $this->crud()->actions()->setCrud($this->crud());
+    }
+
+    /**
+     * Create response for unauthorized request.
+     * 
+     * @param Request $request
+     * @param UnauthorizedException $exception
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
+    protected function createUnauthorizedResponse(Request $request, UnauthorizedException $exception)
+    {
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], 401);
+        }
+
+        return view('jarboe::errors.401');
     }
 
     /*

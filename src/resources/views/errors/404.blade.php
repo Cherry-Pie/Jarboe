@@ -5,6 +5,8 @@
         body {
             background: url("/vendor/jarboe/img/6-reversed.jpg") #fff !important;
             background-size: cover !important;
+            overflow-x: hidden;
+            overflow-y: hidden;
             min-height: 100vh;
         }
         div#content {
@@ -957,7 +959,7 @@
 
 @section('content')
 
-    <h1 class="error-text fadeIn animated" style="position: fixed;">{{ __('jarboe::common.errors.404_title') }}</h1>
+    <h1>{{ __('jarboe::common.errors.404_title') }}</h1>
 
     <!-- https://codepen.io/davidkpiano/pen/Xempjq -->
     <div class="all-wrap">

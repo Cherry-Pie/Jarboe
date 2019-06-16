@@ -69,7 +69,8 @@ return [
     ],
 
     'errors' => [
-        '404_title' => 'Page not found.',
+        '404_title' => '404 | Not Found',
+        '401_title' => '401 | Unauthorized',
     ],
 
     'fullscreen' => 'Full Screen',
