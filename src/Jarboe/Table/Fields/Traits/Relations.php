@@ -17,6 +17,7 @@ trait Relations
     protected $options = [];
     protected $relations = [];
     protected $relationSearchUrl;
+    protected $additionalCondition;
 
     public function options(array $options)
     {
@@ -77,6 +78,11 @@ trait Relations
 
                 $offset = ($page - 1) * $perPage;
                 $related->limit($perPage)->offset($offset);
+            }
+
+            $callback = $this->additionalCondition;
+            if ($callback) {
+                $callback($related);
             }
 
             $relations = $related->get();
@@ -220,4 +226,10 @@ trait Relations
         return $this->relationSearchUrl;
     }
 
+    public function addCondition(\Closure $callback)
+    {
+        $this->additionalCondition = $callback;
+
+        return $this;
+    }
 }
