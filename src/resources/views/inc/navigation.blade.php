@@ -20,6 +20,7 @@
                 </a>
             </li>
 
+            @if (config('jarboe.admin_panel.default_routes_enabled'))
             <li>
                 <a href="#" title="Admin Panel"><i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">Admin Panel</span></a>
                 <ul>
@@ -35,6 +36,7 @@
                     </li>
                 </ul>
             </li>
+            @endif
 
         </ul>
     </nav>

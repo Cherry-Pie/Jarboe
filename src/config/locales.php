@@ -1,11 +1,11 @@
 <?php
 return [
-    /**
+    /*
      * Default locale.
      */
     'default' => 'en',
 
-    /**
+    /*
      * Locales list.
      * `locale` as key, `title` as value.
      */

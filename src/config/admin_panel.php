@@ -1,58 +1,58 @@
 <?php
 
 return [
-    /**
+    /*
      * Just prefix for admin panel urls.
      */
     'prefix' => 'admin',
 
-    /**
+    /*
      * Domain for admin panel if `subdomain_panel_enabled` is `true`.
      */
     'domain' => '',
 
-    /**
+    /*
      * Host admin panel on subdomain.
      */
     'subdomain_panel_enabled' => false,
 
-    /**
+    /*
      * Enable or disable registration functionality.
      */
     'registration_enabled' => true,
 
-    /**
+    /*
      * Auth guard for admin users.
      * Leave empty to use default one.
      */
     'auth_guard' => '',
 
-    /**
+    /*
      * OTP 2-factor authentication settings.
      */
     'two_factor_auth' => [
-        /**
+        /*
          * Enable/disable 2-factor authentication.
          */
         'enabled' => false,
 
-        /**
+        /*
          * Issuer name. Leave null for using application name.
          */
         'issuer' => null,
     ],
 
-    /**
+    /*
      * Dashboard uri without prefix. Will be redirected to after successful login.
      */
     'dashboard' => 'dashboard',
 
-    /**
+    /*
      * Admin user model.
      */
     'admin_model' => \Yaro\Jarboe\Models\Admin::class,
 
-    /**
+    /*
      * Middleware groups for admin panel routes.
      */
     'middleware_groups' => [
@@ -69,15 +69,20 @@ return [
         ]
     ],
 
-    /**
+    /*
      * CSS theme for admin panel.
      *
      * Supported: "default", "dark", "light", "google-skin", "pixel-smash", "glass", "material"
      */
     'theme' => 'light',
 
-    /**
+    /*
      * Place navigation menu on top.
      */
     'menu_on_top' => false,
+
+    /*
+     * Default routes for admin-panel section, e.g. admins and roles/permissions crud tables.
+     */
+    'default_routes_enabled' => true,
 ];
