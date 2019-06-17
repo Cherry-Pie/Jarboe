@@ -42,9 +42,16 @@ class AuthController extends Controller
         ]);
     }
 
+    protected function getAuthCredentials(LoginRequest $request): array
+    {
+        return $request->only('email', 'password');
+    }
+
     public function login(LoginRequest $request)
     {
-        if (Auth::guard(admin_user_guard())->attempt($request->only('email', 'password'), (bool) $request->get('remember'))) {
+        $credentials = $this->getAuthCredentials($request);
+        $shouldRemember = (bool) $request->get('remember');
+        if (Auth::guard(admin_user_guard())->attempt($credentials, $shouldRemember)) {
             if ($this->isValidOTP(admin_user(), $request->get('otp'))) {
                 event(new LoginSuccess(admin_user()));
                 return redirect(admin_url(config('jarboe.admin_panel.dashboard')));
