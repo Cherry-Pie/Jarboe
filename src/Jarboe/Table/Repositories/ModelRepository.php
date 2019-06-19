@@ -86,6 +86,8 @@ class ModelRepository
         foreach ($fields as $field) {
             $field->afterStore($model, $request);
         }
+
+        return $model;
     }
 
     public function update($id, Request $request)
@@ -114,6 +116,7 @@ class ModelRepository
     {
         $model = $this->find($id);
 
+        // FIXME: move
         if (!$field->isInline() || $field->isReadonly() || $field->shouldSkip($request)) {
             return;
         }

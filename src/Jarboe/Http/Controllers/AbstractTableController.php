@@ -40,6 +40,7 @@ abstract class AbstractTableController
      *     'store'       => 'permission:store',
      *     'edit'        => 'permission:edit',
      *     'update'      => 'permission:update',
+     *     'inline'      => 'permission:inline',
      *     'delete'      => 'permission:delete',
      *     'restore'     => 'permission:restore',
      *     'forceDelete' => 'permission:force-delete',
@@ -51,6 +52,13 @@ abstract class AbstractTableController
      * @var CRUD
      */
     protected $crud;
+
+    /**
+     * ID of manipulated model.
+     *
+     * @var mixed
+     */
+    protected $idEntity;
 
     public function __construct()
     {
@@ -190,7 +198,8 @@ abstract class AbstractTableController
             throw UnauthorizedException::forPermissions(['store']);
         }
 
-        $this->crud()->repo()->store($request);
+        $model = $this->crud()->repo()->store($request);
+        $this->idEntity = $model->getKey();
 
         return redirect($this->crud()->listUrl());
     }
@@ -203,7 +212,7 @@ abstract class AbstractTableController
      * @throws PermissionDenied
      * @throws \ReflectionException
      */
-    public function inline(Request $request)
+    public function handleInline(Request $request)
     {
         $this->init();
         $this->bound();
@@ -220,26 +229,14 @@ abstract class AbstractTableController
         }
 
         if (method_exists($this, 'update')) {
-            $reflection = new \ReflectionClass(get_class($this));
-            $parameters = $reflection->getMethod('update')->getParameters();
-            $firstParam = $parameters[0] ?? null;
-            if ($firstParam && $firstParam->getClass()) {
-                $formRequestClass = $firstParam->getClass()->getName();
-                /** @var FormRequest $formRequest */
-                $formRequest = new $formRequestClass();
-                if (method_exists($formRequest, 'rules')) {
-                    foreach ($formRequest->rules() as $param => $rules) {
-                        if (preg_match('~^'. preg_quote($field->name()) .'(\.\*)?$~', $param)) {
-                            $this->validate(
-                                $request,
-                                [$field->name() => $rules],
-                                $formRequest->messages(),
-                                $formRequest->attributes()
-                            );
-                            break;
-                        }
-                    }
-                }
+            list($rules, $messages, $attributes) = $this->getValidationDataForInlineField($request, $field->name());
+            if ($rules) {
+                $this->validate(
+                    $request,
+                    [$field->name() => $rules],
+                    $messages,
+                    $attributes
+                );
             }
         }
 
@@ -249,10 +246,50 @@ abstract class AbstractTableController
         }
 
         $model = $this->crud()->repo()->updateField($id, $request, $field, $value);
+        $this->idEntity = $model->getKey();
 
         return response()->json([
             'value' => $model->{$field->name()},
         ]);
+    }
+
+    /**
+     * Get validation data for inline field.
+     * 
+     * @param Request $request
+     * @param $name
+     * @return array
+     * @throws \ReflectionException
+     */
+    protected function getValidationDataForInlineField(Request $request, $name)
+    {
+        $rules = [];
+        $messages = [];
+        $attributes = [];
+
+        $reflection = new \ReflectionClass(get_class($this));
+        $method = $reflection->getMethod('update');
+        $parameters = $method->getParameters();
+        $firstParam = $parameters[0] ?? null;
+        $isRequestAsFirstParameter = $firstParam && $firstParam->getClass();
+        if ($isRequestAsFirstParameter) {
+            $formRequestClass = $firstParam->getClass()->getName();
+            /** @var FormRequest $formRequest */
+            $formRequest = new $formRequestClass();
+            if (method_exists($formRequest, 'rules')) {
+                foreach ($formRequest->rules() as $param => $paramRules) {
+                    if (preg_match('~^'. preg_quote($name) .'(\.\*)?$~', $param)) {
+                        return [
+                            $paramRules,
+                            $formRequest->messages(),
+                            $formRequest->attributes(),
+                        ];
+                    }
+                }
+            }
+        }
+
+        return [$rules, $messages, $attributes];
     }
 
     /**
@@ -279,6 +316,7 @@ abstract class AbstractTableController
         }
 
         $this->crud()->repo()->update($id, $request);
+        $this->idEntity = $model->getKey();
 
         return redirect($this->crud()->listUrl());
     }
@@ -305,6 +343,8 @@ abstract class AbstractTableController
         if (!$this->can('delete')) {
             throw UnauthorizedException::forPermissions(['delete']);
         }
+
+        $this->idEntity = $model->getKey();
 
         if ($this->crud()->repo()->delete($id)) {
             $type = 'hidden';
@@ -407,6 +447,8 @@ abstract class AbstractTableController
         if (!$this->can('edit')) {
             throw UnauthorizedException::forPermissions(['edit']);
         }
+
+        $this->idEntity = $model->getKey();
 
         return view($this->viewCrudEdit, [
             'crud' => $this->crud,
@@ -579,6 +621,8 @@ abstract class AbstractTableController
                 'message' => __('jarboe::common.list.restore_success_message', ['id' => $id]),
             ]);
         }
+
+        $this->idEntity = $model->getKey();
 
         return response()->json([
             'message' => __('jarboe::common.list.restore_failed_message', ['id' => $id]),
@@ -795,6 +839,11 @@ abstract class AbstractTableController
         /** @var Request $request */
         $request = RequestFacade::instance();
 
+        $id = null;
+        if (isset($arguments[0])) {
+            $id = $arguments[1] ?? $arguments[0];
+        }
+
         try {
             switch ($name) {
                 case 'list':
@@ -806,15 +855,15 @@ abstract class AbstractTableController
                 case 'store':
                     return $this->handleStore($request);
                 case 'edit':
-                    return $this->handleEdit($request, $arguments[0]);
+                    return $this->handleEdit($request, $id);
                 case 'update':
-                    return $this->handleUpdate($request, $arguments[0]);
+                    return $this->handleUpdate($request, $id);
                 case 'delete':
-                    return $this->handleDelete($request, $arguments[0]);
+                    return $this->handleDelete($request, $id);
                 case 'restore':
-                    return $this->handleRestore($request, $arguments[0]);
+                    return $this->handleRestore($request, $id);
                 case 'forceDelete':
-                    return $this->handleForceDelete($request, $arguments[0]);
+                    return $this->handleForceDelete($request, $id);
 
                 default:
                     throw new \RuntimeException('Invalid method ' . $name);
@@ -868,6 +917,21 @@ abstract class AbstractTableController
         }
 
         return view('jarboe::errors.401');
+    }
+
+    /**
+     * Get model for current request.
+     *
+     * @return string
+     * @throws \RuntimeException
+     */
+    protected function model()
+    {
+        if (!$this->idEntity) {
+            throw new \RuntimeException('Trying to access to non-existed entity');
+        }
+
+        return $this->crud()->repo()->find($this->idEntity);
     }
 
     /*

@@ -339,6 +339,9 @@ var CRUD =
             window.location.href = $(this).data('url');
         });
 
+        if (!$('.jarboe-table-actions > *').length) {
+            $('.jarboe-table-actions').hide();
+        }
     },
 };
 
