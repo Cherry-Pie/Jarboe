@@ -2,7 +2,6 @@
 
 namespace Yaro\Jarboe\Table\Filters;
 
-
 class TextFilter extends AbstractFilter
 {
     protected $like = [

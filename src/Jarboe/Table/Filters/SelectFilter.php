@@ -2,10 +2,10 @@
 
 namespace Yaro\Jarboe\Table\Filters;
 
-
 class SelectFilter extends AbstractFilter
 {
     const NO_INPUT_APPLIED = '__jarboe-no-search-input-applied';
+
     private $multiple = false;
     private $options = null;
     private $nullable = false;
@@ -94,6 +94,11 @@ class SelectFilter extends AbstractFilter
                     $query->where($relationClass->getKeyName(), $value);
                 }
             });
+            return;
+        }
+
+        if ($this->field()->isMultiple()) {
+            $query->whereIn($this->field()->name(), $value);
             return;
         }
 
