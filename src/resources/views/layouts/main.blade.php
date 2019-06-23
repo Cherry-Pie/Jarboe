@@ -381,6 +381,8 @@
 </script>
 
 
+@include('jarboe::inc.notifications')
+
 @stack('script_files')
 @stack('scripts')
 
