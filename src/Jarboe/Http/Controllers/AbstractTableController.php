@@ -825,6 +825,16 @@ abstract class AbstractTableController
     }
 
     /**
+     * Get admin user object.
+     *
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    protected function admin()
+    {
+        return admin_user();
+    }
+
+    /**
      * Add locales for all translatable fields.
      *
      * @param array $locales
