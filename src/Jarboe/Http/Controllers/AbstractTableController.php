@@ -217,6 +217,10 @@ abstract class AbstractTableController
         $this->init();
         $this->bound();
 
+        if (!$this->can('inline')) {
+            throw UnauthorizedException::forPermissions(['inline']);
+        }
+
         $id = $request->get('_pk');
         $value = $request->get('_value');
         /** @var AbstractField $field */
