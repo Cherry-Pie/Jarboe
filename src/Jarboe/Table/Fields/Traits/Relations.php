@@ -104,32 +104,40 @@ trait Relations
         return $options;
     }
 
+    protected function getRelatedList($relationClass, $value, $ids)
+    {
+        $relatedList = [];
+        if ($this->isMultiple()) {
+            if ($ids) {
+                $relatedModels = $relationClass->whereIn($relationClass->getKeyName(), $ids)->get();
+                foreach ($relatedModels as $relatedModel) {
+                    $relatedList[] = $relatedModel;
+                }
+            }
+        } else {
+            $relatedList[] = $relationClass->find($value);
+        }
+        $relatedList = array_filter($relatedList);
+
+        return $relatedList;
+    }
+
     public function syncRelations($model, $value)
     {
         foreach ($this->relations as $index => $relation) {
             $relationQuery = $model->{$this->getRelationMethod($index)}()->getRelated();
             $relationClass = get_class($relationQuery);
             $relationClass = new $relationClass;
-
-            $relatedList = [];
             $ids = $value ?: [];
-            if ($this->isMultiple()) {
-                if ($ids) {
-                    $relatedModels = $relationClass->whereIn($relationClass->getKeyName(), $ids)->get();
-                    foreach ($relatedModels as $relatedModel) {
-                        $relatedList[] = $relatedModel;
-                    }
-                }
-            } else {
-                $relatedList[] = $relationClass->find($value);
-            }
-            $relatedList = array_filter($relatedList);
-
+            
             switch (get_class($model->{$this->getRelationMethod($index)}())) {
                 case HasMany::class:
                     $model->{$this->getRelationMethod($index)}()->update([
                         $model->{$this->getRelationMethod($index)}()->getForeignKeyName() => null,
                     ]);
+
+                    $relatedList = $this->getRelatedList($relationClass, $value, $ids);
+
                     $model->{$this->getRelationMethod($index)}()->saveMany($relatedList);
                     break;
                 case MorphMany::class:
@@ -137,6 +145,8 @@ trait Relations
                         $model->{$this->getRelationMethod($index)}()->getMorphType() => null,
                         $model->{$this->getRelationMethod($index)}()->getForeignKeyName() => null,
                     ]);
+
+                    $relatedList = $this->getRelatedList($relationClass, $value, $ids);
                     $model->{$this->getRelationMethod($index)}()->saveMany($relatedList);
                     break;
                 case MorphToMany::class:
@@ -149,11 +159,14 @@ trait Relations
                             $model->{$this->getRelationMethod($index)}()->getForeignPivotKeyName() => null,
                             $model->{$this->getRelationMethod($index)}()->getRelatedPivotKeyName() => null,
                         ]);
+
+                        $relatedList = $this->getRelatedList($relationClass, $value, $ids);
                         $model->{$this->getRelationMethod($index)}()->saveMany($relatedList);
                     }
                     break;
                 case BelongsTo::class:
                 case MorphTo::class:
+                    $relatedList = $this->getRelatedList($relationClass, $value, $ids);
                     foreach ($relatedList as $relatedModel) {
                         $model->{$this->getRelationMethod($index)}()->associate($relatedModel)->save();
                     }
@@ -162,11 +175,14 @@ trait Relations
                     $model->{$this->getRelationMethod($index)}()->update([
                         $model->{$this->getRelationMethod($index)}()->getForeignKeyName() => null,
                     ]);
+
+                    $relatedList = $this->getRelatedList($relationClass, $value, $ids);
                     foreach ($relatedList as $relatedModel) {
                         $model->{$this->getRelationMethod($index)}()->save($relatedModel);
                     }
                     break;
                 case BelongsToMany::class:
+                    $relatedList = $this->getRelatedList($relationClass, $value, $ids);
                     $model->{$this->getRelationMethod($index)}()->sync(
                         collect($relatedList)->pluck($relationClass->getKeyName())->toArray()
                     );
@@ -177,6 +193,10 @@ trait Relations
 
     /**
      * Get selected options array.
+     * 
+     * @param null $model
+     * @param int $index
+     * @return array
      */
     public function getSelectedOptions($model = null, $index = 0)
     {
