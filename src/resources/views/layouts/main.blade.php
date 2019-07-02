@@ -285,6 +285,15 @@
         });
     })(jQuery);
 
+    $.fn.removeClassPrefix = function(prefix) {
+        this.each(function(i, el) {
+            var classes = el.className.split(" ").filter(function(c) {
+                return c.lastIndexOf(prefix, 0) !== 0;
+            });
+            el.className = classes.join(" ");
+        });
+        return this;
+    };
 
     $.datepicker.parseDate = function(format, value) {
         if (value) {
