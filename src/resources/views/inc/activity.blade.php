@@ -1,3 +1,5 @@
+{{--
+
 <!-- Note: The activity badge color changes when clicked and resets the number to 0
     Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->
 <span id="activity" class="activity-dropdown"> <i class="fa fa-user"></i> <b class="badge"> 21 </b> </span>
@@ -40,3 +42,5 @@
 
 </div>
 <!-- END AJAX-DROPDOWN -->
+
+--}}

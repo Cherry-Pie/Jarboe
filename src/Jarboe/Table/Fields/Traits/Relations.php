@@ -193,7 +193,7 @@ trait Relations
 
     /**
      * Get selected options array.
-     * 
+     *
      * @param null $model
      * @param int $index
      * @return array

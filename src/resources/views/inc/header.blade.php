@@ -8,7 +8,7 @@
         </span>
         <!-- END LOGO PLACEHOLDER -->
 
-{{--        @include('jarboe::inc.activity')--}}
+        @include('jarboe::inc.activity')
 
     </div>
 
