@@ -2,6 +2,7 @@
 
 namespace Yaro\Jarboe;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
@@ -111,7 +112,7 @@ class ServiceProvider extends IlluminateServiceProvider
                 'material' => 'smart-style-6',
             ];
 
-            $view->themeClass = array_get($themes, $this->app->config->get('jarboe.admin_panel.theme', 'default'));
+            $view->themeClass = Arr::get($themes, $this->app->config->get('jarboe.admin_panel.theme', 'default'));
             $view->menuOnTop = $this->app->config->get('jarboe.admin_panel.menu_on_top');
         });
 

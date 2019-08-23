@@ -30,7 +30,7 @@ class Tool extends Command
      */
     public function handle()
     {
-        $className = $this->argument('class');
+        $className = (string) $this->argument('class');
 
         $packagePath = __DIR__ .'/../../../../';
         $stub = file_get_contents($packagePath .'stubs/tool.stub');
@@ -42,7 +42,7 @@ class Tool extends Command
             ToolInterface::POSITION_BODY_BOTH,
         ]);
         $position = strtoupper('position_'. $position);
-        $ident = str_random();
+        $ident = Str::random();
         $view = Str::snake($className);
 
         $tool = sprintf($stub, $className, $position, $ident, $view);

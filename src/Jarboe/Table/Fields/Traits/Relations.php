@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Arr;
 
 trait Relations
 {
@@ -28,12 +29,12 @@ trait Relations
 
     public function getRelationMethod($relationIndex = 0)
     {
-        return array_get($this->relations, $relationIndex .'.method');
+        return Arr::get($this->relations, $relationIndex .'.method');
     }
 
     public function getRelationTitleField($relationIndex = 0)
     {
-        return array_get($this->relations, $relationIndex .'.title');
+        return Arr::get($this->relations, $relationIndex .'.title');
     }
 
     public function relation(string $method, string $titleField, string $groupTitle = '')
@@ -62,7 +63,7 @@ trait Relations
         $options = $this->options;
         if ($this->isRelationField() && !$options) {
             $options = [];
-            $model = $this->model;
+            $model = $this->getModel();
 
             $related = (new $model)->{$this->getRelationMethod($relationIndex)}()->getRelated()->query();
             if (!is_null($query)) {
@@ -252,4 +253,7 @@ trait Relations
 
         return $this;
     }
+
+    abstract public function getModel();
+    abstract public function isMultiple();
 }
