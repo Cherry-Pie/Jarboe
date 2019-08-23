@@ -4,12 +4,14 @@ namespace Yaro\Jarboe\Table\Fields;
 
 use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\Fields\Traits\Nullable;
+use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
 use Yaro\Jarboe\Table\Fields\Traits\Storage;
 
 class File extends AbstractField
 {
     use Storage;
     use Nullable;
+    use Placeholder;
 
     public function __construct()
     {
