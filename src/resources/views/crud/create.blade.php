@@ -77,7 +77,7 @@
                                         <ul>
                                             @foreach ($crud->getTabs() as $tabTitle => $fields)
                                                 <li>
-                                                    <a href="#tabs-{{ crc32($tabTitle) }}">
+                                                    <a href="#tab-{{ urlify($tabTitle) }}">
                                                         {{ $tabTitle }}
                                                         @if ($count = $crud->getTabErrorsCount($tabTitle, $errors))
                                                             <em style="
@@ -107,7 +107,7 @@
                                         </ul>
 
                                         @foreach ($crud->getTabs() as $tabTitle => $fields)
-                                            <div id="tabs-{{ crc32($tabTitle) }}">
+                                            <div id="tab-{{ urlify($tabTitle) }}">
                                                 <fieldset>
                                                     @include('jarboe::crud.inc.create_tab', [
                                                         'fields'   => $fields,
@@ -168,11 +168,25 @@
 
 
 @push('scripts')
-    <script>
-        if ($('#tabs').length) {
-            $('#tabs').tabs();
-        }
-    </script>
+<script>
+    if ($('#tabs').length) {
+        $('#tabs').tabs({
+            create: function (event, ui) {
+                // Adjust hashes to not affect URL when clicked.
+                var widget = $tabs.data('uiTabs');
+                widget.panels.each(function (i) {
+                    this.id = 'uiTab_' + this.id;
+                    widget.anchors[i].hash = '#' + this.id;
+                    $(widget.tabs[i]).attr('aria-controls', this.id);
+                });
+            },
+            activate: function (event, ui) {
+                // Update the window URL bar with the original "clean' tab id.
+                window.location.hash = ui.newPanel.attr('id').replace('uiTab_', '');
+            },
+        });
+    }
+</script>
 @endpush
 
 @push('styles')

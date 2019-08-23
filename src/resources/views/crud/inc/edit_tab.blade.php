@@ -1,4 +1,3 @@
-
 @foreach ($fields as $field)
     @if ($field->hidden('edit'))
         @continue
