@@ -1,7 +1,6 @@
 <?php
 
-if (!function_exists('admin_url'))
-{
+if (!function_exists('admin_url')) {
     function admin_url($path = '')
     {
         $isSubdomainBasedPanel = config('jarboe.admin_panel.subdomain_panel_enabled', false);
@@ -17,8 +16,7 @@ if (!function_exists('admin_url'))
     }
 }
 
-if (!function_exists('admin_user_guard'))
-{
+if (!function_exists('admin_user_guard')) {
     function admin_user_guard()
     {
         $default = config('auth.defaults.guard');
@@ -28,16 +26,14 @@ if (!function_exists('admin_user_guard'))
     }
 }
 
-if (!function_exists('admin_user'))
-{
+if (!function_exists('admin_user')) {
     function admin_user()
     {
         return auth(admin_user_guard())->user();
     }
 }
 
-if (!function_exists('is_current_admin_url'))
-{
+if (!function_exists('is_current_admin_url')) {
     function is_current_admin_url($path = '')
     {
         $chunks = explode('/~/', request()->url());
@@ -45,5 +41,12 @@ if (!function_exists('is_current_admin_url'))
         $path = rtrim(admin_url($path), '/');
 
         return $current == $path;
+    }
+}
+
+if (!function_exists('urlify')) {
+    function urlify($text, int $length = 60)
+    {
+        return \Yaro\Jarboe\Helpers\URLify::filter($text, $length);
     }
 }
