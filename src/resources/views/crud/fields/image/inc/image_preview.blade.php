@@ -25,8 +25,9 @@
                     return;
                 }
 
+                const imgBoxClass = '{{ $field->isCrop() ?: 'img-box' }}';
                 $imageWrapper.append(
-                    '<div class="img-box">' +
+                    '<div class="'+ imgBoxClass +'">' +
                     '<img class="image-cropp-{{ $field->name() }}-'+ index +'" style="width: 100%;" />' +
                         @if ($field->isCrop())
                             '<input type="hidden" name="__{{ $field->name() }}_cropvalues['+ index +'][width]" class="{{ $field->name() }}_cropvalues_width_'+ index +'" />' +
