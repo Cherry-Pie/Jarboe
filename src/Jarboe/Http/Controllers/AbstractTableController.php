@@ -878,6 +878,8 @@ abstract class AbstractTableController
                     return $this->handleRestore($request, $id);
                 case 'forceDelete':
                     return $this->handleForceDelete($request, $id);
+                case 'inline':
+                    return $this->handleInline($request);
 
                 default:
                     throw new \RuntimeException('Invalid method ' . $name);
