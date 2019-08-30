@@ -1,5 +1,7 @@
 #Jarboe
 
+[![Join the chat at https://gitter.im/jarboe_app/community](https://badges.gitter.im/jarboe_app/community.svg)](https://gitter.im/jarboe_app/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 ```bash
 php artisan jarboe:install
