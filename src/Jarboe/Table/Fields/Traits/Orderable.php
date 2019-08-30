@@ -2,18 +2,17 @@
 
 namespace Yaro\Jarboe\Table\Fields\Traits;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage as IlluminateStorage;
+use Closure;
 
 trait Orderable
 {
     protected $orderable = false;
+    protected $overridedOrderCallback;
 
-
-    public function orderable(bool $orderable = true)
+    public function orderable(bool $orderable = true, Closure $overridedOrderCallback = null)
     {
         $this->orderable = $orderable;
+        $this->overridedOrderCallback = $overridedOrderCallback;
 
         return $this;
     }
@@ -21,5 +20,10 @@ trait Orderable
     public function isOrderable()
     {
         return $this->orderable;
+    }
+
+    public function getOverridedOrderCallback()
+    {
+        return $this->overridedOrderCallback;
     }
 }

@@ -175,8 +175,13 @@ class ModelRepository
             if ($field->isOrderable()) {
                 $direction = $this->crud->getOrderFilterParam($field->name());
                 if (!is_null($direction)) {
-                    $model->orderBy($field->name(), $direction);
-                    $shouldApplyDefaultOrder = false;
+                    $callback = $field->getOverridedOrderCallback();
+                    if ($callback) {
+                        $callback($model, $field, $direction, $shouldApplyDefaultOrder);
+                    } else {
+                        $model->orderBy($field->name(), $direction);
+                        $shouldApplyDefaultOrder = false;
+                    }
                 }
             }
         }
