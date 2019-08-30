@@ -58,35 +58,40 @@ trait Relations
         return $this->relations;
     }
 
-    public function getOptions(int $page = null, int $perPage = null, $query = null, &$total = 0, $relationIndex = 0)
+    public function getOptions(int $page = null, int $perPage = null, $query = null, &$total = 0, $relationIndex = 0, \Closure $clause = null)
     {
         $options = $this->options;
         if ($this->isRelationField() && !$options) {
             $options = [];
             $model = $this->getModel();
 
-            $related = (new $model)->{$this->getRelationMethod($relationIndex)}()->getRelated()->query();
+            $related = (new $model)->{$this->getRelationMethod($relationIndex)}()->getRelated();
+            $relatedQuery = $related->query();
             if (!is_null($query)) {
                 $callback = $this->searchCallback;
                 if ($callback) {
-                    $related = $callback($related, $this->getRelationTitleField($relationIndex), $query);
+                    $relatedQuery = $callback($relatedQuery, $this->getRelationTitleField($relationIndex), $query);
                 } else {
-                    $related->where($this->getRelationTitleField($relationIndex), $query);
+                    $relatedQuery->where($this->getRelationTitleField($relationIndex), $query);
                 }
             }
+            if (!is_null($clause)) {
+                $clause($relatedQuery, $related);
+            }
+
             if (!is_null($page) && !is_null($perPage)) {
-                $total += (clone $related)->count();
+                $total += (clone $relatedQuery)->count();
 
                 $offset = ($page - 1) * $perPage;
-                $related->limit($perPage)->offset($offset);
+                $relatedQuery->limit($perPage)->offset($offset);
             }
 
             $callback = $this->additionalCondition;
             if ($callback) {
-                $callback($related);
+                $callback($relatedQuery, $related);
             }
 
-            $relations = $related->get();
+            $relations = $relatedQuery->get();
             foreach ($relations as $relation) {
                 $options[$relation->getKey()] = $relation->{$this->getRelationTitleField($relationIndex)};
             }
@@ -98,7 +103,7 @@ trait Relations
     public function getGroupedOptions(int $page = null, int $perPage = null, $query = null, &$total = 0)
     {
         $options = [];
-        foreach ($this->relations as $index => $relation) {
+        foreach ($this->getRelations() as $index => $relation) {
             $options[$relation['group']] = $this->getOptions($page, $perPage, $query, $total, $index);
         }
 

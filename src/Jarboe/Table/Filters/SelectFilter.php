@@ -16,10 +16,11 @@ class SelectFilter extends AbstractFilter
         if ($this->isMultiple()) {
             $value = $value ?: [];
         }
+        $values = is_array($value) ? $value : [$value];
 
         return view('jarboe::crud.filters.select', [
             'filter' => $this,
-            'value' => $value,
+            'values' => $values,
             'desearch' => self::NO_INPUT_APPLIED,
         ])->render();
     }
@@ -73,6 +74,44 @@ class SelectFilter extends AbstractFilter
         return $options;
     }
 
+    public function getSelectedOptions(array $values, int $index = 0): array
+    {
+        $total = 0;
+        $options = $this->field()->getOptions(null, null, null, $total, $index, function ($query, $related) use ($values) {
+            $query->whereIn($related->getTable() .'.'. $related->getKeyName(), $values);
+        });
+
+        return $options;
+    }
+
+    public function getSelectedGroupedOptions(): array
+    {
+        $value = $this->value();
+        $values = is_array($value) ? $value : [$value];
+
+        $options = [];
+        foreach ($this->field()->getRelations() as $index => $relation) {
+            $groupValues = [];
+            foreach ($values as $value) {
+                list($groupHash, $groupValue) = explode('~~~', $value);
+                if ($groupHash == crc32($relation['group'])) {
+                    $groupValues[] = $groupValue;
+                }
+            }
+
+            if ($groupValues) {
+                $options[$relation['group']] = $this->getSelectedOptions($groupValues, $index);
+            }
+        }
+
+        return array_filter($options);
+    }
+
+    public function isSelectField(): bool
+    {
+        return method_exists($this->field(), 'isSelect2Type');
+    }
+
     public function apply($query)
     {
         $value = $this->value();
@@ -81,19 +120,27 @@ class SelectFilter extends AbstractFilter
         }
 
         if ($this->field()->isRelationField()) {
+            $values = is_array($value) ? $value : [$value];
             $model = $this->field()->getModel();
             $model = new $model;
-            $relationQuery = $model->{$this->field()->getRelationMethod()}()->getRelated();
-            $relationClass = get_class($relationQuery);
-            $relationClass = new $relationClass;
 
-            $query->whereHas($this->field()->getRelationMethod(), function($query) use($value, $relationClass) {
-                if ($this->field()->isMultiple()) {
-                    $query->whereIn($relationClass->getKeyName(), $value);
-                } else {
-                    $query->where($relationClass->getKeyName(), $value);
+            foreach ($this->field()->getRelations() as $index => $relation) {
+                $groupValues = $values;
+                if ($this->field()->isGroupedRelation()) {
+                    $groupValues = [];
+                    foreach ($values as $value) {
+                        list($groupHash, $groupValue) = explode('~~~', $value);
+                        if ($groupHash == crc32($relation['group'])) {
+                            $groupValues[] = $groupValue;
+                        }
+                    }
                 }
-            });
+
+                if ($groupValues) {
+                    $this->applyRelationValues($model, $query, $groupValues, $index);
+                }
+            }
+
             return;
         }
 
@@ -107,5 +154,16 @@ class SelectFilter extends AbstractFilter
             $this->sign,
             $value
         );
+    }
+
+    private function applyRelationValues($model, $query, $values, int $index = 0)
+    {
+        $relationQuery = $model->{$this->field()->getRelationMethod($index)}()->getRelated();
+        $relationClass = get_class($relationQuery);
+        $relationClass = new $relationClass;
+
+        $query->whereHas($this->field()->getRelationMethod($index), function($query) use($values, $relationClass, $relationQuery) {
+            $query->whereIn($relationQuery->getTable() .'.'. $relationClass->getKeyName(), $values);
+        });
     }
 }

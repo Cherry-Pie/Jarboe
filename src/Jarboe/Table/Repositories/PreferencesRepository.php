@@ -8,10 +8,6 @@ class PreferencesRepository
 
     public function saveSearchFilterParams($tableIdentifier, $params)
     {
-        if (!$params) {
-            return;
-        }
-
         $key = sprintf('%s.%s.search', self::PREFIX, $tableIdentifier);
 
         session()->put($key, $params);

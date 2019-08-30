@@ -26,7 +26,7 @@ class Radio extends AbstractField
     {
         if ($this->hasOld()) {
             if ($this->isGroupedRelation()) {
-                $option = crc32($this->relations[$relationIndex]['group']) .'~'. $option;
+                $option = crc32($this->relations[$relationIndex]['group']) .'~~~'. $option;
             }
             return $this->old() == $option;
         }

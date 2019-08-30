@@ -55,6 +55,20 @@
         .smart-form .col-0 {
             display: none;
         }
+
+        .select2-search-choice-close,
+        .select2-selection__clear {
+            display: block;
+            width: 15px;
+        }
+        .select2-selection--multiple .select2-search-choice-close,
+        .select2-selection--multiple .select2-selection__clear {
+            display: block;
+            width: 15px;
+            padding-right: 5px;
+            height: 20px;
+            line-height: 21px;
+        }
         .select2-display-none, .select2-hidden-accessible {
             display: none!important;
         }
