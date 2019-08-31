@@ -16,6 +16,10 @@
         "pragmarx/google2fa": "^5.0",
         "spatie/laravel-permission": "^2.15"
     },
+
+    "require-dev": {
+        "phpunit/phpunit": "~7.0"
+    },
     "autoload": {
        "psr-4": {
             "Yaro\\Jarboe\\": "src/Jarboe"
@@ -23,6 +27,14 @@
         "files": [
             "src/helpers.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Yaro\\Jarboe\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
     },
     "extra": {
         "laravel": {
