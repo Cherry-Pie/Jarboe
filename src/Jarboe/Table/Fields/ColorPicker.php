@@ -33,7 +33,6 @@ class ColorPicker extends AbstractField
                 $this->type = self::HEX;
         }
 
-
         return $this;
     }
 

@@ -25,7 +25,7 @@ class Wysiwyg extends AbstractField
         return is_array($value) ? $value : (string) $value;
     }
 
-    public function type($type = null)
+    public function type(string $type)
     {
         if (in_array($type, $this->allowedTypes)) {
             $this->type = $type;

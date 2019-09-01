@@ -2,7 +2,6 @@
 
 namespace Yaro\Jarboe\Table\Fields;
 
-
 use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\Fields\Traits\Nullable;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;

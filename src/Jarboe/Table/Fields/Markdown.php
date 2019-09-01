@@ -38,5 +38,4 @@ class Markdown extends AbstractField
             'field' => $this,
         ])->render();
     }
-
 }

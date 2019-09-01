@@ -1,15 +1,14 @@
 filter:
     paths:
-        - 'app/*'
-        - 'src/*'
-        - 'tests/*'
+        - 'src/Jarboe/*'
     excluded_paths:
-        - 'bootstrap/*'
-        - 'config/*'
-        - 'public/*'
-        - 'resources/*'
+        - 'src/database/*'
+        - 'src/config/*'
+        - 'src/routes/*'
+        - 'src/resources/*'
+        - 'src/stubs/*'
         - 'vendor/*'
-        - 'views/*'
+        - 'tests/*'
 tools:
     php_analyzer: true
     php_mess_detector: true
