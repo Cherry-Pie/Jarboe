@@ -5,11 +5,12 @@ php:
   - 7.2
   - 7.3
 
-sudo: true
+sudo: false
 
 install: travis_retry composer install --no-interaction --prefer-dist
 
-script: vendor/bin/phpunit --debug --coverage-clover=coverage.clover
+script: vendor/bin/phpunit --verbose
+script: vendor/bin/phpunit --verbose --coverage-clover=coverage.clover
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
