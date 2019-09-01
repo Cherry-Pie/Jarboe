@@ -9,6 +9,8 @@ sudo: false
 
 install: travis_retry composer install --no-interaction --prefer-dist
 
+script: touch coverageclover
+script: file -i coverageclover
 script: vendor/bin/phpunit --coverage-clover=coverageclover
 
 after_script:
