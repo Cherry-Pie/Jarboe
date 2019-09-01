@@ -23,6 +23,11 @@ abstract class AbstractFieldTest extends AbstractBaseTest
         return $this->getFieldWithName();
     }
 
+    protected function getFieldName(): string
+    {
+        return self::NAME;
+    }
+
     /**
      * @test
      */
@@ -252,5 +257,19 @@ abstract class AbstractFieldTest extends AbstractBaseTest
         $field = $this->field();
 
         $this->assertFalse($field->isInline());
+    }
+
+    /**
+     * @test
+     */
+    public function should_skip()
+    {
+        $field = $this->field();
+
+        $this->assertFalse($field->shouldSkip(
+            $this->createRequest([
+                $field->name() => 'value',
+            ]))
+        );
     }
 }

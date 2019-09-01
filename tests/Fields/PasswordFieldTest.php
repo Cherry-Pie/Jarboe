@@ -85,7 +85,7 @@ class PasswordFieldTest extends AbstractFieldTest
     /**
      * @test
      */
-    public function password_should_skip_without_value()
+    public function should_skip()
     {
         $field = $this->field();
 
