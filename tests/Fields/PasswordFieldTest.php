@@ -75,10 +75,10 @@ class PasswordFieldTest extends AbstractFieldTest
 
     /**
      * @test
-     * @expectedException \RuntimeException
      */
     public function password_hash_for_non_existing_function()
     {
+        $this->expectException(\RuntimeException::class);
         $this->field()->hash('non_existing_function');
     }
 

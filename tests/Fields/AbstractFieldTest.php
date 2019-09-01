@@ -25,10 +25,10 @@ abstract class AbstractFieldTest extends AbstractBaseTest
 
     /**
      * @test
-     * @expectedException RuntimeException
      */
     public function check_not_supported_hidden_attribute()
     {
+        $this->expectException(\RuntimeException::class);
         $this->field()->hidden('not_supported');
     }
 
