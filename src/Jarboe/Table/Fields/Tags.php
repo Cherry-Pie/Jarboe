@@ -16,7 +16,7 @@ class Tags extends AbstractField
         return view('jarboe::crud.fields.tags.list', [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getEditFormValue($model)
@@ -26,14 +26,14 @@ class Tags extends AbstractField
         return view('jarboe::crud.fields.tags.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
     {
         return view('jarboe::crud.fields.tags.create', [
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function shouldSkip(Request $request)

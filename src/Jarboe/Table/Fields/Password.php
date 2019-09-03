@@ -57,7 +57,7 @@ class Password extends AbstractField
         return view('jarboe::crud.fields.password.list', [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getEditFormValue($model)
@@ -67,13 +67,13 @@ class Password extends AbstractField
         return view('jarboe::crud.fields.password.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
     {
         return view('jarboe::crud.fields.password.create', [
             'field' => $this,
-        ])->render();
+        ]);
     }
 }

@@ -81,7 +81,7 @@ class Textarea extends AbstractField
         return view('jarboe::crud.fields.textarea.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getEditFormValue($model)
@@ -91,13 +91,13 @@ class Textarea extends AbstractField
         return view('jarboe::crud.fields.textarea.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
     {
         return view('jarboe::crud.fields.textarea.create', [
             'field' => $this,
-        ])->render();
+        ]);
     }
 }

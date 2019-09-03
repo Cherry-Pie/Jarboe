@@ -52,7 +52,7 @@ class File extends AbstractField
         return view('jarboe::crud.fields.file.list', [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getEditFormValue($model)
@@ -62,13 +62,13 @@ class File extends AbstractField
         return view('jarboe::crud.fields.file.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
     {
         return view('jarboe::crud.fields.file.create', [
             'field' => $this,
-        ])->render();
+        ]);
     }
 }

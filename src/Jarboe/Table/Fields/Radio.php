@@ -97,7 +97,7 @@ class Radio extends AbstractField
             'model' => $model,
             'field' => $this,
             'options' => $this->getOptions(),
-        ])->render();
+        ]);
     }
 
     public function getEditFormValue($model)
@@ -107,14 +107,14 @@ class Radio extends AbstractField
         return view('jarboe::crud.fields.radio.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
     {
         return view('jarboe::crud.fields.radio.create', [
             'field' => $this,
-        ])->render();
+        ]);
     }
 
 }

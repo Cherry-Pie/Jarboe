@@ -59,7 +59,7 @@ class RowMarkup extends AbstractField
             'item'     => $model,
             'fields'   => $this->getFields(),
             'rowsLeft' => 12,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
@@ -67,7 +67,7 @@ class RowMarkup extends AbstractField
         return view('jarboe::crud.inc.create_tab', [
             'fields'   => $this->getFields(),
             'rowsLeft' => 12,
-        ])->render();
+        ]);
     }
 
 }

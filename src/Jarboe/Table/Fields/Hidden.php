@@ -28,7 +28,7 @@ class Hidden extends AbstractField
         return view('jarboe::crud.fields.hidden.list', [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getEditFormValue($model)
@@ -38,14 +38,14 @@ class Hidden extends AbstractField
         return view('jarboe::crud.fields.hidden.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
     {
         return view('jarboe::crud.fields.hidden.create', [
             'field' => $this,
-        ])->render();
+        ]);
     }
 
 }

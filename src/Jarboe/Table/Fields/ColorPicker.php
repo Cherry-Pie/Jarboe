@@ -46,7 +46,7 @@ class ColorPicker extends AbstractField
         return view('jarboe::crud.fields.color-picker.list', [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getEditFormValue($model)
@@ -56,13 +56,13 @@ class ColorPicker extends AbstractField
         return view('jarboe::crud.fields.color-picker.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
     {
         return view('jarboe::crud.fields.color-picker.create', [
             'field' => $this,
-        ])->render();
+        ]);
     }
 }

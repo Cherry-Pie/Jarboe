@@ -43,7 +43,7 @@ class Text extends AbstractField
         return view('jarboe::crud.fields.text.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getEditFormValue($model)
@@ -53,7 +53,7 @@ class Text extends AbstractField
         return view('jarboe::crud.fields.text.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
@@ -62,6 +62,6 @@ class Text extends AbstractField
 
         return view('jarboe::crud.fields.text.'. $template, [
             'field' => $this,
-        ])->render();
+        ]);
     }
 }

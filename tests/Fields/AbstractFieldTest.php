@@ -2,7 +2,7 @@
 
 namespace Yaro\Jarboe\Tests\Fields;
 
-use Symfony\Component\Mime\Exception\RuntimeException;
+use Illuminate\View\View;
 use Yaro\Jarboe\Table\Fields\AbstractField;
 use Yaro\Jarboe\Table\Filters\TextFilter;
 use Yaro\Jarboe\Tests\AbstractBaseTest;
@@ -271,5 +271,35 @@ abstract class AbstractFieldTest extends AbstractBaseTest
                 $field->name() => 'value',
             ]))
         );
+    }
+
+    /**
+     * @test
+     */
+    public function check_get_list_value_view()
+    {
+        $field = $this->field();
+
+        $this->assertInstanceOf(View::class, $field->getListValue($this->model()));
+    }
+
+    /**
+     * @test
+     */
+    public function check_get_create_form_value_view()
+    {
+        $field = $this->field();
+
+        $this->assertInstanceOf(View::class, $field->getCreateFormValue());
+    }
+
+    /**
+     * @test
+     */
+    public function check_get_edit_form_value_view()
+    {
+        $field = $this->field();
+
+        $this->assertInstanceOf(View::class, $field->getEditFormValue($this->model()));
     }
 }

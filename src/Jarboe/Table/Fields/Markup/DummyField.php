@@ -25,7 +25,7 @@ class DummyField extends AbstractField
         return view('jarboe::crud.fields.markup.dummy.list', [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getEditFormValue($model)
@@ -35,14 +35,14 @@ class DummyField extends AbstractField
         return view('jarboe::crud.fields.markup.dummy.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
     {
         return view('jarboe::crud.fields.markup.dummy.create', [
             'field' => $this,
-        ])->render();
+        ]);
     }
 
 }

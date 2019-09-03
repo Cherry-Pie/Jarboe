@@ -43,7 +43,7 @@ class Datetime extends AbstractField
         return view('jarboe::crud.fields.datetime.list', [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getEditFormValue($model)
@@ -53,13 +53,13 @@ class Datetime extends AbstractField
         return view('jarboe::crud.fields.datetime.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
     {
         return view('jarboe::crud.fields.datetime.create', [
             'field' => $this,
-        ])->render();
+        ]);
     }
 }

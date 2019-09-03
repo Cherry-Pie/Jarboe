@@ -142,7 +142,7 @@ class Image extends AbstractField
         return view('jarboe::crud.fields.image.list', [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getEditFormValue($model)
@@ -152,7 +152,7 @@ class Image extends AbstractField
         return view('jarboe::crud.fields.image.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
@@ -160,6 +160,6 @@ class Image extends AbstractField
         return view('jarboe::crud.fields.image.create', [
             'model' => null,
             'field' => $this,
-        ])->render();
+        ]);
     }
 }

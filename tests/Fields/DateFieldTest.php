@@ -97,4 +97,13 @@ class DateFieldTest extends AbstractFieldTest
 
         $this->assertEquals(4, $field->getMonths());
     }
+
+    /**
+     * @test
+     */
+    public function check_properties()
+    {
+        $this->assertObjectHasAttribute('months', $this->field());
+        $this->assertObjectHasAttribute('format', $this->field());
+    }
 }

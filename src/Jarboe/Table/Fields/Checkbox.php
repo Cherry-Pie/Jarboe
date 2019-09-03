@@ -26,7 +26,7 @@ class Checkbox extends AbstractField
         return view('jarboe::crud.fields.checkbox.list', [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getEditFormValue($model)
@@ -36,13 +36,13 @@ class Checkbox extends AbstractField
         return view('jarboe::crud.fields.checkbox.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
     {
         return view('jarboe::crud.fields.checkbox.create', [
             'field' => $this,
-        ])->render();
+        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Yaro\Jarboe\Tests\Fields;
 
+use Illuminate\Support\Facades\Hash;
 use Yaro\Jarboe\Table\Fields\AbstractField;
 use Yaro\Jarboe\Table\Fields\Password;
 use Yaro\Jarboe\Tests\Fields\Traits\NullableTests;
@@ -31,13 +32,16 @@ class PasswordFieldTest extends AbstractFieldTest
      */
     public function default_password_hash()
     {
+        $password = 'password';
         $field = $this->field();
 
-        $this->assertEquals(
-            bcrypt('password'),
-            $field->value($this->createRequest([
-                self::NAME => 'password',
-            ]))
+        $this->assertTrue(
+            Hash::check(
+                $password,
+                $field->value($this->createRequest([
+                    self::NAME => $password,
+                ]))
+            )
         );
     }
 

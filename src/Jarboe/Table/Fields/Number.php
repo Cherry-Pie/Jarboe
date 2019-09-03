@@ -34,7 +34,7 @@ class Number extends AbstractField
         return view('jarboe::crud.fields.number.list', [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getEditFormValue($model)
@@ -44,13 +44,13 @@ class Number extends AbstractField
         return view('jarboe::crud.fields.number.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
     {
         return view('jarboe::crud.fields.number.create', [
             'field' => $this,
-        ])->render();
+        ]);
     }
 }

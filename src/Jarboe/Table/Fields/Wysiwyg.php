@@ -49,7 +49,7 @@ class Wysiwyg extends AbstractField
         return view(sprintf('jarboe::crud.fields.wysiwyg.%s.%s', $this->getType(), $template), [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getEditFormValue($model)
@@ -59,13 +59,13 @@ class Wysiwyg extends AbstractField
         return view(sprintf('jarboe::crud.fields.wysiwyg.%s.%s', $this->getType(), $template), [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
     {
         return view(sprintf('jarboe::crud.fields.wysiwyg.%s.create', $this->getType()), [
             'field' => $this,
-        ])->render();
+        ]);
     }
 }

@@ -2,12 +2,20 @@
 
 namespace Yaro\Jarboe\Tests;
 
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Yaro\Jarboe\ServiceProvider as JarboeServiceProvider;
 
-abstract class AbstractBaseTest extends TestCase
+abstract class AbstractBaseTest extends Orchestra
 {
+    protected function getPackageProviders($app)
+    {
+        return [
+            JarboeServiceProvider::class,
+        ];
+    }
+
     protected function createRequest(array $parameters = [])
     {
         $request = new Request();
@@ -26,6 +34,11 @@ abstract class AbstractBaseTest extends TestCase
         ]);
 
         return $request;
+    }
+
+    protected function model()
+    {
+        return new \ArrayObject();
     }
 
     abstract protected function getFieldName(): string;

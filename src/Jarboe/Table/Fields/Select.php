@@ -167,7 +167,7 @@ class Select extends AbstractField
             'model' => $model,
             'field' => $this,
             'options' => $this->getOptions(),
-        ])->render();
+        ]);
     }
 
     public function getEditFormValue($model)
@@ -177,14 +177,14 @@ class Select extends AbstractField
         return view('jarboe::crud.fields.select.'. $template, [
             'model' => $model,
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     public function getCreateFormValue()
     {
         return view('jarboe::crud.fields.select.create', [
             'field' => $this,
-        ])->render();
+        ]);
     }
 
     private function filterValuesForMorphToManyRelation($ids, $relationHash)
