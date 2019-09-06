@@ -109,7 +109,7 @@
                                         @foreach ($crud->getTabs() as $tabTitle => $fields)
                                             <div id="tab-{{ urlify($tabTitle) }}">
                                                 <fieldset>
-                                                    @include('jarboe::crud.inc.edit_tab', [
+                                                    @include('jarboe::crud.inc.edit.tab', [
                                                         'item'     => $item,
                                                         'fields'   => $fields,
                                                         'rowsLeft' => 12,
@@ -120,7 +120,7 @@
                                     </div>
                                 @else
                                     <fieldset>
-                                        @include('jarboe::crud.inc.edit_tab', [
+                                        @include('jarboe::crud.inc.edit.tab', [
                                             'item'     => $item,
                                             'fields'   => $crud->getFields(),
                                             'rowsLeft' => 12,
@@ -128,14 +128,11 @@
                                     </fieldset>
                                 @endif
 
-                                <footer>
-                                    <button type="button" class="btn btn-default" onclick="window.history.back();">
-                                        {{ __('jarboe::common.edit.back') }}
-                                    </button>
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('jarboe::common.edit.submit') }}
-                                    </button>
-                                </footer>
+
+                                @include('jarboe::crud.inc.edit.form_footer', [
+                                    'crud' => $crud,
+                                    'item' => $item,
+                                ])
                             </form>
 
                         </div>

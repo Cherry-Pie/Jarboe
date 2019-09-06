@@ -2,7 +2,7 @@
 @foreach ($fields as $field)
 
     @if ($field->isMarkupRow())
-        @include('jarboe::crud.inc.list_headers', [
+        @include('jarboe::crud.inc.list.headers', [
             'fields' => $field->getFields(),
         ])
     @else

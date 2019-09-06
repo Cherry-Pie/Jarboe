@@ -44,7 +44,7 @@
 
                     -->
                     <header>
-                        @include('jarboe::crud.inc.toolbar_header', [
+                        @include('jarboe::crud.inc.toolbar.header', [
                             'crud'  => $crud,
                             'tools' => $crud->getActiveHeaderToolbarTools(),
                         ])
@@ -56,7 +56,7 @@
                         <!-- widget content -->
                         <div class="widget-body no-padding">
 
-                            @include('jarboe::crud.inc.toolbar_body', [
+                            @include('jarboe::crud.inc.toolbar.body', [
                                 'crud'  => $crud,
                                 'tools' => $crud->getActiveBodyToolbarToolsOnTop(),
                             ])
@@ -88,7 +88,7 @@
                                             </th>
                                             @endif
 
-                                            @include('jarboe::crud.inc.list_headers', [
+                                            @include('jarboe::crud.inc.list.headers', [
                                                 'crud'   => $crud,
                                                 'fields' => $crud->getColumnsAsFields(),
                                             ])
@@ -111,7 +111,7 @@
                                                         <th></th>
                                                     @endif
 
-                                                    @include('jarboe::crud.inc.list_filters', [
+                                                    @include('jarboe::crud.inc.list.filters', [
                                                         'fields' => $crud->getColumnsAsFields(),
                                                     ])
 
@@ -143,7 +143,7 @@
                                                 </td>
                                                 @endif
 
-                                                @include('jarboe::crud.inc.list_row', [
+                                                @include('jarboe::crud.inc.list.row', [
                                                     'item'   => $item,
                                                     'fields' => $crud->getColumnsAsFields(),
                                                 ])
@@ -201,7 +201,7 @@
                                 </div>
                             </div>
 
-                            @include('jarboe::crud.inc.toolbar_body', [
+                            @include('jarboe::crud.inc.toolbar.body', [
                                 'crud'  => $crud,
                                 'tools' => $crud->getActiveBodyToolbarToolsOnBottom(),
                             ])

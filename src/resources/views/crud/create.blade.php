@@ -109,7 +109,7 @@
                                         @foreach ($crud->getTabs() as $tabTitle => $fields)
                                             <div id="tab-{{ urlify($tabTitle) }}">
                                                 <fieldset>
-                                                    @include('jarboe::crud.inc.create_tab', [
+                                                    @include('jarboe::crud.inc.create.tab', [
                                                         'fields'   => $fields,
                                                         'rowsLeft' => 12,
                                                     ])
@@ -119,7 +119,7 @@
                                     </div>
                                 @else
                                     <fieldset>
-                                        @include('jarboe::crud.inc.create_tab', [
+                                        @include('jarboe::crud.inc.create.tab', [
                                             'fields'   => $crud->getFields(),
                                             'rowsLeft' => 12,
                                         ])
@@ -127,15 +127,9 @@
                                 @endif
 
 
-
-                                <footer>
-                                    <button type="button" class="btn btn-default" onclick="window.history.back();">
-                                        {{ __('jarboe::common.create.back') }}
-                                    </button>
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('jarboe::common.create.submit') }}
-                                    </button>
-                                </footer>
+                                @include('jarboe::crud.inc.create.form_footer', [
+                                    'crud' => $crud,
+                                ])
                             </form>
 
                         </div>

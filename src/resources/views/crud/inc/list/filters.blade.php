@@ -2,15 +2,17 @@
 @foreach ($fields as $field)
 
     @if ($field->isMarkupRow())
-        @include('jarboe::crud.inc.list_row', [
-            'item'   => $item,
+        @include('jarboe::crud.inc.list.filters', [
             'fields' => $field->getFields(),
         ])
     @else
         @if ($field->hidden('list'))
             @continue
         @endif
-        <td class="td-field-{{ $field->name() }}">{!! $field->getListValue($item) !!}</td>
+
+        <th class="hasinput th-field-{{ $field->name() }}">
+            {!! !$field->filter() ? '' : $field->filter()->render() !!}
+        </th>
     @endif
 
 @endforeach
