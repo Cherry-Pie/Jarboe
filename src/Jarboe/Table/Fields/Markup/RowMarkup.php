@@ -2,14 +2,12 @@
 
 namespace Yaro\Jarboe\Table\Fields\Markup;
 
-
 use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\AbstractField;
 
 class RowMarkup extends AbstractField
 {
-
     protected $fields = [];
 
     public function fields(array $fields)
@@ -55,7 +53,7 @@ class RowMarkup extends AbstractField
 
     public function getEditFormValue($model)
     {
-        return view('jarboe::crud.inc.edit_tab', [
+        return view('jarboe::crud.inc.edit.tab', [
             'item'     => $model,
             'fields'   => $this->getFields(),
             'rowsLeft' => 12,
@@ -64,10 +62,9 @@ class RowMarkup extends AbstractField
 
     public function getCreateFormValue()
     {
-        return view('jarboe::crud.inc.create_tab', [
+        return view('jarboe::crud.inc.create.tab', [
             'fields'   => $this->getFields(),
             'rowsLeft' => 12,
         ]);
     }
-
 }
