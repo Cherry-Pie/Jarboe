@@ -52,7 +52,12 @@
 @push('scripts')
     <script>
         $('#left-panel nav a').each(function() {
-            if (window.location.href == this.href) {
+            let href = window.location.href;
+            let index = href.indexOf("/~/");
+            if (~index) {
+                href = window.location.href.substring(0, index);
+            }
+            if (this.href.replace(/\/$/, '') == href.replace(/\/$/, '')) {
                 $(this).closest('li').addClass('active');
             }
         });
