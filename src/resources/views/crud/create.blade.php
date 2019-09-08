@@ -167,7 +167,7 @@
         $('#tabs').tabs({
             create: function (event, ui) {
                 // Adjust hashes to not affect URL when clicked.
-                var widget = $tabs.data('uiTabs');
+                var widget = $('#tabs').data('uiTabs');
                 widget.panels.each(function (i) {
                     this.id = 'uiTab_' + this.id;
                     widget.anchors[i].hash = '#' + this.id;
