@@ -17,7 +17,7 @@ class RowMarkup extends AbstractField
         return $this;
     }
 
-    public function getFields()
+    public function getFields(): array
     {
         return $this->fields;
     }

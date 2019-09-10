@@ -2,6 +2,7 @@
 
 namespace Yaro\Jarboe\Tests\Fields\Traits;
 
+use Illuminate\View\View;
 use Yaro\Jarboe\Table\Fields\AbstractField;
 
 trait TranslatableTests
@@ -53,5 +54,17 @@ trait TranslatableTests
         $this->assertFalse($field->isCurrentLocale('de'));
     }
 
+    /**
+     * @test
+     */
+    public function check_get_list_value_translatable_view()
+    {
+        $field = $this->field()->translatable();
+
+        $this->assertInstanceOf(View::class, $field->getListValue($this->model()));
+    }
+
     abstract protected function field(): AbstractField;
+
+    abstract protected function model();
 }

@@ -51,4 +51,25 @@ class ColorPickerFieldTest extends AbstractFieldTest
 
         $this->assertEquals(ColorPicker::HEX, $field->getType());
     }
+
+    /**
+     * @test
+     */
+    public function check_string_value()
+    {
+        $field = $this->field();
+
+        $this->assertIsString($field->value($this->createRequest([
+            $field->name() => 'aa',
+        ])));
+        $this->assertEquals('aa', $field->value($this->createRequest([
+            $field->name() => 'aa',
+        ])));
+        $this->assertIsString($field->value($this->createRequest([
+            $field->name() => 22,
+        ])));
+        $this->assertEquals('22', $field->value($this->createRequest([
+            $field->name() => 22,
+        ])));
+    }
 }

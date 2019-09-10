@@ -2,13 +2,11 @@
 
 namespace Yaro\Jarboe\Table\Fields\Markup;
 
-
 use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\Fields\AbstractField;
 
 class DummyField extends AbstractField
 {
-
     protected $hidden = [
         'list'   => true,
         'edit'   => false,
@@ -44,5 +42,4 @@ class DummyField extends AbstractField
             'field' => $this,
         ]);
     }
-
 }

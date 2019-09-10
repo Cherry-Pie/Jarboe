@@ -302,4 +302,14 @@ abstract class AbstractFieldTest extends AbstractBaseTest
 
         $this->assertInstanceOf(View::class, $field->getEditFormValue($this->model()));
     }
+
+    /**
+     * @test
+     */
+    public function check_is_markup_row()
+    {
+        $field = $this->field();
+
+        $this->assertFalse($field->isMarkupRow());
+    }
 }

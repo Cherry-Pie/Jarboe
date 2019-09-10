@@ -89,6 +89,21 @@ class PasswordFieldTest extends AbstractFieldTest
     /**
      * @test
      */
+    public function raw_password_hash_on_null()
+    {
+        $field = $this->field()->hash(null);
+
+        $this->assertEquals(
+            'password123',
+            $field->value($this->createRequest([
+                self::NAME => 'password123',
+            ]))
+        );
+    }
+
+    /**
+     * @test
+     */
     public function should_skip()
     {
         $field = $this->field();

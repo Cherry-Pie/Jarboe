@@ -6,6 +6,7 @@ use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Yaro\Jarboe\ServiceProvider as JarboeServiceProvider;
+use Yaro\Jarboe\Table\CRUD;
 
 abstract class AbstractBaseTest extends Orchestra
 {
@@ -39,6 +40,11 @@ abstract class AbstractBaseTest extends Orchestra
     protected function model()
     {
         return new \ArrayObject();
+    }
+
+    protected function crud()
+    {
+        return app(CRUD::class);
     }
 
     abstract protected function getFieldName(): string;
