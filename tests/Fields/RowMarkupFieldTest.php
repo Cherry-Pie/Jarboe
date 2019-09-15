@@ -2,6 +2,7 @@
 
 namespace Yaro\Jarboe\Tests\Fields;
 
+use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\AbstractField;
 use Yaro\Jarboe\Table\Fields\Markup\RowMarkup;
 use Yaro\Jarboe\Table\Fields\Text;
@@ -88,5 +89,25 @@ class RowMarkupFieldTest extends AbstractFieldTest
 
         $this->assertIsString($field->getListValue($this->model()));
         $this->assertEmpty($field->getListValue($this->model()));
+    }
+
+    /**
+     * @test
+     */
+    public function check_if_fields_are_prepared_properly()
+    {
+        $this->expectException(\LogicException::class);
+
+        $fieldWithException = new class {
+            public function prepare($crud)
+            {
+                throw new \LogicException();
+            }
+        };
+
+        $field = $this->field()->fields([
+            $fieldWithException,
+        ]);
+        $field->prepare($this->app->make(CRUD::class));
     }
 }

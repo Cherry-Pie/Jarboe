@@ -19,11 +19,21 @@ trait StorageTests
     /**
      * @test
      */
-    public function storage_enabled_multiple()
+    public function storage_disk()
     {
-        $field = $this->field()->multiple();
+        $field = $this->field()->disk('public');
 
-        $this->assertTrue($field->isMultiple());
+        $this->assertEquals('public', $field->getDisk());
+    }
+
+    /**
+     * @test
+     */
+    public function storage_path()
+    {
+        $field = $this->field()->path('path/path');
+
+        $this->assertEquals('path/path', $field->getPath());
     }
 
     abstract protected function field(): AbstractField;

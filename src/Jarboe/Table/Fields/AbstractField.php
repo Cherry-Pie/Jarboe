@@ -326,7 +326,7 @@ abstract class AbstractField implements FieldPropsInterface
 
     public function getPlaceholder()
     {
-        return '';
+        return null;
     }
 
     abstract public function getListValue($model);

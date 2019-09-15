@@ -46,6 +46,4 @@ abstract class AbstractBaseTest extends Orchestra
     {
         return app(CRUD::class);
     }
-
-    abstract protected function getFieldName(): string;
 }

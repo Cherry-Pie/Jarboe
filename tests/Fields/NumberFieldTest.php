@@ -29,4 +29,45 @@ class NumberFieldTest extends AbstractFieldTest
     {
         return Number::make(self::NAME, self::TITLE);
     }
+
+    /**
+     * @test
+     */
+    public function number_check_value()
+    {
+        $field = $this->field();
+
+        $this->assertEquals(0, $field->value($this->createRequest([
+            self::NAME => 0,
+        ])));
+        $this->assertEquals(10, $field->value($this->createRequest([
+            self::NAME => 10,
+        ])));
+
+        $this->assertEquals(0, $field->value($this->createRequest([
+            self::NAME => '0',
+        ])));
+        $this->assertEquals(10, $field->value($this->createRequest([
+            self::NAME => '10',
+        ])));
+        $this->assertEquals(0, $field->value($this->createRequest()));
+
+
+        $field->nullable();
+
+        $this->assertEquals(0, $field->value($this->createRequest([
+            self::NAME => 0,
+        ])));
+        $this->assertEquals(10, $field->value($this->createRequest([
+            self::NAME => 10,
+        ])));
+
+        $this->assertEquals(0, $field->value($this->createRequest([
+            self::NAME => '0',
+        ])));
+        $this->assertEquals(10, $field->value($this->createRequest([
+            self::NAME => '10',
+        ])));
+        $this->assertNull($field->value($this->createRequest()));
+    }
 }

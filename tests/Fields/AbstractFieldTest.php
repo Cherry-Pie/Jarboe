@@ -55,6 +55,17 @@ abstract class AbstractFieldTest extends AbstractBaseTest
         $this->assertTrue($field->hidden('edit'));
         $field->hideCreate(true);
         $this->assertTrue($field->hidden('create'));
+
+
+        $field->hide(true, false, true);
+        $this->assertTrue($field->hidden('edit'));
+        $this->assertFalse($field->hidden('create'));
+        $this->assertTrue($field->hidden('list'));
+
+        $field->hide(false, true, false);
+        $this->assertFalse($field->hidden('edit'));
+        $this->assertTrue($field->hidden('create'));
+        $this->assertFalse($field->hidden('list'));
     }
 
     /**
@@ -311,5 +322,105 @@ abstract class AbstractFieldTest extends AbstractBaseTest
         $field = $this->field();
 
         $this->assertFalse($field->isMarkupRow());
+    }
+
+    /**
+     * @test
+     */
+    public function check_is_relation_field()
+    {
+        $field = $this->field();
+
+        $this->assertFalse($field->isRelationField());
+    }
+
+    /**
+     * @test
+     */
+    public function check_is_multiple_field()
+    {
+        $field = $this->field();
+
+        $this->assertFalse($field->isMultiple());
+    }
+
+    /**
+     * @test
+     */
+    public function check_is_encode_field()
+    {
+        $field = $this->field();
+
+        $this->assertFalse($field->isEncode());
+    }
+
+    /**
+     * @test
+     */
+    public function default_orderable()
+    {
+        $field = $this->field();
+
+        $this->assertFalse($field->isOrderable());
+    }
+
+    /**
+     * @test
+     */
+    public function default_ajax()
+    {
+        $field = $this->field();
+
+        $this->assertFalse($field->isAjax());
+    }
+
+    /**
+     * @test
+     */
+    public function default_clipboard()
+    {
+        $field = $this->field();
+
+        $this->assertFalse($field->hasClipboardButton());
+    }
+
+    /**
+     * @test
+     */
+    public function default_tooltip()
+    {
+        $field = $this->field();
+
+        $this->assertFalse($field->hasTooltip());
+    }
+
+    /**
+     * @test
+     */
+    public function default_mask()
+    {
+        $field = $this->field();
+
+        $this->assertFalse($field->isMaskable());
+    }
+
+    /**
+     * @test
+     */
+    public function default_translatable()
+    {
+        $field = $this->field();
+
+        $this->assertFalse($field->isTranslatable());
+    }
+
+    /**
+     * @test
+     */
+    public function default_placeholder()
+    {
+        $field = $this->field();
+
+        $this->assertNull($field->getPlaceholder());
     }
 }

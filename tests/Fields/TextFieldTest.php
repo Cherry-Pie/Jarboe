@@ -33,4 +33,61 @@ class TextFieldTest extends AbstractFieldTest
     {
         return Text::make(self::NAME, self::TITLE);
     }
+
+    /**
+     * @test
+     */
+    public function text_check_value()
+    {
+        $field = $this->field();
+
+        $this->assertEquals('0', $field->value($this->createRequest([
+            self::NAME => 0,
+        ])));
+        $this->assertIsString($field->value($this->createRequest([
+            self::NAME => 0,
+        ])));
+        $this->assertEquals('10', $field->value($this->createRequest([
+            self::NAME => 10,
+        ])));
+        $this->assertIsString($field->value($this->createRequest([
+            self::NAME => 10,
+        ])));
+        $this->assertEquals('', $field->value($this->createRequest()));
+        $this->assertIsString($field->value($this->createRequest()));
+
+        $this->assertEquals(
+            [
+                'en' => 'value'
+            ],
+            $field->value($this->createRequest([
+                self::NAME => [
+                    'en' => 'value'
+                ],
+            ]))
+        );
+        $this->assertIsArray($field->value($this->createRequest([
+            self::NAME => [
+                'en' => 'value'
+            ],
+        ])));
+
+
+        $field->nullable();
+
+        $this->assertEquals('10', $field->value($this->createRequest([
+            self::NAME => '10',
+        ])));
+        $this->assertEquals('10', $field->value($this->createRequest([
+            self::NAME => 10,
+        ])));
+
+        $this->assertNull($field->value($this->createRequest([
+            self::NAME => '0',
+        ])));
+        $this->assertNull($field->value($this->createRequest([
+            self::NAME => 0,
+        ])));
+        $this->assertNull($field->value($this->createRequest()));
+    }
 }
