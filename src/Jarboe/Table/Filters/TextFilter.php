@@ -38,7 +38,7 @@ class TextFilter extends AbstractFilter
         $sign      = array_filter($this->like) ? 'like' : $this->sign;
 
         if ($this->field()->isRelationField()) {
-            $query->whereHas($this->field()->getRelationMethod(), function($query) use($value, $sign, $leftPart, $rightPart) {
+            $query->whereHas($this->field()->getRelationMethod(), function ($query) use ($value, $sign, $leftPart, $rightPart) {
                 $query->where(
                     $this->field()->getRelationTitleField(),
                     $sign,

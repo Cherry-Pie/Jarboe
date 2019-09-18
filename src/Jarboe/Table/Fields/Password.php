@@ -31,7 +31,7 @@ class Password extends AbstractField
 
         // dummy
         if (is_null($hash)) {
-            $this->hash = function($value) {
+            $this->hash = function ($value) {
                 return $value;
             };
             return $this;

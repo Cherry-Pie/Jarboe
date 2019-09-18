@@ -39,5 +39,4 @@ class IconPicker extends AbstractField
             'field' => $this,
         ]);
     }
-
 }
