@@ -9,9 +9,8 @@ sudo: false
 
 install: travis_retry composer install --no-interaction --prefer-dist
 
-script: touch coverageclover && file -i coverageclover && vendor/bin/phpunit --coverage-clover=coverageclover
+script: vendor/bin/phpunit --coverage-clover=coverage.clover
 
 after_script:
-  - cat coverageclover
   - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover coverageclover
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
