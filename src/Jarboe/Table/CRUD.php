@@ -351,7 +351,7 @@ class CRUD
 
     public function getPerPageParam()
     {
-        $this->preferences()->getPerPageParam($this->tableIdentifier());
+        return $this->preferences()->getPerPageParam($this->tableIdentifier());
     }
 
     public function setPerPageParam($perPage)
