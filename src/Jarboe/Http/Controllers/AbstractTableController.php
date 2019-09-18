@@ -858,7 +858,7 @@ abstract class AbstractTableController
             $id = $arguments[1] ?? $arguments[0];
         }
 
-//        try {
+        try {
             switch ($name) {
                 case 'list':
                     return $this->handleList($request);
@@ -884,14 +884,14 @@ abstract class AbstractTableController
                 default:
                     throw new \RuntimeException('Invalid method ' . $name);
             }
-//        } catch (ValidationException $e) {
-//            throw $e;
-//        } catch(UnauthorizedException $e) {
-//            return $this->createUnauthorizedResponse($request, $e);
-//        } catch (\Exception $e) {
-//            $this->notifyBigDanger(get_class($e), $e->getMessage(), 0);
-//            return redirect()->back()->withInput($request->input());
-//        }
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch(UnauthorizedException $e) {
+            return $this->createUnauthorizedResponse($request, $e);
+        } catch (\Exception $e) {
+            $this->notifyBigDanger(get_class($e), $e->getMessage(), 0);
+            return redirect()->back()->withInput($request->input());
+        }
     }
 
     /**
