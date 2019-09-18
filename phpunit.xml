@@ -17,9 +17,30 @@
     <filter>
         <whitelist>
             <directory suffix=".php">./src/Jarboe</directory>
+            <exclude>
+                <directory suffix=".php">./src/config</directory>
+                <directory suffix=".php">./src/database</directory>
+                <directory suffix=".php">./src/resources</directory>
+                <directory suffix=".php">./src/routes</directory>
+                <directory suffix=".php">./src/stubs</directory>
+                <directory suffix=".php">./src/Jarboe/Console</directory>
+                <directory suffix=".php">./src/Jarboe/Etc</directory>
+                <directory suffix=".php">./src/Jarboe/Exceptions</directory>
+                <directory suffix=".php">./src/Jarboe/Facades</directory>
+                <directory suffix=".php">./src/Jarboe/Helpers</directory>
+                <directory suffix=".php">./src/Jarboe/Models</directory>
+                <directory suffix=".php">./src/Jarboe/Http/Middleware</directory>
+                <directory suffix=".php">./src/Jarboe/Http/Requests</directory>
+                <file>./src/Jarboe/Http/Controllers/AdminsController.php</file>
+                <file>./src/Jarboe/Http/Controllers/AdminsRolesController.php</file>
+                <file>./src/Jarboe/Http/Controllers/AuthController.php</file>
+                <file>./src/Jarboe/Http/Controllers/CommonController.php</file>
+                <file>./src/Jarboe/Http/Controllers/DashboardController.php</file>
+            </exclude>
         </whitelist>
     </filter>
     <php>
+        <env name="APP_ENV" value="testing"/>
         <env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
     </php>
 </phpunit>

@@ -858,7 +858,7 @@ abstract class AbstractTableController
             $id = $arguments[1] ?? $arguments[0];
         }
 
-        try {
+//        try {
             switch ($name) {
                 case 'list':
                     return $this->handleList($request);
@@ -884,16 +884,14 @@ abstract class AbstractTableController
                 default:
                     throw new \RuntimeException('Invalid method ' . $name);
             }
-        } catch (ValidationException $e) {
-            throw $e;
-        } catch(UnauthorizedException $e) {
-            return $this->createUnauthorizedResponse($request, $e);
-        } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->withInput($request->input())
-                ->withErrors($e->getMessage());
-        }
+//        } catch (ValidationException $e) {
+//            throw $e;
+//        } catch(UnauthorizedException $e) {
+//            return $this->createUnauthorizedResponse($request, $e);
+//        } catch (\Exception $e) {
+//            $this->notifyBigDanger(get_class($e), $e->getMessage(), 0);
+//            return redirect()->back()->withInput($request->input());
+//        }
     }
 
     /**
@@ -919,10 +917,10 @@ abstract class AbstractTableController
 
     /**
      * Create response for unauthorized request.
-     * 
+     *
      * @param Request $request
      * @param UnauthorizedException $exception
-     * @return $this|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     protected function createUnauthorizedResponse(Request $request, UnauthorizedException $exception)
     {

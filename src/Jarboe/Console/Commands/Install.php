@@ -3,6 +3,7 @@
 namespace Yaro\Jarboe\Console\Commands;
 
 use Illuminate\Console\Command;
+use SplFileObject;
 
 class Install extends Command
 {
@@ -32,6 +33,10 @@ class Install extends Command
         $this->copyNavigationView();
         $this->copyMigrationFiles();
         $this->copyThirdPartyMigrationFiles();
+
+        if ($this->confirm("Add admin's guard and provider to auth config file?")) {
+            $this->addAdminsGuardToConfigFile();
+        }
 
         if ($this->confirm('Run migrations?')) {
             $this->call('migrate');
@@ -69,17 +74,17 @@ class Install extends Command
             return;
         }
 
-        $name = date('Y_m_d_His') .'_create_admins_table.php';
+        $name = date('Y_m_d_His') . '_create_admins_table.php';
         shell_exec(sprintf(
             'cp "%s" "%s"',
             base_path('vendor/yaro/jarboe/src/database/migrations/2018_06_28_152903_create_admins_table.php'),
-            database_path('migrations/'. $name)
+            database_path('migrations/' . $name)
         ));
     }
 
     private function isMigrationFilesExist()
     {
-        return (bool) glob(database_path('migrations/*_create_admins_table.php'));
+        return (bool)glob(database_path('migrations/*_create_admins_table.php'));
     }
 
     private function copyThirdPartyMigrationFiles()
@@ -102,7 +107,7 @@ class Install extends Command
 
     private function isThirdPartyMigrationFilesExist()
     {
-        return (bool) glob(database_path('migrations/*_create_permission_tables.php'));
+        return (bool)glob(database_path('migrations/*_create_permission_tables.php'));
     }
 
     private function publishAssets()
@@ -132,7 +137,7 @@ class Install extends Command
             $this->comment('  - already exists');
             return;
         }
-        
+
         $this->call('vendor:publish', [
             '--provider' => "Yaro\Jarboe\ServiceProvider",
             '--tag' => 'config',
@@ -142,5 +147,48 @@ class Install extends Command
     private function isConfigsPublished()
     {
         return file_exists(config_path('jarboe'));
+    }
+
+    private function addAdminsGuardToConfigFile()
+    {
+        $shouldAddGuardsSection = true;
+        if (config('auth.guards.admin')) {
+            $shouldAddGuardsSection = false;
+            $this->comment('  - guard [admin] already exist');
+        }
+
+        $shouldAddProvidersSection = true;
+        if (config('auth.guards.providers.admins')) {
+            $shouldAddProvidersSection = false;
+            $this->comment('  - provider [admins] already exist');
+        }
+
+        if (!$shouldAddGuardsSection && !$shouldAddProvidersSection) {
+            return;
+        }
+
+        $configFile = config_path('auth.php');
+
+        $output = '';
+        $file = new SplFileObject($configFile, 'r');
+        foreach ($file as $lineNumber => $line) {
+            $output .= $line;
+            if ($line == "    'guards' => [\n" && $shouldAddGuardsSection) {
+                $output .= "        'admin' => [\n";
+                $output .= "            'driver' => 'session',\n";
+                $output .= "            'provider' => 'admins',\n";
+                $output .= "        ],\n\n";
+            }
+
+            if ($line == "    'providers' => [\n" && $shouldAddProvidersSection) {
+                $output .= "        'admins' => [\n";
+                $output .= "            'driver' => 'eloquent',\n";
+                $output .= "            'model' => \Yaro\Jarboe\Models\Admin::class,\n";
+                $output .= "        ],\n\n";
+            }
+        }
+
+        $file = new SplFileObject($configFile, 'w+');
+        $file->fwrite($output);
     }
 }
