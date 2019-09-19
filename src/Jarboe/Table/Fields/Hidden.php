@@ -47,5 +47,4 @@ class Hidden extends AbstractField
             'field' => $this,
         ]);
     }
-
 }

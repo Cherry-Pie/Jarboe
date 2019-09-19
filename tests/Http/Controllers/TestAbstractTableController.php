@@ -13,7 +13,7 @@ class TestAbstractTableController extends AbstractTableController
     {
         $this->setModel(Model::class);
         $this->softDeletes();
-        $this->filter(function($model) {
+        $this->filter(function ($model) {
             $model->withTrashed();
         });
 

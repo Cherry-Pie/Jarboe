@@ -187,13 +187,12 @@ class AbstractTableControllerTest extends AbstractBaseTest
             new ShowHideColumnsTool(),
             new MassDeleteTool(),
         ];
-        $controller = new class extends AbstractTableController
-        {
+        $controller = new class extends AbstractTableController {
             public function init()
             {
                 $this->setModel(Model::class);
                 $this->softDeletes();
-                $this->filter(function($model) {
+                $this->filter(function ($model) {
                     $model->withTrashed();
                 });
 
@@ -241,13 +240,12 @@ class AbstractTableControllerTest extends AbstractBaseTest
     public function add_tool_helper()
     {
         $tool = new ShowHideColumnsTool();
-        $controller = new class extends AbstractTableController
-        {
+        $controller = new class extends AbstractTableController {
             public function init()
             {
                 $this->setModel(Model::class);
                 $this->softDeletes();
-                $this->filter(function($model) {
+                $this->filter(function ($model) {
                     $model->withTrashed();
                 });
 

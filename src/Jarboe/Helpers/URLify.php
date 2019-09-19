@@ -932,7 +932,7 @@ class URLify
         if (preg_match_all(self::$regex, $text, $matches)) {
             for ($i = 0; $i < count($matches[0]); $i++) {
                 $char = $matches[0][$i];
-                if (isset (self::$map[$char])) {
+                if (isset(self::$map[$char])) {
                     $text = str_replace($char, self::$map[$char], $text);
                 }
             }

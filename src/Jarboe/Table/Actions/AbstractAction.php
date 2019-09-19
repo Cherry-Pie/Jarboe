@@ -13,7 +13,7 @@ abstract class AbstractAction implements ActionInterface
 
     public function __construct()
     {
-        $this->checkClosure = function() {
+        $this->checkClosure = function () {
             return true;
         };
     }

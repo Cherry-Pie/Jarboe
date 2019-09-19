@@ -2,7 +2,6 @@
 
 namespace Yaro\Jarboe\Table\Fields\Interfaces;
 
-
 interface FieldPropsInterface
 {
     public function isEncode();

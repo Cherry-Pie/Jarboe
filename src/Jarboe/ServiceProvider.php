@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Yaro\Jarboe;
 
@@ -10,12 +10,12 @@ use Yaro\Jarboe\Console\Commands\Install;
 use Yaro\Jarboe\Console\Commands\Make\Tool as MakeTool;
 use Yaro\Jarboe\Helpers\Locale;
 
-class ServiceProvider extends IlluminateServiceProvider 
+class ServiceProvider extends IlluminateServiceProvider
 {
 
     /**
      * A list of artisan commands
-     * 
+     *
      * @var array
      */
     protected $commands = [
@@ -69,7 +69,7 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/crud.php', 'jarboe.crud');
         $this->mergeConfigFrom(__DIR__.'/../config/locales.php', 'jarboe.locales');
 
-        $this->app->singleton('jarboe', function($app) {
+        $this->app->singleton('jarboe', function ($app) {
             return new Jarboe();
         });
 
@@ -123,7 +123,7 @@ class ServiceProvider extends IlluminateServiceProvider
 
     private function initFallbackRoute()
     {
-        $this->app->booted(function() {
+        $this->app->booted(function () {
             $router = $this->app->get('router');
             $router->group(app('jarboe')->routeGroupOptions(), function () use ($router) {
                 $router->get('{any}', function () {

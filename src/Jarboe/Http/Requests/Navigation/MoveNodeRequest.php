@@ -2,7 +2,6 @@
 
 namespace Yaro\Jarboe\Http\Requests\Navigation;
 
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class MoveNodeRequest extends FormRequest
@@ -32,5 +31,4 @@ class MoveNodeRequest extends FormRequest
             'right_id' => '',
         ];
     }
-
 }
