@@ -45,7 +45,7 @@ class PreferencesRepository
 
     public function getCurrentLocale($tableIdentifier)
     {
-        $key = sprintf('%s.%s.locale',self::PREFIX, $tableIdentifier);
+        $key = sprintf('%s.%s.locale', self::PREFIX, $tableIdentifier);
 
         return session($key);
     }

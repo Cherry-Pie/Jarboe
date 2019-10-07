@@ -39,7 +39,7 @@ trait ClipboardTests
     public function enable_clipboard_with_closure_for_caption()
     {
         $model = null;
-        $field = $this->field()->clipboard(true, function($model) {
+        $field = $this->field()->clipboard(true, function ($model) {
             return 22;
         });
 

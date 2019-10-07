@@ -2,7 +2,6 @@
 
 namespace Yaro\Jarboe\Table\Filters;
 
-
 class CheckboxFilter extends AbstractFilter
 {
     const NO_INPUT_APPLIED = '__jarboe-no-search-input-applied';

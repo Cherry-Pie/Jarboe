@@ -9,9 +9,13 @@ class Registry
     private $styles   = [];
     private $scripts  = [];
 
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 
-    private function __clone() {}
+    private function __clone()
+    {
+    }
 
     private static function getInstance()
     {

@@ -49,7 +49,7 @@ class Tool extends Command
         $filepath = app_path(sprintf('Jarboe/Toolbar/%s.php', $className));
 
         if (!File::exists(app_path('Jarboe/Toolbar'))) {
-            File::makeDirectory(app_path('Jarboe/Toolbar'),0775,true,false);
+            File::makeDirectory(app_path('Jarboe/Toolbar'), 0775, true, false);
         }
         File::put($filepath, $tool);
 

@@ -132,7 +132,7 @@ abstract class AbstractTableController
         if ($field->isGroupedRelation()) {
             foreach ($field->getRelations() as $index => $group) {
                 $options = $field->getOptions($page, $perPage, $query, $total, $index);
-                array_walk($options, function(&$item, $key) use($group) {
+                array_walk($options, function (&$item, $key) use ($group) {
                     $item = [
                         'id'   => crc32($group['group']) .'~~~'. $key,
                         'text' => $item,
@@ -147,7 +147,7 @@ abstract class AbstractTableController
             }
         } else {
             $results = $field->getOptions($page, $perPage, $query, $total);
-            array_walk($results, function(&$item, $key) {
+            array_walk($results, function (&$item, $key) {
                 $item = [
                     'id'   => $key,
                     'text' => $item,
@@ -259,7 +259,7 @@ abstract class AbstractTableController
 
     /**
      * Get validation data for inline field.
-     * 
+     *
      * @param Request $request
      * @param $name
      * @return array
@@ -886,7 +886,7 @@ abstract class AbstractTableController
             }
         } catch (ValidationException $e) {
             throw $e;
-        } catch(UnauthorizedException $e) {
+        } catch (UnauthorizedException $e) {
             return $this->createUnauthorizedResponse($request, $e);
         } catch (\Exception $e) {
             $this->notifyBigDanger(get_class($e), $e->getMessage(), 0);

@@ -162,7 +162,7 @@ class SelectFilter extends AbstractFilter
         $relationClass = get_class($relationQuery);
         $relationClass = new $relationClass;
 
-        $query->whereHas($this->field()->getRelationMethod($index), function($query) use($values, $relationClass, $relationQuery) {
+        $query->whereHas($this->field()->getRelationMethod($index), function ($query) use ($values, $relationClass, $relationQuery) {
             $query->whereIn($relationQuery->getTable() .'.'. $relationClass->getKeyName(), $values);
         });
     }

@@ -199,5 +199,4 @@ class Select extends AbstractField
 
         return $filtered;
     }
-
 }

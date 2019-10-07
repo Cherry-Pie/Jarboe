@@ -77,5 +77,4 @@ class CreateNavigationsTable extends Migration
     {
         Schema::drop('admin_panel_navigation');
     }
-
 }
