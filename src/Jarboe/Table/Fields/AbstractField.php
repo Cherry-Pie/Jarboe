@@ -187,7 +187,7 @@ abstract class AbstractField implements FieldPropsInterface
         }
 
         if ($this->isTranslatable()) {
-            return $model->getTranslation($this->name(), $locale) ?: $default;
+            return $model->getTranslation($this->name(), $locale, false) ?: $default;
         }
         return $model->{$this->name()} ?: $default;
     }
@@ -195,7 +195,7 @@ abstract class AbstractField implements FieldPropsInterface
     public function getAttribute($model, $locale = null)
     {
         if ($locale && $this->isTranslatable()) {
-            return $model->getTranslation($this->name(), $locale);
+            return $model->getTranslation($this->name(), $locale, false);
         }
 
         return $model->{$this->name()};

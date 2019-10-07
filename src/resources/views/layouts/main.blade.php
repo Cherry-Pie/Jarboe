@@ -401,6 +401,25 @@
     $(document).ready(function() {
         pageSetUp();
     });
+
+
+    const Jarboe =
+    {
+        initers: {},
+        add: function(name, initer) {
+            if (!this.initers[name]) {
+                this.initers[name] = [];
+            }
+            this.initers[name].push(initer);
+        },
+        init: function(name) {
+            if (this.initers[name]) {
+                for (initer of this.initers[name]) {
+                    initer();
+                }
+            }
+        }
+    };
 </script>
 
 

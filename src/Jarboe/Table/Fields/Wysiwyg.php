@@ -12,10 +12,12 @@ class Wysiwyg extends AbstractField
     use Translatable;
 
     const SUMMERNOTE = 'summernote';
+    const TINYMCE = 'tinymce';
 
     protected $type = self::SUMMERNOTE;
     protected $allowedTypes = [
         self::SUMMERNOTE,
+        self::TINYMCE,
     ];
 
     public function value(Request $request)

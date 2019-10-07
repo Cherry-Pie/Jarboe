@@ -53,38 +53,35 @@
 
 @push('scripts')
     <script>
-      $(document).ready(function () {
-        var $field_{{ $field->name() }}_{{ $locale }} = $('.summernote-{{ $field->name() }}-{{ $locale }}-content');
-        $('.summernote-{{ $field->name() }}-{{ $locale }}').summernote({
-          height: 200,
-          codemirror: {
-            theme: 'monokai'
-          },
-          toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'italic', 'underline', 'clear']],
-            ['fontname', ['fontname']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']],
-            ['table', ['table']],
-            ['insert', ['link', 'picture', 'hr']],
-            ['view', ['codeview', 'fullscreen']]
-          ],
-          callbacks: {
-            onInit: function (e) {
-              $('.summernote-{{ $field->name() }}-{{ $locale }}').summernote('code', $field_{{ $field->name() }}_{{ $locale }}.val());
-              @if ($field->isReadonly())
-                $('.summernote-{{ $field->name() }}-{{ $locale }}').summernote('disable');
-              @endif
-            },
-            @if (!$field->isReadonly())
-              onBlur: function (e) {
-                $field_{{ $field->name() }}_{{ $locale }}.val($('.summernote-{{ $field->name() }}-{{ $locale }}').summernote('code'));
-              },
-            @endif
-          }
+        Jarboe.add('{{ $field->name() }}', function() {
+            $('.summernote-{{ $field->name() }}-{{ $locale }}').summernote({
+                height: 200,
+                codemirror: {
+                    theme: 'monokai'
+                },
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'hr']],
+                    ['view', ['codeview', 'fullscreen']]
+                ],
+                callbacks: {
+                    onInit: function (e) {
+                        @if ($field->isReadonly())
+                        $(this).summernote('disable');
+                        @endif
+                    },
+                }
+            });
+        }, '{{ $locale }}');
+
+        $(document).ready(function () {
+            Jarboe.init('{{ $field->name() }}', '{{ $locale }}');
         });
-      });
     </script>
 @endpush
