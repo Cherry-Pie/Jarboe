@@ -3,7 +3,7 @@
         <select name="search[{{ $filter->field()->name() }}]{{ $filter->isMultiple() ? '[]' : '' }}"
                 {{ $filter->isMultiple() ? 'multiple' : '' }}
                 class="custom-scroll form-control {{ $filter->field()->isSelect2Type() ? 'select2'.$filter->field()->name() : '' }}">
-            @if (!$filter->field()->isSelect2Type() && !$filter->isMultiple())
+            @if (!$filter->isMultiple())
                 <option value="{{ $desearch }}">{{ __('jarboe::fields.select.no_filter_value') }}</option>
             @endif
 
@@ -25,6 +25,7 @@
                     @if ($filter->isNullable())
                         <option value="">{{ __('jarboe::fields.select.none') }}</option>
                     @endif
+
                     @foreach ($filter->field()->getOptions() as $option => $title)
                         <option {{ in_array($option, $values) ? 'selected' : '' }} value="{{ $option }}">{{ $title }}</option>
                     @endforeach

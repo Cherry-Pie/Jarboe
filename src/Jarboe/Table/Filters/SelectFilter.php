@@ -13,10 +13,10 @@ class SelectFilter extends AbstractFilter
     public function render()
     {
         $value = $this->value();
-        if ($this->isMultiple()) {
-            $value = $value ?: [];
+        $values = [];
+        if ($value !== self::NO_INPUT_APPLIED) {
+            $values = is_array($value) ? $value : [$value];
         }
-        $values = is_array($value) ? $value : [$value];
 
         return view('jarboe::crud.filters.select', [
             'filter' => $this,
@@ -88,6 +88,7 @@ class SelectFilter extends AbstractFilter
     {
         $value = $this->value();
         $values = is_array($value) ? $value : [$value];
+        $values = array_filter($values);
 
         $options = [];
         foreach ($this->field()->getRelations() as $index => $relation) {
