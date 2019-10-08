@@ -4,11 +4,9 @@
 @push('scripts')
     <script>
         Jarboe.add('{{ $field->name() }}', function() {
-            tinymce.init({
-                selector: '.tinymce-{{ $field->name() }}-{{ $locale }}',
-                plugins: "code table lists autoresize",
-                toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | fontsizeselect | code | table",
-            });
+            let options = {!! json_encode($field->getOptions()) !!};
+            options.selector = '.tinymce-{{ $field->name() }}-{{ $locale }}';
+            tinymce.init(options);
         }, '{{ $locale }}');
 
         $(document).ready(function () {

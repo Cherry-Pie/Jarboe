@@ -85,9 +85,9 @@ class WysiwygFieldTest extends AbstractFieldTest
      */
     public function wysiwyg_changed_type()
     {
-        $field = $this->field()->type(Wysiwyg::SUMMERNOTE);
+        $field = $this->field()->type(Wysiwyg::TINYMCE);
 
-        $this->assertEquals(Wysiwyg::SUMMERNOTE, $field->getType());
+        $this->assertEquals(Wysiwyg::TINYMCE, $field->getType());
     }
 
     /**
@@ -98,5 +98,30 @@ class WysiwygFieldTest extends AbstractFieldTest
         $field = $this->field()->type('unsupported_type');
 
         $this->assertEquals(Wysiwyg::SUMMERNOTE, $field->getType());
+    }
+
+    /**
+     * @test
+     */
+    public function wysiwyg_check_options()
+    {
+        /** @var Wysiwyg $field */
+        $field = $this->field()->type(Wysiwyg::SUMMERNOTE);
+
+        $this->assertIsArray($field->getOptions());
+        $this->assertNotEmpty($field->getOptions());
+
+        /** @var Wysiwyg $field */
+        $field = $this->field()->type(Wysiwyg::TINYMCE);
+
+        $this->assertIsArray($field->getOptions());
+        $this->assertNotEmpty($field->getOptions());
+
+        $options = [
+            'menubar' => false,
+            'plugins' => 'code table lists autoresize link',
+            'toolbar' => 'undo redo | bold italic | link | numlist bullist | table | styleselect | removeformat | code',
+        ];
+        $this->assertEquals($options, $field->options($options)->getOptions());
     }
 }

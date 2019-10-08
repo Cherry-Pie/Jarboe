@@ -54,30 +54,15 @@
 @push('scripts')
     <script>
         Jarboe.add('{{ $field->name() }}', function() {
-            $('.summernote-{{ $field->name() }}-{{ $locale }}').summernote({
-                height: 200,
-                codemirror: {
-                    theme: 'monokai'
+            let options = {!! json_encode($field->getOptions()) !!};
+            options.callbacks = {
+                onInit: function (e) {
+                    @if ($field->isReadonly())
+                    $(this).summernote('disable');
+                    @endif
                 },
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'italic', 'underline', 'clear']],
-                    ['fontname', ['fontname']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['height', ['height']],
-                    ['table', ['table']],
-                    ['insert', ['link', 'picture', 'hr']],
-                    ['view', ['codeview', 'fullscreen']]
-                ],
-                callbacks: {
-                    onInit: function (e) {
-                        @if ($field->isReadonly())
-                        $(this).summernote('disable');
-                        @endif
-                    },
-                }
-            });
+            };
+            $('.summernote-{{ $field->name() }}-{{ $locale }}').summernote(options);
         }, '{{ $locale }}');
 
         $(document).ready(function () {
