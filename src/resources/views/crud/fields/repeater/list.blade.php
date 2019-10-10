@@ -1,0 +1,2 @@
+
+@dump($repeater->getAttribute($model))
