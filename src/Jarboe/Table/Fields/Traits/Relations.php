@@ -2,6 +2,7 @@
 
 namespace Yaro\Jarboe\Table\Fields\Traits;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -110,24 +111,29 @@ trait Relations
         return $options;
     }
 
-    protected function getRelatedList($relationClass, $value, $ids)
+    protected function getRelatedList($relationClass, $value, $ids): array
     {
-        $relatedList = [];
-        if ($this->isMultiple()) {
-            if ($ids) {
-                $relatedModels = $relationClass->whereIn($relationClass->getKeyName(), $ids)->get();
-                foreach ($relatedModels as $relatedModel) {
-                    $relatedList[] = $relatedModel;
-                }
-            }
-        } else {
-            $relatedList[] = $relationClass->find($value);
+        if (!$this->isMultiple()) {
+            return [$relationClass->find($value)];
         }
-        $relatedList = array_filter($relatedList);
 
-        return $relatedList;
+        if (!$ids) {
+            return [];
+        }
+
+        $relatedList = [];
+        $relatedModels = $relationClass->whereIn($relationClass->getKeyName(), $ids)->get();
+        foreach ($relatedModels as $relatedModel) {
+            $relatedList[] = $relatedModel;
+        }
+
+        return array_filter($relatedList);
     }
 
+    /**
+     * @param Model $model
+     * @param $value
+     */
     public function syncRelations($model, $value)
     {
         foreach ($this->relations as $index => $relation) {
@@ -172,10 +178,13 @@ trait Relations
                     break;
                 case BelongsTo::class:
                 case MorphTo::class:
+                    $model->{$this->getRelationMethod($index)}()->dissociate();
+
                     $relatedList = $this->getRelatedList($relationClass, $value, $ids);
                     foreach ($relatedList as $relatedModel) {
-                        $model->{$this->getRelationMethod($index)}()->associate($relatedModel)->save();
+                        $model->{$this->getRelationMethod($index)}()->associate($relatedModel);
                     }
+                    $model->save();
                     break;
                 case HasOne::class:
                     $model->{$this->getRelationMethod($index)}()->update([
