@@ -114,7 +114,9 @@ trait Relations
     protected function getRelatedList($relationClass, $value, $ids): array
     {
         if (!$this->isMultiple()) {
-            return [$relationClass->find($value)];
+            return array_filter([
+                $relationClass->find($value)
+            ]);
         }
 
         if (!$ids) {
@@ -159,7 +161,9 @@ trait Relations
                     ]);
 
                     $relatedList = $this->getRelatedList($relationClass, $value, $ids);
-                    $model->{$this->getRelationMethod($index)}()->saveMany($relatedList);
+                    if ($relatedList) {
+                        $model->{$this->getRelationMethod($index)}()->saveMany($relatedList);
+                    }
                     break;
                 case MorphToMany::class:
                     if ($relation['group']) { // is morphedByMany
