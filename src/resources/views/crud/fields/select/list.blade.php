@@ -13,14 +13,10 @@
             @endif
         @endforeach
     @else
-        @if ($field->isMultiple())
-            @foreach($model->{$field->getRelationMethod()} as $relatedModel)
-                {{ $relatedModel->{$field->getRelationTitleField()} }}
-                <br>
-            @endforeach
-        @else
-            {{ $model && $model->{$field->getRelationMethod()} ? $model->{$field->getRelationMethod()}->{$field->getRelationTitleField()} : '' }}
-        @endif
+        @foreach (collect(array_wrap($model->{$field->getRelationMethod()}))->filter() as $relatedModel)
+            {{ $relatedModel->{$field->getRelationTitleField()} }}
+            <br>
+        @endforeach
     @endif
 
 @else

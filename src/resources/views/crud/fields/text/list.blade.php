@@ -26,6 +26,7 @@
                 name: '{{ $field->name() }}',
                 title: '{{ $field->title() }}',
                 placeholder: "{{ $field->getPlaceholder() }}",
+                tpl: '<input {!! $field->hasMaxlength() ? 'maxlength="'.$field->getMaxlength().'"' : '' !!} type="text">',
                 params: function(params) {
                     var data = {};
                     data['_pk'] = params.pk;

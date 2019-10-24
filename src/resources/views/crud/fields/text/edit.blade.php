@@ -11,6 +11,9 @@
             <label class="input {{ $errors->has($field->name() .'.'. $locale) ? 'state-error' : '' }}">
                 @include('jarboe::crud.fields.text.inc.tooltip_icon')
                 <input type="text"
+                       @if ($field->hasMaxlength())
+                           maxlength="{{ $field->getMaxlength() }}"
+                       @endif
                        @if ($field->isMaskable())
                            data-mask="{{ $field->getMaskPattern() }}"
                            data-mask-placeholder="{{ $field->getMaskPlaceholder() }}"
@@ -30,6 +33,9 @@
     <label class="input {{ $errors->has($field->name()) ? 'state-error' : '' }}">
         @include('jarboe::crud.fields.text.inc.tooltip_icon')
         <input type="text"
+               @if ($field->hasMaxlength())
+                   maxlength="{{ $field->getMaxlength() }}"
+               @endif
                @if ($field->isMaskable())
                    data-mask="{{ $field->getMaskPattern() }}"
                    data-mask-placeholder="{{ $field->getMaskPlaceholder() }}"
