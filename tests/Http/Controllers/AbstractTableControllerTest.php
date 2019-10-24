@@ -76,7 +76,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $magicRedirect = $this->controller->search($this->createRequest());
 
         $this->assertInstanceOf(RedirectResponse::class, $baseRedirect);
-        $this->assertEquals($baseRedirect, $magicRedirect);
+        $this->assertEquals($baseRedirect->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'), $magicRedirect->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'));
     }
 
     /**
@@ -88,7 +88,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $magicRedirect = $this->controller->store($this->createRequest());
 
         $this->assertInstanceOf(RedirectResponse::class, $baseRedirect);
-        $this->assertEquals($baseRedirect, $magicRedirect);
+        $this->assertEquals($baseRedirect->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'), $magicRedirect->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'));
     }
 
     /**
@@ -114,7 +114,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $magicRedirect = $this->controller->update($this->createRequest(), $model->id);
 
         $this->assertInstanceOf(RedirectResponse::class, $baseRedirect);
-        $this->assertEquals($baseRedirect, $magicRedirect);
+        $this->assertEquals($baseRedirect->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'), $magicRedirect->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'));
     }
 
     /**
@@ -139,7 +139,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $magicResponse = $this->controller->restore($this->createRequest(), $model->id);
 
         $this->assertInstanceOf(JsonResponse::class, $baseResponse);
-        $this->assertEquals($baseResponse, $magicResponse);
+        $this->assertEquals($baseResponse->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'), $magicResponse->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'));
     }
 
     /**
@@ -175,7 +175,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $magicResponse = $this->controller->inline();
 
         $this->assertInstanceOf(JsonResponse::class, $baseResponse);
-        $this->assertEquals($baseResponse, $magicResponse);
+        $this->assertEquals($baseResponse->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'), $magicResponse->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'));
     }
 
     /**
