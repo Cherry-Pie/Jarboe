@@ -13,7 +13,7 @@
             @endif
         @endforeach
     @else
-        @foreach (collect($model->{$field->getRelationMethod()}) as $relatedModel)
+        @foreach (collect($model->{$field->getRelationMethod()})->filter() as $relatedModel)
             {{ $relatedModel->{$field->getRelationTitleField()} }}
             <br>
         @endforeach
