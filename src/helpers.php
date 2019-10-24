@@ -50,3 +50,17 @@ if (!function_exists('urlify')) {
         return \Yaro\Jarboe\Helpers\URLify::filter($text, $length);
     }
 }
+
+if (!function_exists('collect')) {
+    function collect($value = null)
+    {
+        return new \Illuminate\Support\Collection($value);
+    }
+}
+
+if (!function_exists('array_wrap')) {
+    function array_wrap($value)
+    {
+        return \Illuminate\Support\Arr::wrap($value);
+    }
+}
