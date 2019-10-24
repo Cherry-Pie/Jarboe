@@ -329,6 +329,11 @@ abstract class AbstractField implements FieldPropsInterface
         return null;
     }
 
+    public function hasMaxlength(): bool
+    {
+        return false;
+    }
+
     abstract public function getListValue($model);
 
     abstract public function getEditFormValue($model);
