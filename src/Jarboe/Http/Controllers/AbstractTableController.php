@@ -244,5 +244,8 @@ abstract class AbstractTableController
         return $this->crud()->repo()->find($this->idEntity);
     }
 
+    /**
+     * @return void
+     */
     abstract protected function init();
 }

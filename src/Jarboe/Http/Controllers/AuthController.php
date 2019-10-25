@@ -119,8 +119,11 @@ class AuthController extends Controller
         try {
             $isValid = app(Google2FA::class)->verifyKey($user->otp_secret, $otp);
         } catch (IncompatibleWithGoogleAuthenticatorException $e) {
+            // OTP is not valid by default.
         } catch (InvalidCharactersException $e) {
+            // OTP is not valid by default.
         } catch (SecretKeyTooShortException $e) {
+            // OTP is not valid by default.
         }
 
         return $isValid;

@@ -97,6 +97,10 @@ trait AliasesTrait
         $this->crud()->filter($callback);
     }
 
+    /**
+     * @param $ident
+     * @return AbstractAction|null
+     */
     protected function action($ident)
     {
         return $this->crud()->actions()->find($ident);
@@ -142,7 +146,7 @@ trait AliasesTrait
     protected function addAction(AbstractAction $action, $moveDirection = null, $baseActionIdent = null)
     {
         $this->crud()->actions()->add($action);
-        if (!$moveDirection || !$baseActionIdent) {
+        if (is_null($moveDirection) || is_null($baseActionIdent)) {
             return;
         }
 

@@ -5,26 +5,33 @@ namespace Yaro\Jarboe\Table\Fields;
 use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\Interfaces\FieldPropsInterface;
-use Yaro\Jarboe\Table\Filters\AbstractFilter;
+use Yaro\Jarboe\Table\Fields\Traits\Column;
+use Yaro\Jarboe\Table\Fields\Traits\DefaultTrait;
+use Yaro\Jarboe\Table\Fields\Traits\Filter;
+use Yaro\Jarboe\Table\Fields\Traits\Hidden;
+use Yaro\Jarboe\Table\Fields\Traits\Model;
+use Yaro\Jarboe\Table\Fields\Traits\Name;
+use Yaro\Jarboe\Table\Fields\Traits\OldAndAttribute;
+use Yaro\Jarboe\Table\Fields\Traits\Readonly;
+use Yaro\Jarboe\Table\Fields\Traits\Tab;
+use Yaro\Jarboe\Table\Fields\Traits\Title;
+use Yaro\Jarboe\Table\Fields\Traits\Width;
 
 abstract class AbstractField implements FieldPropsInterface
 {
-    const DEFAULT_TAB_IDENT = '[extra]';
+    use Hidden;
+    use Width;
+    use Column;
+    use Tab;
+    use Readonly;
+    use DefaultTrait;
+    use Title;
+    use Name;
+    use OldAndAttribute;
+    use Model;
+    use Filter;
 
-    protected $model = '';
-    protected $title = '';
-    protected $name  = '';
-    protected $readonly = false;
-    protected $default = null;
-    protected $hidden = [
-        'list'   => false,
-        'edit'   => false,
-        'create' => false,
-    ];
-    protected $width;
-    protected $filter = null;
-    protected $tab = self::DEFAULT_TAB_IDENT;
-    protected $col = 12;
+    const DEFAULT_TAB_IDENT = '[extra]';
 
     public static function make($name = '', $title = '')
     {
@@ -35,18 +42,9 @@ abstract class AbstractField implements FieldPropsInterface
         }
         $field->title($title);
         $field->name($name);
+        $field->tab(self::DEFAULT_TAB_IDENT);
 
         return $field;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-    }
-
-    public function getModel()
-    {
-        return $this->model;
     }
 
     public function value(Request $request)
@@ -62,196 +60,6 @@ abstract class AbstractField implements FieldPropsInterface
     public function shouldSkip(Request $request)
     {
         return false;
-    }
-
-    public function col(int $col)
-    {
-        $this->col = $col;
-
-        return $this;
-    }
-
-    public function getCol()
-    {
-        return $this->col;
-    }
-
-    public function filter(AbstractFilter $filter = null)
-    {
-        if (is_null($filter)) {
-            return $this->filter;
-        }
-
-        $filter->field($this);
-
-        $this->filter = $filter;
-
-        return $this;
-    }
-
-    public function tab(string $tab)
-    {
-        $this->tab = $tab;
-
-        return $this;
-    }
-
-    public function getTab()
-    {
-        return $this->tab;
-    }
-
-    public function title(string $title = null)
-    {
-        if (is_null($title)) {
-            return $this->title;
-        }
-
-        $this->title = $title;
-
-        return $this;
-    }
-
-    public function name(string $name = null)
-    {
-        if (is_null($name)) {
-            return $this->name;
-        }
-
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function readonly(bool $isReadonly = true)
-    {
-        $this->readonly = $isReadonly;
-
-        return $this;
-    }
-
-    public function isReadonly()
-    {
-        return $this->readonly;
-    }
-
-    public function default($value)
-    {
-        $this->default = $value;
-
-        return $this;
-    }
-
-    public function getDefault()
-    {
-        return $this->default;
-    }
-
-    public function old($name = null)
-    {
-        if (is_null($name)) {
-            $name = $this->name();
-        }
-        
-        return old($name);
-    }
-
-    public function hasOld($name = null)
-    {
-        return !is_null($this->old($name));
-    }
-
-    public function oldOrDefault($locale = null)
-    {
-        $name = $this->name();
-        if ($locale) {
-            $name .= '.'. $locale;
-        }
-
-        if ($this->hasOld($name)) {
-            return $this->old($name);
-        }
-
-        return $this->getDefault();
-    }
-
-    public function oldOrAttribute($model, $default = null, $locale = null)
-    {
-        $name = $this->name();
-        if ($locale) {
-            $name .= '.'. $locale;
-        }
-
-        if ($this->hasOld($name)) {
-            return $this->old($name);
-        }
-
-        if ($this->isTranslatable()) {
-            return $model->getTranslation($this->name(), $locale, false) ?: $default;
-        }
-        return $model->{$this->name()} ?: $default;
-    }
-
-    public function getAttribute($model, $locale = null)
-    {
-        if ($locale && $this->isTranslatable()) {
-            return $model->getTranslation($this->name(), $locale, false);
-        }
-
-        return $model->{$this->name()};
-    }
-
-    public function width(int $width)
-    {
-        $this->width = $width;
-
-        return $this;
-    }
-
-    public function getWidth()
-    {
-        return $this->width;
-    }
-
-    public function hide(bool $edit = false, bool $create = false, bool $list = false)
-    {
-        $this->hidden = [
-            'list'   => $list,
-            'edit'   => $edit,
-            'create' => $create,
-        ];
-
-        return $this;
-    }
-
-    public function hideList(bool $hide = false)
-    {
-        $this->hidden['list'] = $hide;
-
-        return $this;
-    }
-
-    public function hideEdit(bool $hide = false)
-    {
-        $this->hidden['edit'] = $hide;
-
-        return $this;
-    }
-
-    public function hideCreate(bool $hide = false)
-    {
-        $this->hidden['create'] = $hide;
-
-        return $this;
-    }
-
-    public function hidden(string $type)
-    {
-        if (!array_key_exists($type, $this->hidden)) {
-            throw new \RuntimeException(sprintf("Wrong type [%s] for field's hidden attribute", $type));
-        }
-
-        return $this->hidden[$type];
     }
 
     public function afterStore($model, Request $request)

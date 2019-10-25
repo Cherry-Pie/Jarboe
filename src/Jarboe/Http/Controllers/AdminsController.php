@@ -29,7 +29,7 @@ class AdminsController extends AbstractTableController
         ]);
 
         $this->addFields([
-            Image::make('avatar', 'Avatar')->encode()->crop()->ratio(200, 200)->placeholder('placeholder')->width(1)->col(4),
+            Image::make('avatar', 'Avatar')->encode()->crop()->ratio(200, 200)->width(1)->col(4),
             RowMarkup::make()->col(8)->fields([
                 Text::make('name', 'Name')->col(6),
                 Password::make('password', 'Password')->col(6),
@@ -47,11 +47,11 @@ class AdminsController extends AbstractTableController
 
     public function update(UpdateRequest $request, $id)
     {
-        return parent::handleUpdate($request, $id);
+        return parent::update($request, $id);
     }
 
     public function store(CreateRequest $request)
     {
-        return parent::handleStore($request);
+        return parent::store($request);
     }
 }

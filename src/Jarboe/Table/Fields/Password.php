@@ -2,6 +2,7 @@
 
 namespace Yaro\Jarboe\Table\Fields;
 
+use Closure;
 use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\Fields\Traits\Nullable;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
@@ -15,11 +16,12 @@ class Password extends AbstractField
     use Tooltip;
     use Placeholder;
 
+    /** @var string|Closure */
     protected $hash = 'bcrypt';
 
     public function hash($hash)
     {
-        if (is_object($hash) && is_a($hash, \Closure::class)) {
+        if (is_object($hash) && is_a($hash, Closure::class)) {
             $this->hash = $hash;
             return $this;
         }
@@ -37,7 +39,7 @@ class Password extends AbstractField
             return $this;
         }
 
-        throw new \RuntimeException('Hash for PasswordField must be valid function name or closure');
+        throw new \RuntimeException('Hash for Password field must be valid function name or Closure');
     }
 
     public function value(Request $request)

@@ -20,10 +20,11 @@ class Locale
         return config('jarboe.locales.list', []);
     }
 
-    public function getCurrentTitle()
+    public function getCurrentTitle(): string
     {
         $list = $this->all();
+        $title = $list[$this->current()] ?? '';
 
-        return $list[$this->current()] ?? '';
+        return (string) $title;
     }
 }

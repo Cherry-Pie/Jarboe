@@ -2,13 +2,6 @@
 
 namespace Yaro\Jarboe\Table\Fields;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
@@ -21,7 +14,7 @@ class Radio extends AbstractField
 
     protected $columns = 1;
 
-    public function isCurrentOption($option, $model = null, $relationIndex = 0)
+    public function isCurrentOption($option, $model = null, $relationIndex = 0): bool
     {
         if ($this->hasOld()) {
             if ($this->isGroupedRelation()) {
@@ -54,11 +47,7 @@ class Radio extends AbstractField
 
     public function shouldSkip(Request $request)
     {
-        if ($this->isRelationField()) {
-            return true;
-        }
-
-        return false;
+        return $this->isRelationField();
     }
 
     public function afterStore($model, Request $request)

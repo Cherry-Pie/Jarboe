@@ -78,7 +78,7 @@ class Select extends AbstractField
         return $this->multiple;
     }
 
-    public function isCurrentOption($option, $model = null, $relationIndex = 0)
+    public function isCurrentOption($option, $model = null, $relationIndex = 0): bool
     {
         if ($this->hasOld()) {
             if ($this->isGroupedRelation()) {
@@ -140,11 +140,7 @@ class Select extends AbstractField
 
     public function shouldSkip(Request $request)
     {
-        if ($this->isRelationField()) {
-            return true;
-        }
-
-        return false;
+        return $this->isRelationField();
     }
 
     public function afterStore($model, Request $request)

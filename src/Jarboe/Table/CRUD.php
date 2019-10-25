@@ -7,6 +7,7 @@ use Yaro\Jarboe\Table\Fields\AbstractField;
 use Yaro\Jarboe\Table\Fields\Text;
 use Yaro\Jarboe\Table\Repositories\ModelRepository;
 use Yaro\Jarboe\Table\Repositories\PreferencesRepository;
+use Yaro\Jarboe\Table\Toolbar\AbstractTool;
 use Yaro\Jarboe\Table\Toolbar\Interfaces\ToolInterface;
 
 class CRUD
@@ -110,6 +111,10 @@ class CRUD
         return $fieldsAndColumns;
     }
 
+    /**
+     * @param $name
+     * @return null|AbstractField
+     */
     public function getFieldByName($name)
     {
         $fields = $this->getFieldsWithoutMarkup();
@@ -132,7 +137,7 @@ class CRUD
         return $this->fields;
     }
 
-    public function getFieldsWithoutMarkup()
+    public function getFieldsWithoutMarkup(): array
     {
         $fields = [];
         foreach ($this->getFields() as $field) {
@@ -190,7 +195,9 @@ class CRUD
 
     public function repo()
     {
-        return $this->repo->setCrud($this);
+        $this->repo->setCrud($this);
+
+        return $this->repo;
     }
 
     public function preferences()
@@ -325,6 +332,10 @@ class CRUD
         return rtrim($chunks[0], '/');
     }
 
+    /**
+     * @param null $ident
+     * @return mixed|void
+     */
     public function tableIdentifier($ident = null)
     {
         if (is_null($ident)) {
@@ -369,6 +380,11 @@ class CRUD
         $this->preferences()->saveCurrentLocale($this->tableIdentifier(), $locale);
     }
 
+    /**
+     * @param $ident
+     * @throws \RuntimeException
+     * @return AbstractTool
+     */
     public function getTool($ident)
     {
         if (array_key_exists($ident, $this->toolbar)) {

@@ -15,4 +15,5 @@ interface FieldPropsInterface
     public function hasClipboardButton();
     public function isTranslatable();
     public function isMaskable();
+    public function hasMaxlength(): bool;
 }
