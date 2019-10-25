@@ -66,10 +66,6 @@ abstract class AbstractTableController
     use SearchRelationHandlerTrait;
     use SearchHandlerTrait;
 
-    protected $viewCrudList = 'jarboe::crud.list';
-    protected $viewCrudCreate = 'jarboe::crud.create';
-    protected $viewCrudEdit = 'jarboe::crud.edit';
-
     /**
      * Permission group name.
      *

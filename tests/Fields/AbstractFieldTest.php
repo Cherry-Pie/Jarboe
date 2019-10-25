@@ -423,4 +423,14 @@ abstract class AbstractFieldTest extends AbstractBaseTest
 
         $this->assertNull($field->getPlaceholder());
     }
+
+    /**
+     * @test
+     */
+    public function default_maxlength()
+    {
+        $field = $this->field();
+
+        $this->assertFalse($field->hasMaxlength());
+    }
 }

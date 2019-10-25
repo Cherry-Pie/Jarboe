@@ -8,6 +8,8 @@ use Yaro\Jarboe\Table\CRUD;
 
 trait ListHandlerTrait
 {
+    protected $viewCrudList = 'jarboe::crud.list';
+
     /**
      * Show table list page.
      *

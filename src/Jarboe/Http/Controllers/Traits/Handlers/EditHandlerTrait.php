@@ -9,6 +9,8 @@ use Yaro\Jarboe\Table\CRUD;
 
 trait EditHandlerTrait
 {
+    protected $viewCrudEdit = 'jarboe::crud.edit';
+
     /**
      * Show edit form page.
      *

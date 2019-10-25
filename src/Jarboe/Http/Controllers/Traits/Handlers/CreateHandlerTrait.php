@@ -9,6 +9,8 @@ use Yaro\Jarboe\Table\CRUD;
 
 trait CreateHandlerTrait
 {
+    protected $viewCrudCreate = 'jarboe::crud.create';
+
     /**
      * Show create form page.
      *

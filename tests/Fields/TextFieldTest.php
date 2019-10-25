@@ -7,6 +7,7 @@ use Yaro\Jarboe\Table\Fields\Text;
 use Yaro\Jarboe\Tests\Fields\Traits\ClipboardTests;
 use Yaro\Jarboe\Tests\Fields\Traits\InlineTests;
 use Yaro\Jarboe\Tests\Fields\Traits\MaskableTests;
+use Yaro\Jarboe\Tests\Fields\Traits\MaxlengthTests;
 use Yaro\Jarboe\Tests\Fields\Traits\NullableTests;
 use Yaro\Jarboe\Tests\Fields\Traits\OrderableTests;
 use Yaro\Jarboe\Tests\Fields\Traits\PlaceholderTests;
@@ -23,6 +24,7 @@ class TextFieldTest extends AbstractFieldTest
     use TranslatableTests;
     use MaskableTests;
     use PlaceholderTests;
+    use MaxlengthTests;
 
     protected function getFieldWithName(): AbstractField
     {
