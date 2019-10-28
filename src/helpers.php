@@ -51,6 +51,17 @@ if (!function_exists('urlify')) {
     }
 }
 
+if (!function_exists('is_associative_array')) {
+    function is_associative_array(array $array)
+    {
+        if ($array === []) {
+            return false;
+        }
+
+        return array_keys($array) !== range(0, count($array) - 1);
+    }
+}
+
 if (!function_exists('collect')) {
     function collect($value = null)
     {
