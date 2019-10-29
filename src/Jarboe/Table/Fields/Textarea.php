@@ -5,6 +5,7 @@ namespace Yaro\Jarboe\Table\Fields;
 use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\Fields\Traits\Clipboard;
 use Yaro\Jarboe\Table\Fields\Traits\Inline;
+use Yaro\Jarboe\Table\Fields\Traits\Maxlength;
 use Yaro\Jarboe\Table\Fields\Traits\Nullable;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
 use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
@@ -20,6 +21,7 @@ class Textarea extends AbstractField
     use Inline;
     use Translatable;
     use Placeholder;
+    use Maxlength;
 
     protected $rows = 3;
     protected $expandable = false;
