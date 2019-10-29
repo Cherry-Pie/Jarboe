@@ -124,7 +124,7 @@ class ServiceProvider extends IlluminateServiceProvider
     private function initFallbackRoute()
     {
         $this->app->booted(function () {
-            $router = $this->app->get('router');
+            $router = $this->app->router;
             $router->group(app('jarboe')->routeGroupOptions(), function () use ($router) {
                 $router->get('{any}', function () {
                     return response()->view('jarboe::errors.404')->setStatusCode(404);

@@ -65,4 +65,5 @@ trait PreferencesHelperTrait
     }
 
     abstract public function preferences();
+    abstract public function getLocales();
 }
