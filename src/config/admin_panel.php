@@ -25,7 +25,7 @@ return [
      * Auth guard for admin users.
      * Leave empty to use default one.
      */
-    'auth_guard' => '',
+    'auth_guard' => 'admin',
 
     /*
      * OTP 2-factor authentication settings.
