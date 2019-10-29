@@ -68,7 +68,7 @@
 
                             <form id="checkout-form" action="{{ $crud->createUrl() }}" method="post" class="smart-form" novalidate="novalidate" enctype="multipart/form-data">
 
-                                @csrf
+                                {{ csrf_field() }}
 
 
 

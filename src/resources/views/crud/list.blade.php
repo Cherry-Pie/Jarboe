@@ -101,7 +101,7 @@
                                         @if ($crud->hasAnyFieldFilter())
                                             <tr class="smart-form">
                                                 <form method="post" action="{{ $crud->searchUrl() }}" class="smart-form">
-                                                    @csrf
+                                                    {{ csrf_field() }}
 
                                                     @if ($crud->isSortableByWeight())
                                                         <th></th>

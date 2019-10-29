@@ -46,7 +46,7 @@
 
                         <fieldset>
 
-                            @csrf
+                            {{ csrf_field() }}
 
                             <section>
                                 <label class="label">{{ __('jarboe::auth.login.email') }}</label>

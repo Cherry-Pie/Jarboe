@@ -48,7 +48,7 @@
                                 {{ __('jarboe::auth.registration.register_header') }}
                             </header>
 
-                            @csrf
+                            {{ csrf_field() }}
 
                             <fieldset>
                                 <section>

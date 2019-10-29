@@ -69,7 +69,7 @@
 
                             <form id="checkout-form" action="{{ $crud->editUrl($item->getKey()) }}" method="post" class="smart-form" novalidate="novalidate" enctype="multipart/form-data">
 
-                                @csrf
+                                {{ csrf_field() }}
 
 
                                 @if (count($crud->getTabs('edit')) > 1)
