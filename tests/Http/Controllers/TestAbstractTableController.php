@@ -23,7 +23,7 @@ class TestAbstractTableController extends AbstractTableController
         ]);
     }
 
-    public function crud(): CRUD
+    public function getCrud(): CRUD
     {
         return $this->crud;
     }
@@ -36,6 +36,11 @@ class TestAbstractTableController extends AbstractTableController
     public function can($action): bool
     {
         return parent::can($action);
+    }
+
+    public function setPermissions($permissions)
+    {
+        return $this->permissions = $permissions;
     }
 
     public function notify(

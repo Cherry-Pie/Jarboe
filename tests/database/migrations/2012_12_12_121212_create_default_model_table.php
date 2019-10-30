@@ -21,13 +21,6 @@ class CreateDefaultModelTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-
-        foreach (range(1, 5) as $position) {
-            Model::create([
-                'title' => sprintf('title #%s', $position),
-                'description' => sprintf('description #%s', $position),
-            ]);
-        }
     }
 
     /**
