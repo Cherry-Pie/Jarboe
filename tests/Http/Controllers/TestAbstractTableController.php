@@ -2,6 +2,8 @@
 
 namespace Yaro\Jarboe\Tests\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 use Yaro\Jarboe\Http\Controllers\AbstractTableController;
 use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\Text;
@@ -21,6 +23,17 @@ class TestAbstractTableController extends AbstractTableController
             Text::make('title')->inline(),
             Text::make('description'),
         ]);
+    }
+
+    public function createUnauthorizedResponse(Request $request, UnauthorizedException $exception)
+    {
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], 401);
+        }
+
+        return view('jarboe::errors.401');
     }
 
     public function getCrud(): CRUD

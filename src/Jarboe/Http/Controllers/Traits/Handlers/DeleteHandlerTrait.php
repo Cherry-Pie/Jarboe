@@ -56,4 +56,5 @@ trait DeleteHandlerTrait
     abstract protected function init();
     abstract protected function bound();
     abstract protected function crud(): CRUD;
+    abstract protected function can($action): bool;
 }

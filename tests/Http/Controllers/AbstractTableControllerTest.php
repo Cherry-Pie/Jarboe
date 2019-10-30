@@ -5,6 +5,7 @@ namespace Yaro\Jarboe\Tests\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 use Yaro\Jarboe\Http\Controllers\AbstractTableController;
 use Yaro\Jarboe\Models\Admin;
 use Yaro\Jarboe\Table\CRUD;
@@ -28,6 +29,8 @@ class AbstractTableControllerTest extends AbstractBaseTest
             '--realpath' => realpath(__DIR__.'/../../database/migrations'),
         ]);
         $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->registerPermissions();
+
+        auth('admin')->login(Admin::first());
 
         $this->controller = new TestAbstractTableController();
     }
@@ -77,6 +80,32 @@ class AbstractTableControllerTest extends AbstractBaseTest
     /**
      * @test
      */
+    public function check_magic_create_call_unauthorized()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $this->controller->setPermissions('unauthorized');
+
+        $this->controller->handleCreate($this->createRequest());
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_create_call_unauthorized_response()
+    {
+        $this->controller->setPermissions('unauthorized');
+
+        $response = $this->controller->create($this->createRequest());
+        $this->assertEquals(
+            $this->controller->createUnauthorizedResponse($this->createRequest(), UnauthorizedException::forPermissions(['create'])),
+            $response
+        );
+    }
+
+    /**
+     * @test
+     */
     public function check_magic_list_call()
     {
         $baseView = $this->controller->handleList($this->createRequest());
@@ -84,6 +113,32 @@ class AbstractTableControllerTest extends AbstractBaseTest
 
         $this->assertInstanceOf(View::class, $magicView);
         $this->assertEquals($baseView, $magicView);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_list_call_unauthorized()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $this->controller->setPermissions('unauthorized');
+
+        $this->controller->handleList($this->createRequest());
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_list_call_unauthorized_response()
+    {
+        $this->controller->setPermissions('unauthorized');
+
+        $response = $this->controller->list($this->createRequest());
+        $this->assertEquals(
+            $this->controller->createUnauthorizedResponse($this->createRequest(), UnauthorizedException::forPermissions(['list'])),
+            $response
+        );
     }
 
     /**
@@ -101,6 +156,32 @@ class AbstractTableControllerTest extends AbstractBaseTest
     /**
      * @test
      */
+    public function check_magic_search_call_unauthorized()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $this->controller->setPermissions('unauthorized');
+
+        $this->controller->handleSearch($this->createRequest());
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_search_call_unauthorized_response()
+    {
+        $this->controller->setPermissions('unauthorized');
+
+        $response = $this->controller->search($this->createRequest());
+        $this->assertEquals(
+            $this->controller->createUnauthorizedResponse($this->createRequest(), UnauthorizedException::forPermissions(['search'])),
+            $response
+        );
+    }
+
+    /**
+     * @test
+     */
     public function check_magic_store_call()
     {
         $baseRedirect = $this->controller->handleStore($this->createRequest());
@@ -108,6 +189,32 @@ class AbstractTableControllerTest extends AbstractBaseTest
 
         $this->assertInstanceOf(RedirectResponse::class, $baseRedirect);
         $this->assertEquals($baseRedirect->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'), $magicRedirect->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'));
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_store_call_unauthorized()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $this->controller->setPermissions('unauthorized');
+
+        $this->controller->handleStore($this->createRequest());
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_store_call_unauthorized_response()
+    {
+        $this->controller->setPermissions('unauthorized');
+
+        $response = $this->controller->store($this->createRequest());
+        $this->assertEquals(
+            $this->controller->createUnauthorizedResponse($this->createRequest(), UnauthorizedException::forPermissions(['store'])),
+            $response
+        );
     }
 
     /**
@@ -126,6 +233,34 @@ class AbstractTableControllerTest extends AbstractBaseTest
     /**
      * @test
      */
+    public function check_magic_edit_call_unauthorized()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $model = Model::first();
+        $this->controller->setPermissions('unauthorized');
+
+        $this->controller->handleEdit($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_edit_call_unauthorized_response()
+    {
+        $this->controller->setPermissions('unauthorized');
+
+        $model = Model::first();
+        $response = $this->controller->edit($this->createRequest(), $model->id);
+        $this->assertEquals(
+            $this->controller->createUnauthorizedResponse($this->createRequest(), UnauthorizedException::forPermissions(['edit'])),
+            $response
+        );
+    }
+
+    /**
+     * @test
+     */
     public function check_magic_update_call()
     {
         $model = Model::first();
@@ -139,6 +274,34 @@ class AbstractTableControllerTest extends AbstractBaseTest
     /**
      * @test
      */
+    public function check_magic_update_call_unauthorized()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $model = Model::first();
+        $this->controller->setPermissions('unauthorized');
+
+        $this->controller->handleUpdate($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_update_call_unauthorized_response()
+    {
+        $this->controller->setPermissions('unauthorized');
+
+        $model = Model::first();
+        $response = $this->controller->update($this->createRequest(), $model->id);
+        $this->assertEquals(
+            $this->controller->createUnauthorizedResponse($this->createRequest(), UnauthorizedException::forPermissions(['update'])),
+            $response
+        );
+    }
+
+    /**
+     * @test
+     */
     public function check_magic_delete_call()
     {
         $baseRedirect = $this->controller->handleDelete($this->createRequest(), Model::first()->id);
@@ -146,6 +309,34 @@ class AbstractTableControllerTest extends AbstractBaseTest
 
         $this->assertInstanceOf(JsonResponse::class, $baseRedirect);
         $this->assertInstanceOf(JsonResponse::class, $magicRedirect);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_delete_call_unauthorized()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $model = Model::first();
+        $this->controller->setPermissions('unauthorized');
+
+        $this->controller->handleDelete($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_delete_call_unauthorized_response()
+    {
+        $this->controller->setPermissions('unauthorized');
+
+        $model = Model::first();
+        $response = $this->controller->delete($this->createRequest(), $model->id);
+        $this->assertEquals(
+            $this->controller->createUnauthorizedResponse($this->createRequest(), UnauthorizedException::forPermissions(['delete'])),
+            $response
+        );
     }
 
     /**
@@ -181,6 +372,34 @@ class AbstractTableControllerTest extends AbstractBaseTest
     /**
      * @test
      */
+    public function check_magic_restore_call_unauthorized()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $model = Model::first();
+        $this->controller->setPermissions('unauthorized');
+
+        $this->controller->handleRestore($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_restore_call_unauthorized_response()
+    {
+        $this->controller->setPermissions('unauthorized');
+
+        $model = Model::first();
+        $response = $this->controller->restore($this->createRequest(), $model->id);
+        $this->assertEquals(
+            $this->controller->createUnauthorizedResponse($this->createRequest(), UnauthorizedException::forPermissions(['restore'])),
+            $response
+        );
+    }
+
+    /**
+     * @test
+     */
     public function check_magic_force_delete_call()
     {
         $model = Model::first();
@@ -193,6 +412,36 @@ class AbstractTableControllerTest extends AbstractBaseTest
 
         $this->assertInstanceOf(JsonResponse::class, $baseResponse);
         $this->assertInstanceOf(JsonResponse::class, $magicResponse);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_force_delete_call_unauthorized()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $model = Model::first();
+        $model->delete();
+        $this->controller->setPermissions('unauthorized');
+
+        $this->controller->handleForceDelete($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_force_delete_call_unauthorized_response()
+    {
+        $this->controller->setPermissions('unauthorized');
+
+        $model = Model::first();
+        $model->delete();
+        $response = $this->controller->forceDelete($this->createRequest(), $model->id);
+        $this->assertEquals(
+            $this->controller->createUnauthorizedResponse($this->createRequest(), UnauthorizedException::forPermissions(['force-delete'])),
+            $response
+        );
     }
 
     /**
@@ -212,6 +461,32 @@ class AbstractTableControllerTest extends AbstractBaseTest
 
         $this->assertInstanceOf(JsonResponse::class, $baseResponse);
         $this->assertEquals($baseResponse->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'), $magicResponse->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'));
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_inline_call_unauthorized()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $this->controller->setPermissions('unauthorized');
+
+        $this->controller->handleInline($this->createRequest());
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_inline_call_unauthorized_response()
+    {
+        $this->controller->setPermissions('unauthorized');
+
+        $response = $this->controller->inline($this->createRequest());
+        $this->assertEquals(
+            $this->controller->createUnauthorizedResponse($this->createRequest(), UnauthorizedException::forPermissions(['inline'])),
+            $response
+        );
     }
 
     /**
@@ -494,8 +769,6 @@ class AbstractTableControllerTest extends AbstractBaseTest
      */
     public function check_permissions()
     {
-        auth('admin')->login(Admin::first());
-
         $this->assertTrue($this->controller->can('any'));
 
         $this->controller->setPermissions([
