@@ -3,7 +3,6 @@
 namespace Yaro\Jarboe\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAdminAuthenticated
 {
@@ -16,7 +15,7 @@ class RedirectIfAdminAuthenticated
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::guard(admin_user_guard())->check()) {
+        if (auth(admin_user_guard())->check()) {
             return redirect(admin_url(config('jarboe.admin_panel.dashboard')));
         }
 

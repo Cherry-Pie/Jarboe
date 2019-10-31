@@ -3,7 +3,6 @@
 namespace Yaro\Jarboe\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class AdminCheck
 {
@@ -16,7 +15,7 @@ class AdminCheck
      */
     public function handle($request, Closure $next)
     {
-        if (!auth()->check()) {
+        if (!auth(admin_user_guard())->check()) {
             abort(404);
         }
 

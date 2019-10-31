@@ -25,6 +25,7 @@
                 <directory suffix=".php">./src/stubs</directory>
                 <directory suffix=".php">./src/Jarboe/Console</directory>
                 <directory suffix=".php">./src/Jarboe/Etc</directory>
+                <directory suffix=".php">./src/Jarboe/Events</directory>
                 <directory suffix=".php">./src/Jarboe/Exceptions</directory>
                 <directory suffix=".php">./src/Jarboe/Facades</directory>
                 <directory suffix=".php">./src/Jarboe/Helpers</directory>
