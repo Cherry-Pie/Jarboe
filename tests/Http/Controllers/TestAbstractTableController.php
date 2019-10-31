@@ -160,7 +160,7 @@ class TestAbstractTableController extends AbstractTableController
         $this->shouldThrowValidationException = true;
     }
 
-    public function list(Request $request)
+    public function handleList(Request $request)
     {
         if ($this->shouldThrowValidationException) {
             $validator = Validator::make($request->all(), [
@@ -170,6 +170,6 @@ class TestAbstractTableController extends AbstractTableController
             throw new ValidationException($validator);
         }
 
-        return parent::list($request);
+        return parent::handleList($request);
     }
 }
