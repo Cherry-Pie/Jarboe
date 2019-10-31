@@ -1,4 +1,3 @@
-
 <label class="label">
     {{ $field->title() }}
     @include('jarboe::crud.fields.textarea.inc.translatable_locales_selector')
@@ -13,6 +12,9 @@
                 <textarea rows="{{ $field->getRowsNum() }}"
                           name="{{ $field->name() }}[{{ $locale }}]"
                           class="custom-scroll"
+                          @if ($field->hasMaxlength())
+                            maxlength="{{ $field->getMaxlength() }}"
+                          @endif
                           placeholder="{{ $field->getPlaceholder() }}">{{ $field->oldOrAttribute($model, null, $locale) }}</textarea>
                 @include('jarboe::crud.fields.textarea.inc.tooltip_body')
             </label>
@@ -27,6 +29,9 @@
         <textarea rows="{{ $field->getRowsNum() }}"
                   name="{{ $field->name() }}"
                   class="custom-scroll"
+                  @if ($field->hasMaxlength())
+                    maxlength="{{ $field->getMaxlength() }}"
+                  @endif
                   placeholder="{{ $field->getPlaceholder() }}">{{ $field->oldOrAttribute($model) }}</textarea>
         @include('jarboe::crud.fields.textarea.inc.tooltip_body')
     </label>

@@ -1,4 +1,3 @@
-
 @if ($field->hasClipboardButton() && (string) $field->getAttribute($model, $locale ?? null) !== '')
     <div class="p-relative">
         <a href="javascript:void(0);"
@@ -26,6 +25,7 @@
                 title: '{{ $field->title() }}',
                 placeholder: "{{ $field->getPlaceholder() }}",
                 rows: {{ $field->getRowsNum() }},
+                tpl: '<textarea {!! $field->hasMaxlength() ? 'maxlength="'.$field->getMaxlength().'"' : '' !!}></textarea>',
                 params: function(params) {
                     var data = {};
                     data['_pk'] = params.pk;
