@@ -30,7 +30,6 @@
                 <directory suffix=".php">./src/Jarboe/Facades</directory>
                 <directory suffix=".php">./src/Jarboe/Helpers</directory>
                 <directory suffix=".php">./src/Jarboe/Models</directory>
-                <directory suffix=".php">./src/Jarboe/Http/Middleware</directory>
                 <directory suffix=".php">./src/Jarboe/Http/Requests</directory>
                 <directory suffix=".php">./src/Jarboe/Table/Fields/Adapters</directory>
                 <file>./src/Jarboe/Table/Fields/Repeater.php</file>

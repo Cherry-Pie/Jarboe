@@ -3,6 +3,8 @@
 namespace Yaro\Jarboe\Tests\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Yaro\Jarboe\Http\Controllers\AbstractTableController;
 use Yaro\Jarboe\Table\CRUD;
@@ -11,6 +13,8 @@ use Yaro\Jarboe\Tests\Models\Model;
 
 class TestAbstractTableController extends AbstractTableController
 {
+    private $shouldThrowValidationException = false;
+
     public function init()
     {
         $this->setModel(Model::class);
@@ -27,13 +31,7 @@ class TestAbstractTableController extends AbstractTableController
 
     public function createUnauthorizedResponse(Request $request, UnauthorizedException $exception)
     {
-        if ($request->wantsJson()) {
-            return response()->json([
-                'message' => $exception->getMessage()
-            ], 401);
-        }
-
-        return view('jarboe::errors.401');
+        return parent::createUnauthorizedResponse($request, $exception);
     }
 
     public function getCrud(): CRUD
@@ -155,5 +153,23 @@ class TestAbstractTableController extends AbstractTableController
     public function getCreateViewsBelow(): array
     {
         return parent::getCreateViewsBelow();
+    }
+
+    public function overrideListMethodToThrowValidationException()
+    {
+        $this->shouldThrowValidationException = true;
+    }
+
+    public function list(Request $request)
+    {
+        if ($this->shouldThrowValidationException) {
+            $validator = Validator::make($request->all(), [
+                'title' => 'required|unique:posts|max:255',
+                'body' => 'required',
+            ]);
+            throw new ValidationException($validator);
+        }
+
+        return parent::list($request);
     }
 }

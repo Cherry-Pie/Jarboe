@@ -4,6 +4,7 @@ namespace Yaro\Jarboe\Tests\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Yaro\Jarboe\Http\Controllers\AbstractTableController;
@@ -781,5 +782,32 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $this->assertTrue($this->controller->can('list'));
         $this->assertFalse($this->controller->can('delete'));
         $this->assertFalse($this->controller->can('notexisted'));
+    }
+
+    /**
+     * @test
+     */
+    public function check_unauthorized_response()
+    {
+        $exception = UnauthorizedException::forPermissions(['hey']);
+        $request = $this->createRequest();
+        $request->headers->set('Accept', 'text/json');
+
+        $response = $this->controller->createUnauthorizedResponse($request, $exception);
+        $this->assertInstanceOf(JsonResponse::class, $response);
+
+        $response = $this->controller->createUnauthorizedResponse($this->createRequest(), $exception);
+        $this->assertInstanceOf(View::class, $response);
+    }
+
+    /**
+     * @test
+     */
+    public function check_validation_exception_should_be_validation_exception()
+    {
+        $this->expectException(ValidationException::class);
+
+        $this->controller->overrideListMethodToThrowValidationException();
+        $this->controller->list($this->createRequest());
     }
 }
