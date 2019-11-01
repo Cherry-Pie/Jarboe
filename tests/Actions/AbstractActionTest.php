@@ -3,11 +3,9 @@
 namespace Yaro\Jarboe\Tests\Actions;
 
 use Illuminate\View\View;
-use Yaro\Jarboe\Models\Admin;
 use Yaro\Jarboe\Table\Actions\AbstractAction;
 use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Tests\AbstractBaseTest;
-use Yaro\Jarboe\Tests\Http\Controllers\TestAbstractTableController;
 use Yaro\Jarboe\Tests\Models\Model;
 
 abstract class AbstractActionTest extends AbstractBaseTest

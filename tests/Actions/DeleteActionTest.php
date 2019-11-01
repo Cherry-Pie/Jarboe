@@ -2,9 +2,9 @@
 
 namespace Yaro\Jarboe\Tests\Actions;
 
+use Illuminate\View\View;
 use Yaro\Jarboe\Table\Actions\AbstractAction;
 use Yaro\Jarboe\Table\Actions\DeleteAction;
-use Yaro\Jarboe\Table\Actions\EditAction;
 use Yaro\Jarboe\Tests\Models\Model;
 
 class DeleteActionTest extends AbstractActionTest
@@ -17,6 +17,27 @@ class DeleteActionTest extends AbstractActionTest
     protected function identifier()
     {
         return 'delete';
+    }
+
+    /**
+     * @test
+     */
+    public function check_render_with_soft_deletes()
+    {
+        $model = Model::first();
+        list($action, $crud) = $this->getPreparedActionAndCrud();
+        $this->assertInstanceOf(View::class, $action->render($model));
+
+        list($action, $crud) = $this->getPreparedActionAndCrud();
+        $crud->enableSoftDelete();
+        $action->setCrud($crud);
+        $this->assertInstanceOf(View::class, $action->render($model));
+
+        $model->delete();
+        list($action, $crud) = $this->getPreparedActionAndCrud();
+        $crud->enableSoftDelete();
+        $action->setCrud($crud);
+        $this->assertInstanceOf(View::class, $action->render($model));
     }
 
     /**
