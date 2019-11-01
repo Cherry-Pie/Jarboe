@@ -86,6 +86,12 @@ class ActionsContainer
 
     public function moveAfter($baseActionIdent, $movableActionIdent)
     {
+        if (!$this->find($baseActionIdent) || !$this->find($movableActionIdent)) {
+            throw new \RuntimeException(
+                sprintf('No action defined for identifier [%s] or [%s]', $baseActionIdent, $movableActionIdent)
+            );
+        }
+
         $actions = [];
         /** @var AbstractAction $action */
         foreach ($this->actions as $action) {
@@ -104,6 +110,12 @@ class ActionsContainer
 
     public function moveBefore($baseActionIdent, $movableActionIdent)
     {
+        if (!$this->find($baseActionIdent) || !$this->find($movableActionIdent)) {
+            throw new \RuntimeException(
+                sprintf('No action defined for identifier [%s] or [%s]', $baseActionIdent, $movableActionIdent)
+            );
+        }
+
         $actions = [];
         /** @var AbstractAction $action */
         foreach ($this->actions as $action) {
