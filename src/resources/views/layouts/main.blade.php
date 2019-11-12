@@ -312,13 +312,13 @@
     $.datepicker.parseDate = function(format, value) {
         if (value) {
             var date = moment(value, format).toDate();
-            return date == 'Invalid Date' ? null : date;
+            return date == 'Invalid Date' ? new Date() : date;
         }
         return new Date();
     };
     $.datepicker.formatDate = function (format, value) {
         var date = moment(value).format(format);
-        return date == 'Invalid Date' ? null : date;
+        return date == 'Invalid Date' ? new Date() : date;
     };
 
     (new ClipboardJS('.clipclip')).on('success', function(e) {

@@ -40,6 +40,7 @@
                     altFormat: "YYYY-MM-DD",
                 }).on("change", function () {
                     to.datepicker("option", "minDate", getDate(this.value, "{{ $filter->field()->getDateFormat() }}"));
+                    $('.datepicker-s-{{ $filter->field()->name() }}-to-value-field, .datepicker-s-{{ $filter->field()->name() }}-from-value-field').trigger('change');
                 });
             @if ($filter->value()['from'] ?? false)
                 from.datepicker('setDate', getDate("{{ $filter->value()['from'] ?? '' }}", "YYYY-MM-DD"));
@@ -55,6 +56,7 @@
                     altFormat: "YYYY-MM-DD",
                 }).on("change", function () {
                     from.datepicker("option", "maxDate", getDate(this.value, "{{ $filter->field()->getDateFormat() }}"));
+                    $('.datepicker-s-{{ $filter->field()->name() }}-to-value-field, .datepicker-s-{{ $filter->field()->name() }}-from-value-field').trigger('change');
                 });
             @if ($filter->value()['to'] ?? false)
                 to.datepicker('setDate', getDate("{{ $filter->value()['to'] ?? '' }}", "YYYY-MM-DD"));
@@ -67,6 +69,13 @@
 
                 return null;
             }
+
+            $('.datepicker-s-{{ $filter->field()->name() }}-to-value-field, .datepicker-s-{{ $filter->field()->name() }}-from-value-field').on('change', function () {
+                console.log(this.value.toLowerCase());
+                if (this.value.toLowerCase() == 'invalid date') {
+                    this.value = '';
+                }
+            });
         });
     </script>
 @endpush
