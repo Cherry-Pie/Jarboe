@@ -14,7 +14,7 @@ class SelectFilter extends AbstractFilter
     {
         $value = $this->value();
         $values = [];
-        if ($value !== self::NO_INPUT_APPLIED) {
+        if (!is_null($value) && $value !== self::NO_INPUT_APPLIED) {
             $values = is_array($value) ? $value : [$value];
         }
 
