@@ -62,16 +62,14 @@ if (!function_exists('is_associative_array')) {
     }
 }
 
-if (!function_exists('collect')) {
-    function collect($value = null)
+if (!function_exists('collection_wrap')) {
+    function collection_wrap($value = null)
     {
-        return new \Illuminate\Support\Collection($value);
-    }
-}
-
-if (!function_exists('array_wrap')) {
-    function array_wrap($value)
-    {
-        return \Illuminate\Support\Arr::wrap($value);
+        if (is_object($value) && (is_a($value, \Illuminate\Support\Collection::class) || is_a($value, \Illuminate\Database\Eloquent\Collection::class))) {
+            return $value;
+        }
+        return new \Illuminate\Support\Collection(
+            \Illuminate\Support\Arr::wrap($value)
+        );
     }
 }
