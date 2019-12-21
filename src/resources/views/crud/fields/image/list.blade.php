@@ -1,35 +1,22 @@
-
 @if ($field->isMultiple())
-    @foreach (($field->getUrl($model) ?: []) as $url)
-        @if (filter_var($url, FILTER_VALIDATE_URL))
-            <div style="background-image: url('{{ $url }}')"
-                 class="image-field"
-                 data-lity
-                 data-lity-target="{{ $url }}"></div>
-        @elseif (preg_match('~^data:~', $url))
-            <div style="background-image: url('{{ $url }}')"
-                 class="image-field"
-                 data-lity
-                 data-lity-target="{{ $url }}"></div>
-        @else
-            {{ $url }}
-        @endif
-    @endforeach
+
 @else
-    @if (filter_var($field->getUrl($model), FILTER_VALIDATE_URL))
-        <div style="background-image: url('{{ $field->getUrl($model) }}')"
+    @if (filter_var($field->getCroppedOrOriginalUrl($model), FILTER_VALIDATE_URL))
+        <div style="background-image: url('{{ $field->getCroppedOrOriginalUrl($model) }}')"
              class="image-field"
              data-lity
-             data-lity-target="{{ $field->getUrl($model) }}"></div>
-    @elseif (preg_match('~^data:~', $field->getUrl($model)))
-        <div style="background-image: url('{{ $field->getUrl($model) }}')"
+             data-lity-target="{{ $field->getCroppedOrOriginalUrl($model) }}"></div>
+    @elseif (preg_match('~^data:~', $field->getCroppedOrOriginalUrl($model)))
+        <div style="background-image: url('{{ $field->getCroppedOrOriginalUrl($model) }}')"
              class="image-field"
              data-lity
-             data-lity-target="{{ $field->getUrl($model) }}"></div>
+             data-lity-target="{{ $field->getCroppedOrOriginalUrl($model) }}"></div>
     @else
-        {{ $field->getUrl($model) }}
+        {{ $field->getCroppedOrOriginalUrl($model) }}
     @endif
 @endif
+
+
 
 
 @pushonce('style_files', <style>

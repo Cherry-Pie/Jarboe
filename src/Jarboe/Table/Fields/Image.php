@@ -4,6 +4,8 @@ namespace Yaro\Jarboe\Table\Fields;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
+use Intervention\Image\ImageManagerStatic;
 use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
 use Yaro\Jarboe\Table\Fields\Traits\Storage;
 use Illuminate\Support\Facades\Storage as IlluminateStorage;
@@ -51,26 +53,13 @@ class Image extends AbstractField
         return $this;
     }
 
-    protected function storeFile(UploadedFile $file, $filename, Request $request, $index = 0)
+    protected function storeFile($filepath, $filename, $width = null, $height = null, $x = null, $y = null)
     {
-        if (!$this->isCrop()) {
-            if ($this->isEncode()) {
-                $image = InterventionImage::make($file->getRealPath());
-                return (string) $image->encode('data-url');
-            }
-            return $file->storeAs($this->getPath(), $filename, $this->getDisk());
-        }
+        $image = InterventionImage::make($filepath);
 
-        $image = InterventionImage::make($file->getRealPath());
-        $imageCropPropsField = sprintf('__%s_%s', $this->name(), 'cropvalues');
-        \Log::debug(($request->all()));
-        if ($this->isCrop() && $request->has($imageCropPropsField)) {
-            $image->crop(
-                round($request->input(sprintf('%s.%s.width', $imageCropPropsField, $index))),
-                round($request->input(sprintf('%s.%s.height', $imageCropPropsField, $index))),
-                round($request->input(sprintf('%s.%s.x', $imageCropPropsField, $index))),
-                round($request->input(sprintf('%s.%s.y', $imageCropPropsField, $index)))
-            );
+        $hasCropProperties = !is_null($width) && !is_null($height) && !is_null($x) && !is_null($y);
+        if ($this->isCrop() && $hasCropProperties) {
+            $image->crop(round($width), round($height), round($x), round($y));
         }
 
         if ($this->isEncode()) {
@@ -85,23 +74,54 @@ class Image extends AbstractField
 
     public function value(Request $request)
     {
-        $files = $request->file($this->name());
-        if (!$files) {
-            return $this->isNullable() ? null : '';
+        $images = $request->all($this->name());
+        $images = $images[$this->name()];
+        if (!$this->isMultiple()) {
+            $images = [$images];
         }
 
-        $files = is_array($files) ? $files : [$files];
-        $paths = [];
-        foreach ($files as $index => $file) {
-            $filename = $file->hashName();
-            $paths[] = $this->storeFile($file, $filename, $request, $index);
+        $data = [];
+        foreach ($images as $image) {
+            $imageData['storage'] = [
+                'disk' => $this->getDisk(),
+                'is_encoded' => $this->isEncode(),
+            ];
+            $imageData['meta'] = [];
+            $imageData['crop'] = $image['crop'];
+            $imageData['sources'] = $image['sources'];
+            $file = $image['file'];
+            if ($file) {
+                $filename = $file->hashName();
+                $imageData['meta'] = $this->getUploadedFileMeta($file);
+                $imageData['sources']['original'] = $this->storeFile($file->getRealPath(), 'original.'. $filename);
+                $imageData['sources']['cropped'] = $this->storeFile(
+                    $file->getRealPath(),
+                    'cropped.'. $filename,
+                    $image['crop']['width'],
+                    $image['crop']['height'],
+                    $image['crop']['x'],
+                    $image['crop']['y']
+                );
+            } elseif ($this->isCrop() && !$image['sources']['cropped']) {
+                $imageData['meta'] = $this->getUploadedFileMeta($file);
+                $imageData['sources']['cropped'] = $this->storeFile(
+                    IlluminateStorage::disk($this->getDisk())->path($imageData['sources']['original']),
+                    preg_replace('~original\.~', 'cropped.', $filename),
+                    $image['crop']['width'],
+                    $image['crop']['height'],
+                    $image['crop']['x'],
+                    $image['crop']['y']
+                );
+            }
+
+            $data[] = $imageData;
         }
 
         if (!$this->isMultiple()) {
-            return array_pop($paths);
+            return array_pop($data);
         }
 
-        return $paths;
+        return $data;
     }
 
     public function crop(bool $crop = true)
@@ -161,5 +181,38 @@ class Image extends AbstractField
             'model' => null,
             'field' => $this,
         ]);
+    }
+
+    protected function getUploadedFileMeta(UploadedFile $file)
+    {
+        return [
+            'client_original_name' => $file->getClientOriginalName(),
+            'client_mime_type' => $file->getClientMimeType(),
+            'mime_type' => $file->getMimeType(),
+            'extension' => $file->extension(),
+            'size_bytes' => $file->getSize(),
+        ];
+    }
+
+    public function getCroppedOrOriginalUrl($model)
+    {
+        $data = $this->getAttribute($model);
+        $filepath = Arr::get($data, 'sources.cropped', Arr::get($data, 'sources.original'));
+        if (!$filepath) {
+            return;
+        }
+        $disk = IlluminateStorage::disk(Arr::get($data, 'storage.disk', $this->getDisk()));
+
+        return Arr::get($data, 'storage.is_encoded', $this->isEncode()) ? $filepath : $disk->url($filepath);
+    }
+
+    public function getImage($model)
+    {
+        $data = [];
+        if ($model) {
+            $data = $this->getAttribute($model);
+        }
+
+        return new \Yaro\Jarboe\Pack\Image($data);
     }
 }

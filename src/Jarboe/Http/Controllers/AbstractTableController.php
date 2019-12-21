@@ -181,6 +181,7 @@ abstract class AbstractTableController
         } catch (UnauthorizedException $e) {
             return $this->createUnauthorizedResponse($request, $e);
         } catch (\Exception $e) {
+            throw $e;
             $this->notifyBigDanger(get_class($e), $e->getMessage(), 0);
             return redirect()->back()->withInput($request->input());
         }

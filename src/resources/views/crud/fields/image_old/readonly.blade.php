@@ -7,3 +7,5 @@
     </span>
     <input type="text" disabled="disabled" accept="image/*">
 </label>
+
+@include('jarboe::crud.fields.image.inc.images_box')
