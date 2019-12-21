@@ -60,6 +60,9 @@ class Radio extends AbstractField
         if (!$this->isRelationField()) {
             return;
         }
+        if ($this->isReadonly()) {
+            return;
+        }
 
         $this->syncRelations($model, $request->get($this->name()));
     }
