@@ -899,7 +899,7 @@ class URLify
     public static function add_chars($map)
     {
         if (!is_array($map)) {
-            throw new LogicException('$map must be an associative array.');
+            throw new \LogicException('$map must be an associative array.');
         }
         self::$maps[] = $map;
         self::$map = [];
