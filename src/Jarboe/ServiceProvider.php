@@ -9,6 +9,8 @@ use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Yaro\Jarboe\Console\Commands\Install;
 use Yaro\Jarboe\Console\Commands\Make\Tool as MakeTool;
 use Yaro\Jarboe\Helpers\Locale;
+use Yaro\Jarboe\ViewComponents\Breadcrumbs\Breadcrumbs;
+use Yaro\Jarboe\ViewComponents\Breadcrumbs\BreadcrumbsInterface;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
@@ -56,6 +58,7 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->registerViewComposer();
         $this->registerBladeDirectives();
         $this->registerMiddlewareGroup();
+        $this->registerBindings();
     }
 
     /**
@@ -130,6 +133,13 @@ class ServiceProvider extends IlluminateServiceProvider
                     return response()->view('jarboe::errors.404')->setStatusCode(404);
                 })->where('any', '.*');
             });
+        });
+    }
+
+    private function registerBindings()
+    {
+        $this->app->bind(BreadcrumbsInterface::class, function ($app) {
+            return new Breadcrumbs();
         });
     }
 }

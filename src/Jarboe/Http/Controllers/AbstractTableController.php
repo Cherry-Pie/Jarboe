@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Request as RequestFacade;
 use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Yaro\Jarboe\Http\Controllers\Traits\AliasesTrait;
+use Yaro\Jarboe\Http\Controllers\Traits\BreadcrumbsTrait;
 use Yaro\Jarboe\Http\Controllers\Traits\Handlers\CreateHandlerTrait;
 use Yaro\Jarboe\Http\Controllers\Traits\Handlers\DeleteHandlerTrait;
 use Yaro\Jarboe\Http\Controllers\Traits\Handlers\EditHandlerTrait;
@@ -32,6 +33,7 @@ use Yaro\Jarboe\Table\Actions\RestoreAction;
 use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\AbstractField;
 use Yaro\Jarboe\Table\Toolbar\TranslationLocalesSelectorTool;
+use Yaro\Jarboe\ViewComponents\Breadcrumbs\BreadcrumbsInterface;
 
 /**
  * @method mixed list(Request $request)
@@ -65,6 +67,7 @@ abstract class AbstractTableController
     use SortableHandlerTrait;
     use SearchRelationHandlerTrait;
     use SearchHandlerTrait;
+    use BreadcrumbsTrait;
 
     /**
      * Permission group name.
@@ -109,6 +112,7 @@ abstract class AbstractTableController
             DeleteAction::make(),
             ForceDeleteAction::make(),
         ]);
+        $this->breadcrumbs = app(BreadcrumbsInterface::class);
     }
 
     protected function crud(): CRUD
@@ -205,6 +209,7 @@ abstract class AbstractTableController
         }
 
         $this->crud()->actions()->setCrud($this->crud());
+        $this->initBreadcrumbs();
     }
 
     /**

@@ -2,11 +2,25 @@
 
 
 @section('breadcrumbs')
-    <ol class="breadcrumb">
-        <li><a href="{{ admin_url() }}">{{ __('jarboe::common.breadcrumbs.home') }}</a></li>
-        <li><a href="{{ $crud->baseUrl() }}">{{ __('jarboe::common.breadcrumbs.table') }}</a></li>
-        <li>{{ __('jarboe::common.breadcrumbs.editing') }}</li>
-    </ol>
+    @if ($breadcrumbs->isEmptyForEditPage())
+        <ol class="breadcrumb">
+            <li><a href="{{ admin_url() }}">{{ __('jarboe::common.breadcrumbs.home') }}</a></li>
+            <li><a href="{{ $crud->baseUrl() }}">{{ __('jarboe::common.breadcrumbs.table') }}</a></li>
+            <li>{{ __('jarboe::common.breadcrumbs.editing') }}</li>
+        </ol>
+    @else
+        <ol class="breadcrumb">
+        @foreach($breadcrumbs as $crumb)
+            @if ($crumb->shouldBeShownOnEditPage())
+                @if ($crumb->getUrl($item))
+                    <li><a href="{{ $crumb->getUrl($item) }}">{{ $crumb->getTitle($item) }}</a></li>
+                @else
+                    <li>{{ $crumb->getTitle($item) }}</li>
+                @endif
+            @endif
+        @endforeach
+        </ol>
+    @endif
 @endsection
 
 @section('content')
