@@ -661,6 +661,37 @@ class AbstractTableControllerTest extends AbstractBaseTest
         session()->flush();
 
 
+        $this->controller->notifySmall('title small', 'content small', 1200, '#bbbccc', 'fa fa-users');
+        $this->controller->notifyBig('title big', 'content big', 1000, '#bbbccc', 'fa fa-users');
+
+        $this->assertEquals(
+            [
+                [
+                    'title' => 'title small',
+                    'content' => 'content small',
+                    'color' => '#bbbccc',
+                    'icon' => 'fa fa-users',
+                    'timeout' => 1200,
+                ],
+            ],
+            session('jarboe_notifications.small')
+        );
+        $this->assertEquals(
+            [
+                [
+                    'title' => 'title big',
+                    'content' => 'content big',
+                    'color' => '#bbbccc',
+                    'icon' => 'fa fa-users',
+                    'timeout' => 1000,
+                ],
+            ],
+            session('jarboe_notifications.big')
+        );
+
+        session()->flush();
+
+
         $this->controller->notifySmallSuccess('title small', 'content small', 1234);
         $this->controller->notifySmallDanger('title small', 'content small', 12345);
         $this->controller->notifySmallWarning('title small', 'content small', 12346);
