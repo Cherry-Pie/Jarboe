@@ -35,6 +35,10 @@ class Crumb
         return $this;
     }
 
+    /**
+     * @param null $model
+     * @return string
+     */
     public function getTitle($model = null)
     {
         $callback = $this->title;
@@ -44,6 +48,10 @@ class Crumb
         return $this->title;
     }
 
+    /**
+     * @param null $model
+     * @return string
+     */
     public function getUrl($model = null)
     {
         $callback = $this->url;
