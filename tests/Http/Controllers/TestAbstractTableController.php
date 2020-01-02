@@ -14,11 +14,12 @@ use Yaro\Jarboe\Tests\Models\Model;
 class TestAbstractTableController extends AbstractTableController
 {
     private $shouldThrowValidationException = false;
+    protected $shouldEnableSoftDelete = true;
 
     public function init()
     {
         $this->setModel(Model::class);
-        $this->softDeletes();
+        $this->softDeletes($this->shouldEnableSoftDelete);
         $this->filter(function ($model) {
             $model->withTrashed();
         });
@@ -171,5 +172,15 @@ class TestAbstractTableController extends AbstractTableController
         }
 
         return parent::handleList($request);
+    }
+
+    public function disableSoftDelete()
+    {
+        $this->shouldEnableSoftDelete = false;
+    }
+
+    public function enableSoftDelete()
+    {
+        $this->shouldEnableSoftDelete = true;
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Spatie\Permission\Exceptions\UnauthorizedException;
+use Yaro\Jarboe\Exceptions\PermissionDenied;
 use Yaro\Jarboe\Http\Controllers\AbstractTableController;
 use Yaro\Jarboe\Models\Admin;
 use Yaro\Jarboe\Table\CRUD;
@@ -88,6 +89,20 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $this->expectException(UnauthorizedException::class);
 
         $this->controller->setPermissions('unauthorized');
+
+        $this->controller->handleCreate($this->createRequest());
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_create_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $this->controller->getCrud()->actions()->find('create')->check(function () {
+            return false;
+        });
 
         $this->controller->handleCreate($this->createRequest());
     }
@@ -330,6 +345,21 @@ class AbstractTableControllerTest extends AbstractBaseTest
     /**
      * @test
      */
+    public function check_magic_delete_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $model = Model::first();
+        $this->controller->getCrud()->actions()->find('delete')->check(function () {
+            return false;
+        });
+
+        $this->controller->handleDelete($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
     public function check_magic_delete_call_unauthorized_response()
     {
         $this->controller->setPermissions('unauthorized');
@@ -388,6 +418,32 @@ class AbstractTableControllerTest extends AbstractBaseTest
     /**
      * @test
      */
+    public function check_magic_restore_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $this->controller->disableSoftDelete();
+
+        $this->controller->handleRestore($this->createRequest(), 1);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_restore_call_permission_denied_by_action()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $this->controller->getCrud()->actions()->find('restore')->check(function () {
+            return false;
+        });
+
+        $this->controller->handleRestore($this->createRequest(), 1);
+    }
+
+    /**
+     * @test
+     */
     public function check_magic_restore_call_unauthorized_response()
     {
         $this->controller->setPermissions('unauthorized');
@@ -427,6 +483,48 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $model = Model::first();
         $model->delete();
         $this->controller->setPermissions('unauthorized');
+
+        $this->controller->handleForceDelete($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_force_delete_permission_denied_by_action()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $model = Model::first();
+        $model->delete();
+        $this->controller->getCrud()->actions()->find('force-delete')->check(function () {
+            return false;
+        });
+
+        $this->controller->handleForceDelete($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_force_delete_non_trashed_model_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $model = Model::first();
+
+        $this->controller->handleForceDelete($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_force_delete_non_soft_delete_crud_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $this->controller->disableSoftDelete();
+        $model = Model::first();
+        $model->delete();
 
         $this->controller->handleForceDelete($this->createRequest(), $model->id);
     }
