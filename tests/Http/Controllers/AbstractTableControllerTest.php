@@ -15,6 +15,8 @@ use Yaro\Jarboe\Table\Toolbar\MassDeleteTool;
 use Yaro\Jarboe\Table\Toolbar\ShowHideColumnsTool;
 use Yaro\Jarboe\Tests\AbstractBaseTest;
 use Yaro\Jarboe\Tests\Models\Model;
+use Yaro\Jarboe\ViewComponents\Breadcrumbs\BreadcrumbsInterface;
+use Yaro\Jarboe\ViewComponents\Breadcrumbs\Crumb;
 
 class AbstractTableControllerTest extends AbstractBaseTest
 {
@@ -809,5 +811,28 @@ class AbstractTableControllerTest extends AbstractBaseTest
 
         $this->controller->overrideListMethodToThrowValidationException();
         $this->controller->list($this->createRequest());
+    }
+
+    /**
+     * @test
+     */
+    public function check_breadcrumbs()
+    {
+        $this->controller->breadcrumbs()->add(Crumb::make('hai'));
+        $this->controller->bound();
+
+        $this->assertInstanceOf(BreadcrumbsInterface::class, $this->controller->breadcrumbs());
+
+        $view = view('jarboe::crud.list');
+        $view->getFactory()->callComposer($view);
+        $this->assertEquals($this->controller->breadcrumbs(), $view->breadcrumbs);
+
+        $view = view('jarboe::crud.create');
+        $view->getFactory()->callComposer($view);
+        $this->assertEquals($this->controller->breadcrumbs(), $view->breadcrumbs);
+
+        $view = view('jarboe::crud.edit');
+        $view->getFactory()->callComposer($view);
+        $this->assertEquals($this->controller->breadcrumbs(), $view->breadcrumbs);
     }
 }
