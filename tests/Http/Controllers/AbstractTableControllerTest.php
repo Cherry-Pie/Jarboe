@@ -212,6 +212,20 @@ class AbstractTableControllerTest extends AbstractBaseTest
     /**
      * @test
      */
+    public function check_magic_store_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $this->controller->getCrud()->actions()->find('create')->check(function () {
+            return false;
+        });
+
+        $this->controller->handleStore($this->createRequest());
+    }
+
+    /**
+     * @test
+     */
     public function check_magic_store_call_unauthorized()
     {
         $this->expectException(UnauthorizedException::class);
@@ -246,6 +260,21 @@ class AbstractTableControllerTest extends AbstractBaseTest
 
         $this->assertInstanceOf(View::class, $baseView);
         $this->assertEquals($baseView, $magicView);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_edit_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $model = Model::first();
+        $this->controller->getCrud()->actions()->find('edit')->check(function () {
+            return false;
+        });
+
+        $this->controller->handleEdit($this->createRequest(), $model->id);
     }
 
     /**
@@ -287,6 +316,21 @@ class AbstractTableControllerTest extends AbstractBaseTest
 
         $this->assertInstanceOf(RedirectResponse::class, $baseRedirect);
         $this->assertEquals($baseRedirect->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'), $magicRedirect->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'));
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_update_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $model = Model::first();
+        $this->controller->getCrud()->actions()->find('edit')->check(function () {
+            return false;
+        });
+
+        $this->controller->handleEdit($this->createRequest(), $model->id);
     }
 
     /**
