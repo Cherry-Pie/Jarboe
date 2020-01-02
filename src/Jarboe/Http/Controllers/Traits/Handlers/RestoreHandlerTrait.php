@@ -32,6 +32,10 @@ trait RestoreHandlerTrait
         }
 
         $model = $this->crud()->repo()->find($id);
+        if (!$this->crud()->actions()->isAllowed('restore', $model)) {
+            throw new PermissionDenied();
+        }
+
         if ($this->crud()->repo()->restore($id) || !$model->trashed()) {
             return response()->json([
                 'message' => __('jarboe::common.list.restore_success_message', ['id' => $id]),
