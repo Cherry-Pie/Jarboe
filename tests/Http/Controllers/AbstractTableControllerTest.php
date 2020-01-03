@@ -18,11 +18,14 @@ use Yaro\Jarboe\Tests\AbstractBaseTest;
 use Yaro\Jarboe\Tests\Models\Model;
 use Yaro\Jarboe\ViewComponents\Breadcrumbs\BreadcrumbsInterface;
 use Yaro\Jarboe\ViewComponents\Breadcrumbs\Crumb;
+use Yaro\Jarboe\Tests\Http\Controllers\Traits\AliasesTrait;
 
 class AbstractTableControllerTest extends AbstractBaseTest
 {
+    use AliasesTrait;
+
     /** @var TestAbstractTableController */
-    private $controller;
+    protected $controller;
 
     protected function setUp(): void
     {

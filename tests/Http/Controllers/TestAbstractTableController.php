@@ -183,4 +183,9 @@ class TestAbstractTableController extends AbstractTableController
     {
         $this->shouldEnableSoftDelete = true;
     }
+
+    public function locales(array $locales)
+    {
+        parent::locales($locales);
+    }
 }
