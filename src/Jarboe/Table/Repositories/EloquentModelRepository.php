@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\AbstractField;
 
-class ModelRepository implements ModelRepositoryInterface
+class EloquentModelRepository implements ModelRepositoryInterface
 {
     /**
      * @var CRUD
@@ -19,7 +19,7 @@ class ModelRepository implements ModelRepositoryInterface
         'direction' => false,
     ];
 
-    public function setCrud(CRUD $crud)
+    public function setCrud(CRUD $crud): ModelRepositoryInterface
     {
         $this->crud = $crud;
 
@@ -59,72 +59,27 @@ class ModelRepository implements ModelRepositoryInterface
         return $model;
     }
 
-    public function delete($id)
+    public function delete($id): bool
     {
         $model = $this->find($id);
 
         return $model->delete();
     }
 
-    public function store(Request $request)
+    public function store(array $data)
     {
-        $fields = $this->crud->getFieldsWithoutMarkup();
         $model = $this->crud->getModel();
 
-        $data = [];
-        /** @var AbstractField $field */
-        foreach ($fields as $field) {
-            if ($field->hidden('create') || /*$field->isReadonly() || */$field->shouldSkip($request)) {
-                continue;
-            }
-            $data += [$field->name() => $field->value($request)];
-        }
-
         $model = $model::create($data);
-
-        /** @var AbstractField $field */
-        foreach ($fields as $field) {
-            $field->afterStore($model, $request);
-        }
 
         return $model;
     }
 
-    public function update($id, Request $request)
+    public function update($id, array $data)
     {
-        $fields = $this->crud->getFieldsWithoutMarkup();
         $model = $this->find($id);
-
-        $data = [];
-        /** @var AbstractField $field */
-        foreach ($fields as $field) {
-            if ($field->hidden('edit') || $field->isReadonly() || $field->shouldSkip($request)) {
-                continue;
-            }
-            $data += [$field->name() => $field->value($request)];
-        }
 
         $model->update($data);
-
-        /** @var AbstractField $field */
-        foreach ($fields as $field) {
-            $field->afterUpdate($model, $request);
-        }
-    }
-
-    public function updateField($id, Request $request, AbstractField $field, $value)
-    {
-        $model = $this->find($id);
-
-        // FIXME: move
-        if (!$field->isInline() || $field->isReadonly() || $field->shouldSkip($request)) {
-            return;
-        }
-
-        $model->update([
-            $field->name() => $value,
-        ]);
-        $field->afterUpdate($model, $request);
 
         return $model;
     }

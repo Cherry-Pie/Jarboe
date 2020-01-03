@@ -11,10 +11,9 @@ interface ModelRepositoryInterface
     public function setCrud(CRUD $crud);
     public function get();
     public function find($id);
-    public function delete($id);
-    public function store(Request $request);
-    public function update($id, Request $request);
-    public function updateField($id, Request $request, AbstractField $field, $value);
+    public function delete($id): bool;
+    public function store(array $data);
+    public function update($id, array $data);
     public function reorder($id, $idPrev, $idNext);
     public function restore($id);
     public function forceDelete($id);
