@@ -26,27 +26,6 @@ class AbstractTableControllerTest extends AbstractBaseTest
     /** @var TestAbstractTableController */
     protected $controller;
 
-    /**
-     * @test
-     */
-    public function check_add_columns_alias()
-    {
-        $fields = [
-            Text::make('title'),
-            Textarea::make('description'),
-        ];
-        $this->controller->addColumns($fields);
-        $columns = $this->controller->crud()->getColumns();
-
-        $this->assertEquals($fields, $columns);
-
-
-        $this->controller->addColumns($fields);
-        $columns = $this->controller->crud()->getColumns();
-
-
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -1132,6 +1111,29 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $this->assertNull($this->controller->crud()->getFieldByName('hi'));
         $this->assertEquals(
             [Text::make('hi')],
+            $this->controller->crud()->getColumnsAsFields()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function check_add_columns_alias()
+    {
+        $fields = [
+            Text::make('title'),
+            Textarea::make('description'),
+            'hi',
+        ];
+        $this->controller->addColumns($fields);
+
+        $this->assertNull($this->controller->crud()->getFieldByName('hi'));
+
+        array_pop($fields);
+        $fields[] = Text::make('hi');
+
+        $this->assertEquals(
+            $fields,
             $this->controller->crud()->getColumnsAsFields()
         );
     }
