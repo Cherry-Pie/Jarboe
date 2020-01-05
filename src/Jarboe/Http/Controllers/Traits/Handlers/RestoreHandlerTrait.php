@@ -36,17 +36,16 @@ trait RestoreHandlerTrait
             throw new PermissionDenied();
         }
 
-        if ($this->crud()->repo()->restore($id) || !$model->trashed()) {
-            return response()->json([
-                'message' => __('jarboe::common.list.restore_success_message', ['id' => $id]),
-            ]);
-        }
-
         $this->idEntity = $model->getKey();
 
+        if (!$this->crud()->repo()->restore($id) || $model->trashed()) {
+            return response()->json([
+                'message' => __('jarboe::common.list.restore_failed_message', ['id' => $id]),
+            ], 422);
+        }
         return response()->json([
-            'message' => __('jarboe::common.list.restore_failed_message', ['id' => $id]),
-        ], 422);
+            'message' => __('jarboe::common.list.restore_success_message', ['id' => $id]),
+        ]);
     }
 
     abstract protected function init();

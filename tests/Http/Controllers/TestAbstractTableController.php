@@ -35,9 +35,9 @@ class TestAbstractTableController extends AbstractTableController
         return parent::createUnauthorizedResponse($request, $exception);
     }
 
-    public function getCrud(): CRUD
+    public function crud(): CRUD
     {
-        return $this->crud;
+        return parent::crud();
     }
 
     public function bound()
@@ -186,6 +186,16 @@ class TestAbstractTableController extends AbstractTableController
 
     public function locales(array $locales)
     {
-        parent::locales($locales);
+        return parent::locales($locales);
+    }
+
+    public function addColumn($column)
+    {
+        return parent::addColumn($column);
+    }
+
+    public function addColumns(array $columns)
+    {
+        return parent::addColumns($columns);
     }
 }

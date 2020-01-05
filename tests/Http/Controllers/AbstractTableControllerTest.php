@@ -4,6 +4,7 @@ namespace Yaro\Jarboe\Tests\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Spatie\Permission\Exceptions\UnauthorizedException;
@@ -12,20 +13,39 @@ use Yaro\Jarboe\Http\Controllers\AbstractTableController;
 use Yaro\Jarboe\Models\Admin;
 use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\Text;
+use Yaro\Jarboe\Table\Fields\Textarea;
 use Yaro\Jarboe\Table\Toolbar\MassDeleteTool;
 use Yaro\Jarboe\Table\Toolbar\ShowHideColumnsTool;
 use Yaro\Jarboe\Tests\AbstractBaseTest;
 use Yaro\Jarboe\Tests\Models\Model;
 use Yaro\Jarboe\ViewComponents\Breadcrumbs\BreadcrumbsInterface;
 use Yaro\Jarboe\ViewComponents\Breadcrumbs\Crumb;
-use Yaro\Jarboe\Tests\Http\Controllers\Traits\AliasesTrait;
 
 class AbstractTableControllerTest extends AbstractBaseTest
 {
-    use AliasesTrait;
-
     /** @var TestAbstractTableController */
     protected $controller;
+
+    /**
+     * @test
+     */
+    public function check_add_columns_alias()
+    {
+        $fields = [
+            Text::make('title'),
+            Textarea::make('description'),
+        ];
+        $this->controller->addColumns($fields);
+        $columns = $this->controller->crud()->getColumns();
+
+        $this->assertEquals($fields, $columns);
+
+
+        $this->controller->addColumns($fields);
+        $columns = $this->controller->crud()->getColumns();
+
+
+    }
 
     protected function setUp(): void
     {
@@ -103,7 +123,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
     {
         $this->expectException(PermissionDenied::class);
 
-        $this->controller->getCrud()->actions()->find('create')->check(function () {
+        $this->controller->crud()->actions()->find('create')->check(function () {
             return false;
         });
 
@@ -219,7 +239,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
     {
         $this->expectException(PermissionDenied::class);
 
-        $this->controller->getCrud()->actions()->find('create')->check(function () {
+        $this->controller->crud()->actions()->find('create')->check(function () {
             return false;
         });
 
@@ -273,7 +293,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $this->expectException(PermissionDenied::class);
 
         $model = Model::first();
-        $this->controller->getCrud()->actions()->find('edit')->check(function () {
+        $this->controller->crud()->actions()->find('edit')->check(function () {
             return false;
         });
 
@@ -329,11 +349,11 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $this->expectException(PermissionDenied::class);
 
         $model = Model::first();
-        $this->controller->getCrud()->actions()->find('edit')->check(function () {
+        $this->controller->crud()->actions()->find('edit')->check(function () {
             return false;
         });
 
-        $this->controller->handleEdit($this->createRequest(), $model->id);
+        $this->controller->handleUpdate($this->createRequest(), $model->id);
     }
 
     /**
@@ -397,7 +417,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $this->expectException(PermissionDenied::class);
 
         $model = Model::first();
-        $this->controller->getCrud()->actions()->find('delete')->check(function () {
+        $this->controller->crud()->actions()->find('delete')->check(function () {
             return false;
         });
 
@@ -446,6 +466,25 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $magicResponse = $this->controller->restore($this->createRequest(), $model->id);
 
         $this->assertInstanceOf(JsonResponse::class, $baseResponse);
+        $this->assertEquals(Response::HTTP_OK, $magicResponse->getStatusCode());
+        $this->assertEquals($baseResponse->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'), $magicResponse->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'));
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_restore_call_unsuccessful()
+    {
+        Model::restoring(function ($model) {
+            return false;
+        });
+        $model = Model::first();
+
+        $baseResponse = $this->controller->handleRestore($this->createRequest(), $model->id);
+        $magicResponse = $this->controller->restore($this->createRequest(), $model->id);
+
+        $this->assertInstanceOf(JsonResponse::class, $baseResponse);
+        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $magicResponse->getStatusCode());
         $this->assertEquals($baseResponse->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'), $magicResponse->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'));
     }
 
@@ -481,7 +520,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
     {
         $this->expectException(PermissionDenied::class);
 
-        $this->controller->getCrud()->actions()->find('restore')->check(function () {
+        $this->controller->crud()->actions()->find('restore')->check(function () {
             return false;
         });
 
@@ -543,7 +582,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
 
         $model = Model::first();
         $model->delete();
-        $this->controller->getCrud()->actions()->find('force-delete')->check(function () {
+        $this->controller->crud()->actions()->find('force-delete')->check(function () {
             return false;
         });
 
@@ -666,7 +705,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
                 ]);
             }
 
-            public function getCrud(): CRUD
+            public function crud(): CRUD
             {
                 return $this->crud;
             }
@@ -679,17 +718,17 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $controller->init();
         $controller->bound();
 
-        $tools[0]->setCrud($controller->getCrud());
-        $tools[1]->setCrud($controller->getCrud());
+        $tools[0]->setCrud($controller->crud());
+        $tools[1]->setCrud($controller->crud());
 
-        $this->assertEquals($tools[0], $controller->getCrud()->getTool($tools[0]->identifier()));
-        $this->assertEquals($tools[1], $controller->getCrud()->getTool($tools[1]->identifier()));
+        $this->assertEquals($tools[0], $controller->crud()->getTool($tools[0]->identifier()));
+        $this->assertEquals($tools[1], $controller->crud()->getTool($tools[1]->identifier()));
         $this->assertEquals(
             [
                 $tools[0]->identifier() => $tools[0],
                 $tools[1]->identifier() => $tools[1],
             ],
-            $controller->getCrud()->getTools()
+            $controller->crud()->getTools()
         );
     }
 
@@ -716,7 +755,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
                 $this->addTool(new ShowHideColumnsTool());
             }
 
-            public function getCrud(): CRUD
+            public function crud(): CRUD
             {
                 return $this->crud;
             }
@@ -729,14 +768,14 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $controller->init();
         $controller->bound();
 
-        $tool->setCrud($controller->getCrud());
+        $tool->setCrud($controller->crud());
 
-        $this->assertEquals($tool, $controller->getCrud()->getTool($tool->identifier()));
+        $this->assertEquals($tool, $controller->crud()->getTool($tool->identifier()));
         $this->assertEquals(
             [
                 $tool->identifier() => $tool,
             ],
-            $controller->getCrud()->getTools()
+            $controller->crud()->getTools()
         );
     }
 
@@ -747,7 +786,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
     {
         $this->controller->perPage(420);
 
-        $this->assertEquals(420, $this->controller->getCrud()->getPerPageParam());
+        $this->assertEquals(420, $this->controller->crud()->getPerPageParam());
     }
 
     /**
@@ -758,8 +797,8 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $response = $this->controller->orderBy('title', 'desc');
 
         $this->assertInstanceOf(RedirectResponse::class, $response);
-        $this->assertEquals('desc', $this->controller->getCrud()->getOrderFilterParam('title'));
-        $this->assertNull($this->controller->getCrud()->getOrderFilterParam('none'));
+        $this->assertEquals('desc', $this->controller->crud()->getOrderFilterParam('title'));
+        $this->assertNull($this->controller->crud()->getOrderFilterParam('none'));
     }
 
     /**
@@ -1010,5 +1049,90 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $view = view('jarboe::crud.edit');
         $view->getFactory()->callComposer($view);
         $this->assertEquals($this->controller->breadcrumbs(), $view->breadcrumbs);
+    }
+
+    /**
+     * @test
+     */
+    public function check_locales_alias()
+    {
+        $locales = [
+            'en' => 'EN',
+            'JP' => 'JP',
+        ];
+        $this->controller->locales($locales);
+
+        $this->assertEquals($locales, $this->controller->crud()->getLocales());
+
+
+        $locales = [
+            'en',
+            'JP',
+        ];
+        $this->controller->locales($locales);
+
+        $this->assertEquals(array_combine($locales, $locales), $this->controller->crud()->getLocales());
+    }
+
+    /**
+     * @test
+     */
+    public function check_add_column_alias_by_field()
+    {
+        $columns = $this->controller->crud()->getColumns();
+
+        $this->assertEmpty($columns);
+        $this->assertIsArray($columns);
+        $this->assertEquals(
+            $this->controller->crud()->getFields(),
+            $this->controller->crud()->getColumnsAsFields()
+        );
+
+        $field = Text::make('title');
+        $this->controller->addColumn($field);
+        $columns = $this->controller->crud()->getColumns();
+
+        $this->assertEquals([$field], $columns);
+    }
+
+    /**
+     * @test
+     */
+    public function check_add_column_alias_by_identifier()
+    {
+        $columns = $this->controller->crud()->getColumns();
+
+        $this->assertEmpty($columns);
+        $this->assertIsArray($columns);
+
+        $this->controller->init();
+        $this->controller->bound();
+        $this->controller->addColumn('description');
+
+        $this->assertEquals(
+            [$this->controller->crud()->getFieldByName('description')],
+            $this->controller->crud()->getColumnsAsFields()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function check_add_column_alias_by_new_identifier()
+    {
+        $columns = $this->controller->crud()->getColumns();
+
+        $this->assertEmpty($columns);
+        $this->assertIsArray($columns);
+
+        $this->controller->init();
+        $this->controller->bound();
+        $this->controller->addColumn('hi');
+
+        $this->assertNull($this->controller->crud()->getFieldByName('hi'));
+        $this->assertEquals(
+            [Text::make('hi')],
+            $this->controller->crud()->getColumnsAsFields()
+        );
     }
 }
