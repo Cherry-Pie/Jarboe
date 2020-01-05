@@ -11,6 +11,13 @@ class Tags extends AbstractField
     private $relationTitleField;
     private $isOptionsHidden = false;
 
+    public function value(Request $request)
+    {
+        $value = $request->get($this->name(), []);
+
+        return is_array($value) ? $value : [];
+    }
+
     public function getListValue($model)
     {
         return view('jarboe::crud.fields.tags.list', [
@@ -38,16 +45,24 @@ class Tags extends AbstractField
 
     public function shouldSkip(Request $request)
     {
-        return true;
+        return $this->isRelationField();
     }
 
     public function afterStore($model, Request $request)
     {
+        if (!$this->isRelationField()) {
+            return;
+        }
+
         $this->afterUpdate($model, $request);
     }
 
     public function afterUpdate($model, Request $request)
     {
+        if (!$this->isRelationField()) {
+            return;
+        }
+
         $relationQuery = $model->{$this->getRelationMethod()}()->getRelated();
         $relationClass = get_class($relationQuery);
         $relationClassObject = new $relationClass;
@@ -85,6 +100,10 @@ class Tags extends AbstractField
 
     public function getOptions()
     {
+        if (!$this->isRelationField()) {
+            return [];
+        }
+
         $model = $this->model;
         $relationClassObject = $this->getRelationClassObject(new $model);
 
@@ -96,6 +115,11 @@ class Tags extends AbstractField
 
     public function getSelectedOptions($model)
     {
+        if (!$this->isRelationField()) {
+            $values = $model->{$this->name()};
+            return is_array($values) ? $values : [];
+        }
+
         $relationClassObject = $this->getRelationClassObject($model);
 
         return $model->{$this->getRelationMethod()}->pluck(
@@ -150,8 +174,12 @@ class Tags extends AbstractField
         return $this;
     }
 
-    public function isOptionsHidden()
+    public function isOptionsHidden(): bool
     {
+        if (!$this->isRelationField()) {
+            return true;
+        }
+
         return $this->isOptionsHidden;
     }
 }
