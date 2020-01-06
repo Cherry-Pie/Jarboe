@@ -1233,4 +1233,24 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $this->assertTrue($this->controller->crud()->isSortableByWeight());
         $this->assertEquals('sortme', $this->controller->crud()->getSortableWeightFieldName());
     }
+
+    /**
+     * @test
+     */
+    public function check_urls()
+    {
+        $this->assertEquals('http://localhost', $this->controller->crud()->baseUrl());
+        $this->assertEquals('http://localhost/~/42', $this->controller->crud()->editUrl(42));
+        $this->assertEquals('http://localhost/~/create', $this->controller->crud()->createUrl());
+        $this->assertEquals('http://localhost/~/42/delete', $this->controller->crud()->deleteUrl(42));
+        $this->assertEquals('http://localhost/~/42/restore', $this->controller->crud()->restoreUrl(42));
+        $this->assertEquals('http://localhost/~/42/force-delete', $this->controller->crud()->forceDeleteUrl(42));
+        $this->assertEquals('http://localhost/~/toolbar/sometool', $this->controller->crud()->toolbarUrl('sometool'));
+        $this->assertEquals('http://localhost/~/per-page/42', $this->controller->crud()->perPageUrl(42));
+        $this->assertEquals('http://localhost/~/search', $this->controller->crud()->searchUrl());
+        $this->assertEquals('http://localhost/~/search/relation', $this->controller->crud()->relationSearchUrl());
+        $this->assertEquals('http://localhost/~/order/price/desc', $this->controller->crud()->orderUrl('price', 'desc'));
+        $this->assertEquals('http://localhost/~/reorder/switch', $this->controller->crud()->reorderUrl());
+        $this->assertEquals('http://localhost/~/reorder/move/42', $this->controller->crud()->reorderMoveItemUrl(42));
+    }
 }
