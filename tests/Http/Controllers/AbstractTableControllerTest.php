@@ -12,8 +12,12 @@ use Yaro\Jarboe\Exceptions\PermissionDenied;
 use Yaro\Jarboe\Http\Controllers\AbstractTableController;
 use Yaro\Jarboe\Models\Admin;
 use Yaro\Jarboe\Table\CRUD;
+use Yaro\Jarboe\Table\Fields\Checkbox;
+use Yaro\Jarboe\Table\Fields\Markup\RowMarkup;
+use Yaro\Jarboe\Table\Fields\Select;
 use Yaro\Jarboe\Table\Fields\Text;
 use Yaro\Jarboe\Table\Fields\Textarea;
+use Yaro\Jarboe\Table\Filters\TextFilter;
 use Yaro\Jarboe\Table\Toolbar\MassDeleteTool;
 use Yaro\Jarboe\Table\Toolbar\ShowHideColumnsTool;
 use Yaro\Jarboe\Tests\AbstractBaseTest;
@@ -25,21 +29,6 @@ class AbstractTableControllerTest extends AbstractBaseTest
 {
     /** @var TestAbstractTableController */
     protected $controller;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->loadMigrationsFrom([
-            '--database' => 'testing',
-            '--realpath' => realpath(__DIR__.'/../../database/migrations'),
-        ]);
-        $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->registerPermissions();
-
-        auth('admin')->login(Admin::first());
-
-        $this->controller = new TestAbstractTableController();
-    }
 
     /**
      * Define environment setup.
@@ -1136,5 +1125,92 @@ class AbstractTableControllerTest extends AbstractBaseTest
             $fields,
             $this->controller->crud()->getColumnsAsFields()
         );
+    }
+
+    /**
+     * @test
+     */
+    public function check_field_extraction()
+    {
+        $text = Text::make('title');
+        $textarea = Textarea::make('description');
+        $select = Select::make('select');
+        $checkbox = Checkbox::make('checkbox');
+        $fields = [
+            $text,
+            RowMarkup::make()->fields([
+                $select,
+                $checkbox,
+            ]),
+            $textarea,
+        ];
+        $this->controller->addFields($fields);
+
+        $this->assertEquals(
+            [
+                $text,
+                $select,
+                $checkbox,
+                $textarea,
+            ],
+            $this->controller->crud()->getFieldsWithoutMarkup()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function check_fields_with_no_filter()
+    {
+        $this->controller->init();
+        $this->controller->bound();
+
+        $field = Text::make('title');
+        $this->controller->addField($field);
+
+        $this->assertFalse($this->controller->crud()->hasAnyFieldFilter());
+    }
+
+    /**
+     * @test
+     */
+    public function check_fields_with_filter()
+    {
+        $this->controller->init();
+        $this->controller->bound();
+
+        $field = Text::make('title')->filter(TextFilter::make());
+        $this->controller->addField($field);
+
+        $this->assertTrue($this->controller->crud()->hasAnyFieldFilter());
+    }
+
+    /**
+     * @test
+     */
+    public function check_getting_columns_without_related_fields()
+    {
+        $this->controller->init();
+        $this->controller->bound();
+
+        $field = Text::make('schwifty');
+        $this->controller->addColumn($field);
+
+        $this->assertEquals([$field], $this->controller->crud()->getColumnsWithoutRelatedField());
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->loadMigrationsFrom([
+            '--database' => 'testing',
+            '--realpath' => realpath(__DIR__.'/../../database/migrations'),
+        ]);
+        $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->registerPermissions();
+
+        auth('admin')->login(Admin::first());
+
+        $this->controller = new TestAbstractTableController();
     }
 }

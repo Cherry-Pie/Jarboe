@@ -8,6 +8,7 @@ use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Yaro\Jarboe\Http\Controllers\AbstractTableController;
 use Yaro\Jarboe\Table\CRUD;
+use Yaro\Jarboe\Table\Fields\AbstractField;
 use Yaro\Jarboe\Table\Fields\Text;
 use Yaro\Jarboe\Tests\Models\Model;
 
@@ -197,5 +198,15 @@ class TestAbstractTableController extends AbstractTableController
     public function addColumns(array $columns)
     {
         return parent::addColumns($columns);
+    }
+
+    public function addField(AbstractField $field)
+    {
+        return parent::addField($field);
+    }
+
+    public function addFields(array $fields)
+    {
+        return parent::addFields($fields);
     }
 }
