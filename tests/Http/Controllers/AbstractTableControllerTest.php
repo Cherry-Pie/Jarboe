@@ -30,6 +30,21 @@ class AbstractTableControllerTest extends AbstractBaseTest
     /** @var TestAbstractTableController */
     protected $controller;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->loadMigrationsFrom([
+            '--database' => 'testing',
+            '--realpath' => realpath(__DIR__.'/../../database/migrations'),
+        ]);
+        $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->registerPermissions();
+
+        auth('admin')->login(Admin::first());
+
+        $this->controller = new TestAbstractTableController();
+    }
+
     /**
      * Define environment setup.
      *
@@ -1199,18 +1214,23 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $this->assertEquals([$field], $this->controller->crud()->getColumnsWithoutRelatedField());
     }
 
-    protected function setUp(): void
+    /**
+     * @test
+     */
+    public function check_sortable_weight_is_not_set()
     {
-        parent::setUp();
+        $this->assertFalse($this->controller->crud()->isSortableByWeight());
+        $this->assertNull($this->controller->crud()->getSortableWeightFieldName());
+    }
 
-        $this->loadMigrationsFrom([
-            '--database' => 'testing',
-            '--realpath' => realpath(__DIR__.'/../../database/migrations'),
-        ]);
-        $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->registerPermissions();
+    /**
+     * @test
+     */
+    public function check_sortable_weight_is_set()
+    {
+        $this->controller->sortable('sortme');
 
-        auth('admin')->login(Admin::first());
-
-        $this->controller = new TestAbstractTableController();
+        $this->assertTrue($this->controller->crud()->isSortableByWeight());
+        $this->assertEquals('sortme', $this->controller->crud()->getSortableWeightFieldName());
     }
 }
