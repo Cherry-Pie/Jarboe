@@ -209,4 +209,14 @@ class TestAbstractTableController extends AbstractTableController
     {
         return parent::addFields($fields);
     }
+
+    public function paginate($perPage)
+    {
+        return parent::paginate($perPage);
+    }
+
+    public function enableBatchCheckboxes(bool $enabled = true)
+    {
+        parent::enableBatchCheckboxes($enabled);
+    }
 }

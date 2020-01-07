@@ -1253,4 +1253,55 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $this->assertEquals('http://localhost/~/reorder/switch', $this->controller->crud()->reorderUrl());
         $this->assertEquals('http://localhost/~/reorder/move/42', $this->controller->crud()->reorderMoveItemUrl(42));
     }
+
+    /**
+     * @test
+     */
+    public function check_single_per_page()
+    {
+        $this->assertNull($this->controller->crud()->getRawPerPage());
+
+        $this->controller->paginate(42);
+        $this->assertEquals(42, $this->controller->crud()->getRawPerPage());
+        $this->assertEquals(42, $this->controller->crud()->getPerPageParam());
+
+        $perPage = [
+            10,
+            20,
+            30,
+        ];
+        $this->controller->paginate($perPage);
+        $this->assertEquals($perPage, $this->controller->crud()->getRawPerPage());
+        // cuz it's stored
+        $this->assertEquals(42, $this->controller->crud()->getPerPageParam());
+    }
+
+    /**
+     * @test
+     */
+    public function check_array_per_page()
+    {
+        $this->assertNull($this->controller->crud()->getRawPerPage());
+
+        $perPage = [
+            10,
+            20,
+            30,
+        ];
+        $this->controller->paginate($perPage);
+        $this->assertEquals($perPage, $this->controller->crud()->getRawPerPage());
+        $this->assertEquals(10, $this->controller->crud()->getPerPageParam());
+    }
+
+    /**
+     * @test
+     */
+    public function check_batch_checkboxes()
+    {
+        $this->assertFalse($this->controller->crud()->isBatchCheckboxesEnabled());
+
+        $this->controller->enableBatchCheckboxes(true);
+
+        $this->assertTrue($this->controller->crud()->isBatchCheckboxesEnabled());
+    }
 }
