@@ -196,6 +196,10 @@
             },
         });
     }
+
+    $('#checkout-form').on('submit', function () {
+        $('.btn-form-submit').attr('disabled', true);
+    });
 </script>
 @endpush
 
