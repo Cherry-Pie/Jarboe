@@ -1304,4 +1304,29 @@ class AbstractTableControllerTest extends AbstractBaseTest
 
         $this->assertTrue($this->controller->crud()->isBatchCheckboxesEnabled());
     }
+
+    /**
+     * @test
+     */
+    public function check_sortable_state()
+    {
+        $this->assertFalse($this->controller->crud()->preferences()->isSortableByWeightActive('table'));
+
+        $this->controller->crud()->preferences()->setSortableOrderState('table', true);
+        $this->assertTrue($this->controller->crud()->preferences()->isSortableByWeightActive('table'));
+
+        $this->controller->crud()->preferences()->setSortableOrderState('table', false);
+        $this->assertFalse($this->controller->crud()->preferences()->isSortableByWeightActive('table'));
+    }
+
+    /**
+     * @test
+     */
+    public function check_locale()
+    {
+        $this->assertNull($this->controller->crud()->preferences()->getCurrentLocale('table'));
+
+        $this->controller->crud()->preferences()->saveCurrentLocale('table', 'en');
+        $this->assertEquals('en', $this->controller->crud()->preferences()->getCurrentLocale('table'));
+    }
 }
