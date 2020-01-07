@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Yaro\Jarboe\Exceptions\PermissionDenied;
 use Yaro\Jarboe\Table\CRUD;
+use Yaro\Jarboe\Table\Fields\AbstractField;
 
 trait StoreHandlerTrait
 {
@@ -30,7 +31,24 @@ trait StoreHandlerTrait
             throw UnauthorizedException::forPermissions(['store']);
         }
 
-        $model = $this->crud()->repo()->store($request);
+
+        $fields = $this->crud()->getFieldsWithoutMarkup();
+
+        $data = [];
+        /** @var AbstractField $field */
+        foreach ($fields as $field) {
+            if ($field->hidden('create') || $field->shouldSkip($request)) {
+                continue;
+            }
+            $data += [$field->name() => $field->value($request)];
+        }
+
+        $model = $this->crud()->repo()->store($data);
+        /** @var AbstractField $field */
+        foreach ($fields as $field) {
+            $field->afterStore($model, $request);
+        }
+
         $this->idEntity = $model->getKey();
 
         return redirect($this->crud()->listUrl());

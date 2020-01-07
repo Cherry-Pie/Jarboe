@@ -1,10 +1,24 @@
 @extends('jarboe::layouts.main')
 
 @section('breadcrumbs')
-    <ol class="breadcrumb">
-        <li><a href="{{ admin_url() }}">{{ __('jarboe::common.breadcrumbs.home') }}</a></li>
-        <li>{{ __('jarboe::common.breadcrumbs.table') }}</li>
-    </ol>
+    @if ($breadcrumbs->isEmptyForListPage())
+        <ol class="breadcrumb">
+            <li><a href="{{ admin_url() }}">{{ __('jarboe::common.breadcrumbs.home') }}</a></li>
+            <li>{{ __('jarboe::common.breadcrumbs.table') }}</li>
+        </ol>
+    @else
+        <ol class="breadcrumb">
+            @foreach($breadcrumbs as $crumb)
+                @if ($crumb->shouldBeShownOnCreatePage())
+                    @if ($crumb->getUrl())
+                        <li><a href="{{ $crumb->getUrl() }}">{{ $crumb->getTitle() }}</a></li>
+                    @else
+                        <li>{{ $crumb->getTitle() }}</li>
+                    @endif
+                @endif
+            @endforeach
+        </ol>
+    @endif
 @endsection
 
 @section('content')

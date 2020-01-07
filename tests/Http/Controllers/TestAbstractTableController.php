@@ -8,17 +8,19 @@ use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Yaro\Jarboe\Http\Controllers\AbstractTableController;
 use Yaro\Jarboe\Table\CRUD;
+use Yaro\Jarboe\Table\Fields\AbstractField;
 use Yaro\Jarboe\Table\Fields\Text;
 use Yaro\Jarboe\Tests\Models\Model;
 
 class TestAbstractTableController extends AbstractTableController
 {
     private $shouldThrowValidationException = false;
+    protected $shouldEnableSoftDelete = true;
 
     public function init()
     {
         $this->setModel(Model::class);
-        $this->softDeletes();
+        $this->softDeletes($this->shouldEnableSoftDelete);
         $this->filter(function ($model) {
             $model->withTrashed();
         });
@@ -34,9 +36,9 @@ class TestAbstractTableController extends AbstractTableController
         return parent::createUnauthorizedResponse($request, $exception);
     }
 
-    public function getCrud(): CRUD
+    public function crud(): CRUD
     {
-        return $this->crud;
+        return parent::crud();
     }
 
     public function bound()
@@ -171,5 +173,50 @@ class TestAbstractTableController extends AbstractTableController
         }
 
         return parent::handleList($request);
+    }
+
+    public function disableSoftDelete()
+    {
+        $this->shouldEnableSoftDelete = false;
+    }
+
+    public function enableSoftDelete()
+    {
+        $this->shouldEnableSoftDelete = true;
+    }
+
+    public function locales(array $locales)
+    {
+        return parent::locales($locales);
+    }
+
+    public function addColumn($column)
+    {
+        return parent::addColumn($column);
+    }
+
+    public function addColumns(array $columns)
+    {
+        return parent::addColumns($columns);
+    }
+
+    public function addField(AbstractField $field)
+    {
+        return parent::addField($field);
+    }
+
+    public function addFields(array $fields)
+    {
+        return parent::addFields($fields);
+    }
+
+    public function paginate($perPage)
+    {
+        return parent::paginate($perPage);
+    }
+
+    public function enableBatchCheckboxes(bool $enabled = true)
+    {
+        parent::enableBatchCheckboxes($enabled);
     }
 }

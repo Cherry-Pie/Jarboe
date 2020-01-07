@@ -28,6 +28,10 @@ trait ForceDeleteHandlerTrait
             throw new PermissionDenied();
         }
 
+        if (!$this->crud()->actions()->isAllowed('force-delete', $model)) {
+            throw new PermissionDenied();
+        }
+
         if (!$this->can('force-delete')) {
             throw UnauthorizedException::forPermissions(['force-delete']);
         }

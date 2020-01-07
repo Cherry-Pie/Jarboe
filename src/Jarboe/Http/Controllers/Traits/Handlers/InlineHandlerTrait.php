@@ -56,7 +56,11 @@ trait InlineHandlerTrait
             app()->setLocale($locale);
         }
 
-        $model = $this->crud()->repo()->updateField($id, $request, $field, $value);
+        $model = $this->crud()->repo()->update($id, [
+            $field->name() => $value,
+        ]);
+        $field->afterUpdate($model, $request);
+
         $this->idEntity = $model->getKey();
 
         return response()->json([

@@ -14,7 +14,6 @@ use Yaro\Jarboe\Table\CrudTraits\SortableWeightTrait;
 use Yaro\Jarboe\Table\CrudTraits\TabsTrait;
 use Yaro\Jarboe\Table\CrudTraits\ToolbarTrait;
 use Yaro\Jarboe\Table\CrudTraits\UrlTrait;
-use Yaro\Jarboe\Table\Repositories\ModelRepository;
 use Yaro\Jarboe\Table\Repositories\ModelRepositoryInterface;
 use Yaro\Jarboe\Table\Repositories\PreferencesRepository;
 
@@ -39,7 +38,7 @@ class CRUD
     private $preferences;
     private $actions;
 
-    public function __construct(ModelRepository $repo, PreferencesRepository $preferences, ActionsContainer $actions)
+    public function __construct(ModelRepositoryInterface $repo, PreferencesRepository $preferences, ActionsContainer $actions)
     {
         $this->repo = $repo;
         $this->preferences = $preferences;

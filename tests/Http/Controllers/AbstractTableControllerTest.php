@@ -4,22 +4,31 @@ namespace Yaro\Jarboe\Tests\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Spatie\Permission\Exceptions\UnauthorizedException;
+use Yaro\Jarboe\Exceptions\PermissionDenied;
 use Yaro\Jarboe\Http\Controllers\AbstractTableController;
 use Yaro\Jarboe\Models\Admin;
 use Yaro\Jarboe\Table\CRUD;
+use Yaro\Jarboe\Table\Fields\Checkbox;
+use Yaro\Jarboe\Table\Fields\Markup\RowMarkup;
+use Yaro\Jarboe\Table\Fields\Select;
 use Yaro\Jarboe\Table\Fields\Text;
+use Yaro\Jarboe\Table\Fields\Textarea;
+use Yaro\Jarboe\Table\Filters\TextFilter;
 use Yaro\Jarboe\Table\Toolbar\MassDeleteTool;
 use Yaro\Jarboe\Table\Toolbar\ShowHideColumnsTool;
 use Yaro\Jarboe\Tests\AbstractBaseTest;
 use Yaro\Jarboe\Tests\Models\Model;
+use Yaro\Jarboe\ViewComponents\Breadcrumbs\BreadcrumbsInterface;
+use Yaro\Jarboe\ViewComponents\Breadcrumbs\Crumb;
 
 class AbstractTableControllerTest extends AbstractBaseTest
 {
     /** @var TestAbstractTableController */
-    private $controller;
+    protected $controller;
 
     protected function setUp(): void
     {
@@ -86,6 +95,20 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $this->expectException(UnauthorizedException::class);
 
         $this->controller->setPermissions('unauthorized');
+
+        $this->controller->handleCreate($this->createRequest());
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_create_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $this->controller->crud()->actions()->find('create')->check(function () {
+            return false;
+        });
 
         $this->controller->handleCreate($this->createRequest());
     }
@@ -195,6 +218,20 @@ class AbstractTableControllerTest extends AbstractBaseTest
     /**
      * @test
      */
+    public function check_magic_store_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $this->controller->crud()->actions()->find('create')->check(function () {
+            return false;
+        });
+
+        $this->controller->handleStore($this->createRequest());
+    }
+
+    /**
+     * @test
+     */
     public function check_magic_store_call_unauthorized()
     {
         $this->expectException(UnauthorizedException::class);
@@ -229,6 +266,21 @@ class AbstractTableControllerTest extends AbstractBaseTest
 
         $this->assertInstanceOf(View::class, $baseView);
         $this->assertEquals($baseView, $magicView);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_edit_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $model = Model::first();
+        $this->controller->crud()->actions()->find('edit')->check(function () {
+            return false;
+        });
+
+        $this->controller->handleEdit($this->createRequest(), $model->id);
     }
 
     /**
@@ -270,6 +322,21 @@ class AbstractTableControllerTest extends AbstractBaseTest
 
         $this->assertInstanceOf(RedirectResponse::class, $baseRedirect);
         $this->assertEquals($baseRedirect->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'), $magicRedirect->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'));
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_update_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $model = Model::first();
+        $this->controller->crud()->actions()->find('edit')->check(function () {
+            return false;
+        });
+
+        $this->controller->handleUpdate($this->createRequest(), $model->id);
     }
 
     /**
@@ -328,6 +395,21 @@ class AbstractTableControllerTest extends AbstractBaseTest
     /**
      * @test
      */
+    public function check_magic_delete_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $model = Model::first();
+        $this->controller->crud()->actions()->find('delete')->check(function () {
+            return false;
+        });
+
+        $this->controller->handleDelete($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
     public function check_magic_delete_call_unauthorized_response()
     {
         $this->controller->setPermissions('unauthorized');
@@ -367,6 +449,25 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $magicResponse = $this->controller->restore($this->createRequest(), $model->id);
 
         $this->assertInstanceOf(JsonResponse::class, $baseResponse);
+        $this->assertEquals(Response::HTTP_OK, $magicResponse->getStatusCode());
+        $this->assertEquals($baseResponse->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'), $magicResponse->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'));
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_restore_call_unsuccessful()
+    {
+        Model::restoring(function ($model) {
+            return false;
+        });
+        $model = Model::first();
+
+        $baseResponse = $this->controller->handleRestore($this->createRequest(), $model->id);
+        $magicResponse = $this->controller->restore($this->createRequest(), $model->id);
+
+        $this->assertInstanceOf(JsonResponse::class, $baseResponse);
+        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $magicResponse->getStatusCode());
         $this->assertEquals($baseResponse->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'), $magicResponse->header('date', 'Fri, 01 Jan 1990 00:00:00 GMT'));
     }
 
@@ -381,6 +482,32 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $this->controller->setPermissions('unauthorized');
 
         $this->controller->handleRestore($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_restore_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $this->controller->disableSoftDelete();
+
+        $this->controller->handleRestore($this->createRequest(), 1);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_restore_call_permission_denied_by_action()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $this->controller->crud()->actions()->find('restore')->check(function () {
+            return false;
+        });
+
+        $this->controller->handleRestore($this->createRequest(), 1);
     }
 
     /**
@@ -425,6 +552,48 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $model = Model::first();
         $model->delete();
         $this->controller->setPermissions('unauthorized');
+
+        $this->controller->handleForceDelete($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_force_delete_permission_denied_by_action()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $model = Model::first();
+        $model->delete();
+        $this->controller->crud()->actions()->find('force-delete')->check(function () {
+            return false;
+        });
+
+        $this->controller->handleForceDelete($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_force_delete_non_trashed_model_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $model = Model::first();
+
+        $this->controller->handleForceDelete($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_force_delete_non_soft_delete_crud_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $this->controller->disableSoftDelete();
+        $model = Model::first();
+        $model->delete();
 
         $this->controller->handleForceDelete($this->createRequest(), $model->id);
     }
@@ -519,7 +688,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
                 ]);
             }
 
-            public function getCrud(): CRUD
+            public function crud(): CRUD
             {
                 return $this->crud;
             }
@@ -532,17 +701,17 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $controller->init();
         $controller->bound();
 
-        $tools[0]->setCrud($controller->getCrud());
-        $tools[1]->setCrud($controller->getCrud());
+        $tools[0]->setCrud($controller->crud());
+        $tools[1]->setCrud($controller->crud());
 
-        $this->assertEquals($tools[0], $controller->getCrud()->getTool($tools[0]->identifier()));
-        $this->assertEquals($tools[1], $controller->getCrud()->getTool($tools[1]->identifier()));
+        $this->assertEquals($tools[0], $controller->crud()->getTool($tools[0]->identifier()));
+        $this->assertEquals($tools[1], $controller->crud()->getTool($tools[1]->identifier()));
         $this->assertEquals(
             [
                 $tools[0]->identifier() => $tools[0],
                 $tools[1]->identifier() => $tools[1],
             ],
-            $controller->getCrud()->getTools()
+            $controller->crud()->getTools()
         );
     }
 
@@ -569,7 +738,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
                 $this->addTool(new ShowHideColumnsTool());
             }
 
-            public function getCrud(): CRUD
+            public function crud(): CRUD
             {
                 return $this->crud;
             }
@@ -582,14 +751,14 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $controller->init();
         $controller->bound();
 
-        $tool->setCrud($controller->getCrud());
+        $tool->setCrud($controller->crud());
 
-        $this->assertEquals($tool, $controller->getCrud()->getTool($tool->identifier()));
+        $this->assertEquals($tool, $controller->crud()->getTool($tool->identifier()));
         $this->assertEquals(
             [
                 $tool->identifier() => $tool,
             ],
-            $controller->getCrud()->getTools()
+            $controller->crud()->getTools()
         );
     }
 
@@ -600,7 +769,7 @@ class AbstractTableControllerTest extends AbstractBaseTest
     {
         $this->controller->perPage(420);
 
-        $this->assertEquals(420, $this->controller->getCrud()->getPerPageParam());
+        $this->assertEquals(420, $this->controller->crud()->getPerPageParam());
     }
 
     /**
@@ -611,8 +780,8 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $response = $this->controller->orderBy('title', 'desc');
 
         $this->assertInstanceOf(RedirectResponse::class, $response);
-        $this->assertEquals('desc', $this->controller->getCrud()->getOrderFilterParam('title'));
-        $this->assertNull($this->controller->getCrud()->getOrderFilterParam('none'));
+        $this->assertEquals('desc', $this->controller->crud()->getOrderFilterParam('title'));
+        $this->assertNull($this->controller->crud()->getOrderFilterParam('none'));
     }
 
     /**
@@ -630,6 +799,37 @@ class AbstractTableControllerTest extends AbstractBaseTest
     {
         $this->controller->notify('title small', 'content small', 1200, '#bbbccc', 'fa fa-users', 'small');
         $this->controller->notify('title big', 'content big', 1000, '#bbbccc', 'fa fa-users', 'big');
+
+        $this->assertEquals(
+            [
+                [
+                    'title' => 'title small',
+                    'content' => 'content small',
+                    'color' => '#bbbccc',
+                    'icon' => 'fa fa-users',
+                    'timeout' => 1200,
+                ],
+            ],
+            session('jarboe_notifications.small')
+        );
+        $this->assertEquals(
+            [
+                [
+                    'title' => 'title big',
+                    'content' => 'content big',
+                    'color' => '#bbbccc',
+                    'icon' => 'fa fa-users',
+                    'timeout' => 1000,
+                ],
+            ],
+            session('jarboe_notifications.big')
+        );
+
+        session()->flush();
+
+
+        $this->controller->notifySmall('title small', 'content small', 1200, '#bbbccc', 'fa fa-users');
+        $this->controller->notifyBig('title big', 'content big', 1000, '#bbbccc', 'fa fa-users');
 
         $this->assertEquals(
             [
@@ -809,5 +1009,324 @@ class AbstractTableControllerTest extends AbstractBaseTest
 
         $this->controller->overrideListMethodToThrowValidationException();
         $this->controller->list($this->createRequest());
+    }
+
+    /**
+     * @test
+     */
+    public function check_breadcrumbs()
+    {
+        $this->controller->breadcrumbs()->add(Crumb::make('hai'));
+        $this->controller->bound();
+
+        $this->assertInstanceOf(BreadcrumbsInterface::class, $this->controller->breadcrumbs());
+
+        $view = view('jarboe::crud.list');
+        $view->getFactory()->callComposer($view);
+        $this->assertEquals($this->controller->breadcrumbs(), $view->breadcrumbs);
+
+        $view = view('jarboe::crud.create');
+        $view->getFactory()->callComposer($view);
+        $this->assertEquals($this->controller->breadcrumbs(), $view->breadcrumbs);
+
+        $view = view('jarboe::crud.edit');
+        $view->getFactory()->callComposer($view);
+        $this->assertEquals($this->controller->breadcrumbs(), $view->breadcrumbs);
+    }
+
+    /**
+     * @test
+     */
+    public function check_locales_alias()
+    {
+        $locales = [
+            'en' => 'EN',
+            'JP' => 'JP',
+        ];
+        $this->controller->locales($locales);
+
+        $this->assertEquals($locales, $this->controller->crud()->getLocales());
+
+
+        $locales = [
+            'en',
+            'JP',
+        ];
+        $this->controller->locales($locales);
+
+        $this->assertEquals(array_combine($locales, $locales), $this->controller->crud()->getLocales());
+    }
+
+    /**
+     * @test
+     */
+    public function check_add_column_alias_by_field()
+    {
+        $columns = $this->controller->crud()->getColumns();
+
+        $this->assertEmpty($columns);
+        $this->assertIsArray($columns);
+        $this->assertEquals(
+            $this->controller->crud()->getFields(),
+            $this->controller->crud()->getColumnsAsFields()
+        );
+
+        $field = Text::make('title');
+        $this->controller->addColumn($field);
+        $columns = $this->controller->crud()->getColumns();
+
+        $this->assertEquals([$field], $columns);
+    }
+
+    /**
+     * @test
+     */
+    public function check_add_column_alias_by_identifier()
+    {
+        $columns = $this->controller->crud()->getColumns();
+
+        $this->assertEmpty($columns);
+        $this->assertIsArray($columns);
+
+        $this->controller->init();
+        $this->controller->bound();
+        $this->controller->addColumn('description');
+
+        $this->assertEquals(
+            [$this->controller->crud()->getFieldByName('description')],
+            $this->controller->crud()->getColumnsAsFields()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function check_add_column_alias_by_new_identifier()
+    {
+        $columns = $this->controller->crud()->getColumns();
+
+        $this->assertEmpty($columns);
+        $this->assertIsArray($columns);
+
+        $this->controller->init();
+        $this->controller->bound();
+        $this->controller->addColumn('hi');
+
+        $this->assertNull($this->controller->crud()->getFieldByName('hi'));
+        $this->assertEquals(
+            [Text::make('hi')],
+            $this->controller->crud()->getColumnsAsFields()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function check_add_columns_alias()
+    {
+        $fields = [
+            Text::make('title'),
+            Textarea::make('description'),
+            'hi',
+        ];
+        $this->controller->addColumns($fields);
+
+        $this->assertNull($this->controller->crud()->getFieldByName('hi'));
+
+        array_pop($fields);
+        $fields[] = Text::make('hi');
+
+        $this->assertEquals(
+            $fields,
+            $this->controller->crud()->getColumnsAsFields()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function check_field_extraction()
+    {
+        $text = Text::make('title');
+        $textarea = Textarea::make('description');
+        $select = Select::make('select');
+        $checkbox = Checkbox::make('checkbox');
+        $fields = [
+            $text,
+            RowMarkup::make()->fields([
+                $select,
+                $checkbox,
+            ]),
+            $textarea,
+        ];
+        $this->controller->addFields($fields);
+
+        $this->assertEquals(
+            [
+                $text,
+                $select,
+                $checkbox,
+                $textarea,
+            ],
+            $this->controller->crud()->getFieldsWithoutMarkup()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function check_fields_with_no_filter()
+    {
+        $this->controller->init();
+        $this->controller->bound();
+
+        $field = Text::make('title');
+        $this->controller->addField($field);
+
+        $this->assertFalse($this->controller->crud()->hasAnyFieldFilter());
+    }
+
+    /**
+     * @test
+     */
+    public function check_fields_with_filter()
+    {
+        $this->controller->init();
+        $this->controller->bound();
+
+        $field = Text::make('title')->filter(TextFilter::make());
+        $this->controller->addField($field);
+
+        $this->assertTrue($this->controller->crud()->hasAnyFieldFilter());
+    }
+
+    /**
+     * @test
+     */
+    public function check_getting_columns_without_related_fields()
+    {
+        $this->controller->init();
+        $this->controller->bound();
+
+        $field = Text::make('schwifty');
+        $this->controller->addColumn($field);
+
+        $this->assertEquals([$field], $this->controller->crud()->getColumnsWithoutRelatedField());
+    }
+
+    /**
+     * @test
+     */
+    public function check_sortable_weight_is_not_set()
+    {
+        $this->assertFalse($this->controller->crud()->isSortableByWeight());
+        $this->assertNull($this->controller->crud()->getSortableWeightFieldName());
+    }
+
+    /**
+     * @test
+     */
+    public function check_sortable_weight_is_set()
+    {
+        $this->controller->sortable('sortme');
+
+        $this->assertTrue($this->controller->crud()->isSortableByWeight());
+        $this->assertEquals('sortme', $this->controller->crud()->getSortableWeightFieldName());
+    }
+
+    /**
+     * @test
+     */
+    public function check_urls()
+    {
+        $this->assertEquals('http://localhost', $this->controller->crud()->baseUrl());
+        $this->assertEquals('http://localhost/~/42', $this->controller->crud()->editUrl(42));
+        $this->assertEquals('http://localhost/~/create', $this->controller->crud()->createUrl());
+        $this->assertEquals('http://localhost/~/42/delete', $this->controller->crud()->deleteUrl(42));
+        $this->assertEquals('http://localhost/~/42/restore', $this->controller->crud()->restoreUrl(42));
+        $this->assertEquals('http://localhost/~/42/force-delete', $this->controller->crud()->forceDeleteUrl(42));
+        $this->assertEquals('http://localhost/~/toolbar/sometool', $this->controller->crud()->toolbarUrl('sometool'));
+        $this->assertEquals('http://localhost/~/per-page/42', $this->controller->crud()->perPageUrl(42));
+        $this->assertEquals('http://localhost/~/search', $this->controller->crud()->searchUrl());
+        $this->assertEquals('http://localhost/~/search/relation', $this->controller->crud()->relationSearchUrl());
+        $this->assertEquals('http://localhost/~/order/price/desc', $this->controller->crud()->orderUrl('price', 'desc'));
+        $this->assertEquals('http://localhost/~/reorder/switch', $this->controller->crud()->reorderUrl());
+        $this->assertEquals('http://localhost/~/reorder/move/42', $this->controller->crud()->reorderMoveItemUrl(42));
+    }
+
+    /**
+     * @test
+     */
+    public function check_single_per_page()
+    {
+        $this->assertNull($this->controller->crud()->getRawPerPage());
+
+        $this->controller->paginate(42);
+        $this->assertEquals(42, $this->controller->crud()->getRawPerPage());
+        $this->assertEquals(42, $this->controller->crud()->getPerPageParam());
+
+        $perPage = [
+            10,
+            20,
+            30,
+        ];
+        $this->controller->paginate($perPage);
+        $this->assertEquals($perPage, $this->controller->crud()->getRawPerPage());
+        // cuz it's stored
+        $this->assertEquals(42, $this->controller->crud()->getPerPageParam());
+    }
+
+    /**
+     * @test
+     */
+    public function check_array_per_page()
+    {
+        $this->assertNull($this->controller->crud()->getRawPerPage());
+
+        $perPage = [
+            10,
+            20,
+            30,
+        ];
+        $this->controller->paginate($perPage);
+        $this->assertEquals($perPage, $this->controller->crud()->getRawPerPage());
+        $this->assertEquals(10, $this->controller->crud()->getPerPageParam());
+    }
+
+    /**
+     * @test
+     */
+    public function check_batch_checkboxes()
+    {
+        $this->assertFalse($this->controller->crud()->isBatchCheckboxesEnabled());
+
+        $this->controller->enableBatchCheckboxes(true);
+
+        $this->assertTrue($this->controller->crud()->isBatchCheckboxesEnabled());
+    }
+
+    /**
+     * @test
+     */
+    public function check_sortable_state()
+    {
+        $this->assertFalse($this->controller->crud()->preferences()->isSortableByWeightActive('table'));
+
+        $this->controller->crud()->preferences()->setSortableOrderState('table', true);
+        $this->assertTrue($this->controller->crud()->preferences()->isSortableByWeightActive('table'));
+
+        $this->controller->crud()->preferences()->setSortableOrderState('table', false);
+        $this->assertFalse($this->controller->crud()->preferences()->isSortableByWeightActive('table'));
+    }
+
+    /**
+     * @test
+     */
+    public function check_locale()
+    {
+        $this->assertNull($this->controller->crud()->preferences()->getCurrentLocale('table'));
+
+        $this->controller->crud()->preferences()->saveCurrentLocale('table', 'en');
+        $this->assertEquals('en', $this->controller->crud()->preferences()->getCurrentLocale('table'));
     }
 }
