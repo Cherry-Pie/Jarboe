@@ -35,7 +35,7 @@ trait InlineHandlerTrait
         $locale = $request->get('_locale');
 
         $model = $this->crud()->repo()->find($id);
-        if ((!$field->isInline() && !$this->crud()->actions()->isAllowed('edit', $model)) || $field->isReadonly()) {
+        if (!$field->isInline() || !$this->crud()->actions()->isAllowed('edit', $model) || $field->isReadonly()) {
             throw new PermissionDenied();
         }
 
