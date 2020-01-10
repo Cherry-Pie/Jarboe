@@ -420,6 +420,20 @@
             }
         }
     };
+
+    $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+        if (jqxhr.status !== 406) {
+            return;
+        }
+
+        $.smallBox({
+            title: jqxhr.responseJSON.title,
+            content: jqxhr.responseJSON.description || jqxhr.responseJSON.title,
+            color: '#C46A69',
+            icon: 'fa fa-warning shake animated',
+            timeout: 6000,
+        });
+    });
 </script>
 
 
