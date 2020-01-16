@@ -18,7 +18,7 @@
                            data-mask="{{ $field->getMaskPattern() }}"
                            data-mask-placeholder="{{ $field->getMaskPlaceholder() }}"
                        @endif
-                       value="{{ $field->oldOrAttribute($model, null, $locale) }}"
+                       value="{{ $field->oldOrAttribute($model, $locale) }}"
                        name="{{ $field->name() }}[{{ $locale }}]"
                        placeholder="{{ $field->getPlaceholder() }}">
                 @include('jarboe::crud.fields.text.inc.tooltip_body')

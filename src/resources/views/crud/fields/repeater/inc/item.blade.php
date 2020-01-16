@@ -70,7 +70,7 @@
 
                 }
             });
-            $repeater.setList({!! json_encode($repeater->oldOrAttribute($model, null, $locale)) !!});
+            $repeater.setList({!! json_encode($repeater->oldOrAttribute($model, $locale)) !!});
             $repeater.setErrors({!! json_encode($errors) !!});
 
             @if ($repeater->isSortable())

@@ -32,7 +32,7 @@ trait OldAndAttribute
         return $this->getDefault();
     }
 
-    public function oldOrAttribute($model, $default = null, $locale = null)
+    public function oldOrAttribute($model, $locale = null)
     {
         $name = $this->name();
         if ($locale) {
@@ -43,7 +43,7 @@ trait OldAndAttribute
             return $this->old($name);
         }
 
-        return $this->getAttribute($model, $locale) ?: $default;
+        return $this->getAttribute($model, $locale);
     }
 
     public function getAttribute($model, $locale = null)

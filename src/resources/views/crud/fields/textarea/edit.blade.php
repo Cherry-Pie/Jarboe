@@ -15,7 +15,7 @@
                           @if ($field->hasMaxlength())
                             maxlength="{{ $field->getMaxlength() }}"
                           @endif
-                          placeholder="{{ $field->getPlaceholder() }}">{{ $field->oldOrAttribute($model, null, $locale) }}</textarea>
+                          placeholder="{{ $field->getPlaceholder() }}">{{ $field->oldOrAttribute($model, $locale) }}</textarea>
                 @include('jarboe::crud.fields.textarea.inc.tooltip_body')
             </label>
             @include('jarboe::crud.fields.textarea.inc.error_messages', [
