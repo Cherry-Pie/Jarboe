@@ -388,22 +388,22 @@ CRUD.init();
                 },
                 type: "POST",
                 success: function(response) {
-                  $.smallBox({
-                    title : "{{ __('jarboe::common.list.reorder.success') }}",
-                    color : "#659265",
-                    iconSmall : "fa fa-check fa-2x fadeInRight animated",
-                    timeout : 4000
-                  });
+                    jarboe.smallToast({
+                        title : "{{ __('jarboe::common.list.reorder.success') }}",
+                        color : "#659265",
+                        iconSmall : "fa fa-check fa-2x fadeInRight animated",
+                        timeout : 4000
+                    });
                 },
                 error: function(xhr, status, error) {
-                  var response = JSON.parse(xhr.responseText);
-                  $.smallBox({
-                    title : "{{ __('jarboe::common.list.reorder.failed') }}",
-                    content: response.message,
-                    color : "#C46A69",
-                    iconSmall : "fa fa-times fa-2x fadeInRight animated",
-                    timeout : 4000
-                  });
+                    var response = JSON.parse(xhr.responseText);
+                    jarboe.smallToast({
+                        title : "{{ __('jarboe::common.list.reorder.failed') }}",
+                        content: response.message,
+                        color : "#C46A69",
+                        iconSmall : "fa fa-times fa-2x fadeInRight animated",
+                        timeout : 4000
+                    });
                 },
                 dataType: "json"
               });
