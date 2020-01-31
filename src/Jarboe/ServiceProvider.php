@@ -108,7 +108,7 @@ class ServiceProvider extends IlluminateServiceProvider
     {
         View::composer('jarboe::layouts.main', function ($view) {
             $themes = [
-                'default' => 'smart-style-0',
+                'brown' => 'smart-style-0',
                 'dark' => 'smart-style-1',
                 'light' => 'smart-style-2',
                 'google-skin' => 'smart-style-3',
@@ -116,8 +116,9 @@ class ServiceProvider extends IlluminateServiceProvider
                 'glass' => 'smart-style-5',
                 'material' => 'smart-style-6',
             ];
+            $selectedTheme = $this->app->config->get('jarboe.admin_panel.theme', 'light');
 
-            $view->themeClass = Arr::get($themes, $this->app->config->get('jarboe.admin_panel.theme', 'default'));
+            $view->themeClass = Arr::get($themes, $selectedTheme, $selectedTheme);
             $view->menuOnTop = $this->app->config->get('jarboe.admin_panel.menu_on_top');
         });
 
