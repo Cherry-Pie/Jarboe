@@ -1,4 +1,9 @@
 <a class="btn btn-default btn-sm jarboe-restore"
+   @if ($action->getTooltip())
+       rel="tooltip"
+       data-placement="{{ $action->getTooltipPosition() }}"
+       data-original-title="{{ $action->getTooltip() }}"
+   @endif
    data-id="{{ $model->getKey() }}"
    data-url="{{ $crud->restoreUrl($model->getKey()) }}"
    @if (!$isVisible)

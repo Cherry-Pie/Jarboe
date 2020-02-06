@@ -8,10 +8,14 @@ class RestoreAction extends AbstractAction
 
     public function render($model = null)
     {
-        $crud = $this->crud();
-        $isVisible = $crud->isSoftDeleteEnabled() && $model->trashed();
+        $isVisible = $this->crud()->isSoftDeleteEnabled() && $model->trashed();
 
-        return view('jarboe::crud.actions.restore', compact('crud', 'model', 'isVisible'));
+        return view('jarboe::crud.actions.restore', [
+            'crud' => $this->crud(),
+            'model' => $model,
+            'isVisible' => $isVisible,
+            'action' => $this,
+        ]);
     }
 
     public function isAllowed($model = null)

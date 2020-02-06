@@ -1,4 +1,9 @@
 <a class="btn btn-default btn-sm jarboe-force-delete"
+   @if ($action->getTooltip())
+       rel="tooltip"
+       data-placement="{{ $action->getTooltipPosition() }}"
+       data-original-title="{{ $action->getTooltip() }}"
+   @endif
    data-id="{{ $model->getKey() }}"
    data-url="{{ $crud->forceDeleteUrl($model->getKey()) }}"
    @if (!$isVisible)
