@@ -86,4 +86,9 @@ return [
      * Default routes for admin-panel section, e.g. admins and roles/permissions crud tables.
      */
     'default_routes_enabled' => true,
+
+    /*
+     * License key.
+     */
+    'license_key' => env('JARBOE_LICENSE_KEY'),
 ];
