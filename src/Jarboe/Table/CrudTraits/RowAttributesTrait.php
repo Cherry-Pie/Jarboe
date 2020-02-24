@@ -66,6 +66,9 @@ trait RowAttributesTrait
     {
         if (is_null($this->rowAttributesCallbackData)) {
             $callback = $this->rowAttributesCallback;
+            if (!is_callable($callback)) {
+                return [];
+            }
             $attributes = $callback($model);
             if (!is_array($attributes)) {
                 $attributes = [
