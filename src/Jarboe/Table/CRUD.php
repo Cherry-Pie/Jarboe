@@ -9,6 +9,7 @@ use Yaro\Jarboe\Table\CrudTraits\FormClassTrait;
 use Yaro\Jarboe\Table\CrudTraits\LocalesTrait;
 use Yaro\Jarboe\Table\CrudTraits\PaginateTrait;
 use Yaro\Jarboe\Table\CrudTraits\PreferencesHelperTrait;
+use Yaro\Jarboe\Table\CrudTraits\RowAttributesTrait;
 use Yaro\Jarboe\Table\CrudTraits\SoftDeleteTrait;
 use Yaro\Jarboe\Table\CrudTraits\SortableWeightTrait;
 use Yaro\Jarboe\Table\CrudTraits\TabsTrait;
@@ -30,6 +31,7 @@ class CRUD
     use TabsTrait;
     use ToolbarTrait;
     use UrlTrait;
+    use RowAttributesTrait;
 
     const BASE_URL_DELIMITER = '/~/';
 

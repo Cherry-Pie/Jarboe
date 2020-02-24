@@ -138,9 +138,16 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($items as $item)
-                                            <tr class="jarboe-table-row jarboe-table-row-{{ $item->getKey() }}"
+                                            <tr class="jarboe-table-row jarboe-table-row-{{ $item->getKey() }} {{ $crud->getRowAttribute($item, 'class') }}"
                                                 data-key="{{ $item->getKey() }}"
-                                                data-reorder="{{ $crud->reorderMoveItemUrl($item->getKey()) }}">
+                                                data-reorder="{{ $crud->reorderMoveItemUrl($item->getKey()) }}"
+                                                @foreach ($crud->getRowAttributesExcept($item, ['class', 'data-key', 'data-reorder']) as $attribute => $attributeValue)
+                                                    {{ $attribute }}="{{ $attributeValue }}"
+                                                @endforeach
+                                            >
+                                            <?php
+                                            $crud->flushRowAttributesData();
+                                            ?>
 
                                                 @if ($crud->isSortableByWeight())
                                                 <td class="smart-form reorder-handler">
