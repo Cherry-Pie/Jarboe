@@ -5,6 +5,7 @@ namespace Yaro\Jarboe\Table\Fields;
 use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\Fields\Traits\Clipboard;
 use Yaro\Jarboe\Table\Fields\Traits\Inline;
+use Yaro\Jarboe\Table\Fields\Traits\MinMaxStep;
 use Yaro\Jarboe\Table\Fields\Traits\Nullable;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
 use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
@@ -18,6 +19,7 @@ class Number extends AbstractField
     use Clipboard;
     use Inline;
     use Placeholder;
+    use MinMaxStep;
 
     public function value(Request $request)
     {

@@ -1,4 +1,6 @@
-
+<?php
+/** @var \Yaro\Jarboe\Table\Fields\Number $field */
+?>
 @if ($field->hasClipboardButton() && (string) $model->{$field->name()} !== '')
     <div class="p-relative">
         <a href="javascript:void(0);" class="btn btn-labeled btn-default clipclip" data-clipboard-text="{{ $model->{$field->name()} }}" id="clipclip-number-{{ $field->name() }}-{{ $model->getKey() }}">
@@ -18,6 +20,13 @@
             $('#xeditable-number-{{ $field->name() }}-{{ $model->getKey() }}').editable({
                 url: '{{ $field->getInlineUrl() }}',
                 type: 'number',
+                @if ($field->hasMin())
+                    min: '{{ $field->getMin() }}',
+                @endif
+                @if ($field->hasMax())
+                    max: '{{ $field->getMax() }}',
+                @endif
+                step: '{{ $field->getStep() }}',
                 pk: '{{ $model->getKey() }}',
                 name: '{{ $field->name() }}',
                 title: '{{ $field->title() }}',

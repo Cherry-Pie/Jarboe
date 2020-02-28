@@ -1,4 +1,6 @@
-
+<?php
+/** @var \Yaro\Jarboe\Table\Fields\Number $field */
+?>
 <label class="label">{{ $field->title() }}</label>
 <label class="input state-disabled">
     @if ($field->hasTooltip())
