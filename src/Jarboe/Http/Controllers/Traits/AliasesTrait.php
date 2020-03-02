@@ -2,6 +2,7 @@
 
 namespace Yaro\Jarboe\Http\Controllers\Traits;
 
+use Closure;
 use Yaro\Jarboe\Table\Actions\AbstractAction;
 use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\AbstractField;
@@ -165,6 +166,16 @@ trait AliasesTrait
     protected function setActions(array $actions = [])
     {
         $this->crud()->actions()->set($actions);
+    }
+
+    /**
+     * Set closure for setting custom attributes to `<tr>`.
+     *
+     * @param Closure $closure
+     */
+    public function setRowAttributes(Closure $closure)
+    {
+        $this->crud()->setRowAttributes($closure);
     }
 
     abstract protected function crud(): CRUD;

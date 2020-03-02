@@ -2,10 +2,6 @@
 
 namespace Yaro\Jarboe\Table\Fields\Traits;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage as IlluminateStorage;
-
 trait Tooltip
 {
     protected $tooltip;

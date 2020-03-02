@@ -2,7 +2,7 @@
 <label class="label">{{ $field->title() }}</label>
 <label class="input {{ $errors->has($field->name()) ? 'state-error' : '' }}">
     <i class="icon-append icon-color colorpicker-{{ $field->name() }}-icon"></i>
-    <input class="colorpicker-{{ $field->name() }}" type="text" value="{{ $field->oldOrAttribute($model, '#fff') }}" name="{{ $field->name() }}" data-color-format="{{ $field->getType() }}" placeholder="{{ $field->getPlaceholder() }}">
+    <input class="colorpicker-{{ $field->name() }}" type="text" value="{{ $field->oldOrAttribute($model) ?: '#fff' }}" name="{{ $field->name() }}" data-color-format="{{ $field->getType() }}" placeholder="{{ $field->getPlaceholder() }}">
 </label>
 
 
@@ -14,7 +14,7 @@
 <style id="colorpicker-{{ $field->name() }}">
     .icon-color.colorpicker-{{ $field->name() }}-icon:before {
         content: "\00a0 \00a0 \00a0 \00a0 ";
-        background-color: {{ $field->oldOrAttribute($model, '#fff') }};
+        background-color: {{ $field->oldOrAttribute($model) ?: '#fff' }};
     }
 </style>
 

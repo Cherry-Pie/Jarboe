@@ -2,9 +2,9 @@
     <script>
         $(document).ready(function() {
             @foreach (session('jarboe_notifications.small', []) as $message)
-            $.smallBox(
+                jarboe.smallToast(
                     {!! json_encode(array_filter($message)) !!}
-            );
+                );
             @endforeach
         });
     </script>
@@ -14,8 +14,8 @@
     <script>
         $(document).ready(function() {
             @foreach (session('jarboe_notifications.big', []) as $message)
-            $.bigBox(
-                    {!! json_encode(array_filter($message)) !!}
+            jarboe.bigToast(
+                {!! json_encode(array_filter($message)) !!}
             );
             @endforeach
         });

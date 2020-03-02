@@ -287,6 +287,8 @@
 <!-- MAIN APP JS FILE -->
 <script src="/vendor/jarboe/js/app.js"></script>
 
+<script src="/vendor/jarboe/js/jarboe.js"></script>
+
 <!-- PAGE RELATED PLUGIN(S) -->
 
 
@@ -322,7 +324,7 @@
     };
 
     (new ClipboardJS('.clipclip')).on('success', function(e) {
-        $.smallBox({
+        jarboe.smallToast({
             title : '{{ __('jarboe::common.successfully_copied') }}',
             content : htmlspecialchars(e.text, 'ENT_QUOTES', 'UTF-8', true),
             color : "#739e73",
@@ -403,23 +405,19 @@
     });
 
 
-    const Jarboe =
-    {
-        initers: {},
-        add: function(name, initer) {
-            if (!this.initers[name]) {
-                this.initers[name] = [];
-            }
-            this.initers[name].push(initer);
-        },
-        init: function(name) {
-            if (this.initers[name]) {
-                for (initer of this.initers[name]) {
-                    initer();
-                }
-            }
+    $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+        if (jqxhr.status !== 406) {
+            return;
         }
-    };
+
+        jarboe.smallToast({
+            title: jqxhr.responseJSON.title,
+            content: jqxhr.responseJSON.description || jqxhr.responseJSON.title,
+            color: '#C46A69',
+            icon: 'fa fa-warning shake animated',
+            timeout: 6000,
+        });
+    });
 </script>
 
 

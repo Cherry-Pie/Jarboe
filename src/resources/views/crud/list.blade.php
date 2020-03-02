@@ -138,9 +138,16 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($items as $item)
-                                            <tr class="jarboe-table-row jarboe-table-row-{{ $item->getKey() }}"
+                                            <tr class="jarboe-table-row jarboe-table-row-{{ $item->getKey() }} {{ $crud->getRowAttribute($item, 'class') }}"
                                                 data-key="{{ $item->getKey() }}"
-                                                data-reorder="{{ $crud->reorderMoveItemUrl($item->getKey()) }}">
+                                                data-reorder="{{ $crud->reorderMoveItemUrl($item->getKey()) }}"
+                                                @foreach ($crud->getRowAttributesExcept($item, ['class', 'data-key', 'data-reorder']) as $attribute => $attributeValue)
+                                                    {{ $attribute }}="{{ $attributeValue }}"
+                                                @endforeach
+                                            >
+                                            <?php
+                                            $crud->flushRowAttributesData();
+                                            ?>
 
                                                 @if ($crud->isSortableByWeight())
                                                 <td class="smart-form reorder-handler">
@@ -388,22 +395,22 @@ CRUD.init();
                 },
                 type: "POST",
                 success: function(response) {
-                  $.smallBox({
-                    title : "{{ __('jarboe::common.list.reorder.success') }}",
-                    color : "#659265",
-                    iconSmall : "fa fa-check fa-2x fadeInRight animated",
-                    timeout : 4000
-                  });
+                    jarboe.smallToast({
+                        title : "{{ __('jarboe::common.list.reorder.success') }}",
+                        color : "#659265",
+                        iconSmall : "fa fa-check fa-2x fadeInRight animated",
+                        timeout : 4000
+                    });
                 },
                 error: function(xhr, status, error) {
-                  var response = JSON.parse(xhr.responseText);
-                  $.smallBox({
-                    title : "{{ __('jarboe::common.list.reorder.failed') }}",
-                    content: response.message,
-                    color : "#C46A69",
-                    iconSmall : "fa fa-times fa-2x fadeInRight animated",
-                    timeout : 4000
-                  });
+                    var response = JSON.parse(xhr.responseText);
+                    jarboe.smallToast({
+                        title : "{{ __('jarboe::common.list.reorder.failed') }}",
+                        content: response.message,
+                        color : "#C46A69",
+                        iconSmall : "fa fa-times fa-2x fadeInRight animated",
+                        timeout : 4000
+                    });
                 },
                 dataType: "json"
               });

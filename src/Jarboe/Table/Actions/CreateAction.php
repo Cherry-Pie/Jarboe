@@ -8,8 +8,9 @@ class CreateAction extends AbstractAction
 
     public function render($model = null)
     {
-        $crud = $this->crud();
-
-        return view('jarboe::crud.actions.create', compact('crud'));
+        return view('jarboe::crud.actions.create', [
+            'crud' => $this->crud(),
+            'action' => $this,
+        ]);
     }
 }

@@ -10,6 +10,8 @@ abstract class AbstractAction implements ActionInterface
     protected $checkClosure;
     protected $renderClosure = false;
     private $crud;
+    private $tooltip = null;
+    private $tooltipPosition = ActionInterface::TOOLTIP_POSITION_TOP;
 
     public function __construct()
     {
@@ -67,5 +69,32 @@ abstract class AbstractAction implements ActionInterface
         }
 
         return is_callable($closure) ? call_user_func_array($closure, [$model]) : false;
+    }
+
+    public function tooltip(string $tooltip, string $position = ActionInterface::TOOLTIP_POSITION_TOP): ActionInterface
+    {
+        $this->tooltip = $tooltip;
+        $this->tooltipPosition = $position;
+
+        return $this;
+    }
+
+    public function getTooltip()
+    {
+        return $this->tooltip;
+    }
+
+    public function getTooltipPosition(): string
+    {
+        switch ($this->tooltipPosition) {
+            case self::TOOLTIP_POSITION_TOP:
+            case self::TOOLTIP_POSITION_RIGHT:
+            case self::TOOLTIP_POSITION_BOTTOM:
+            case self::TOOLTIP_POSITION_LEFT:
+                return $this->tooltipPosition;
+
+            default:
+                return self::TOOLTIP_POSITION_TOP;
+        }
     }
 }

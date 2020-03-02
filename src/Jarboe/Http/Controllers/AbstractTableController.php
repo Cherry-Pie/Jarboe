@@ -185,7 +185,14 @@ abstract class AbstractTableController
         } catch (UnauthorizedException $e) {
             return $this->createUnauthorizedResponse($request, $e);
         } catch (\Exception $e) {
-            throw $e;
+            // TODO: response objects
+            if ($request->isXmlHttpRequest() || $request->wantsJson()) {
+                return response()->json([
+                    'title' => get_class($e),
+                    'description' => $e->getMessage(),
+                ], 406);
+            }
+
             $this->notifyBigDanger(get_class($e), $e->getMessage(), 0);
             return redirect()->back()->withInput($request->input());
         }

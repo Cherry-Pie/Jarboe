@@ -56,21 +56,22 @@
                 hide: function (deleteElement) {
                     const $element = $(this);
 
-                    $.SmartMessageBox({
+                    jarboe.confirmBox({
                         title: "delete repeater item",
                         content: "cant be undone",
-                        buttons: '[no][yes]'
-                    }, function (ButtonPressed) {
-                        if (ButtonPressed === "yes") {
-                            $element.slideUp(deleteElement);
-                        }
+                        buttons: {
+                            'yes': function() {
+                                $element.slideUp(deleteElement);
+                            },
+                            'no': null,
+                        },
                     });
                 },
                 ready: function (setIndexes) {
 
                 }
             });
-            $repeater.setList({!! json_encode($repeater->oldOrAttribute($model, null, $locale)) !!});
+            $repeater.setList({!! json_encode($repeater->oldOrAttribute($model, $locale)) !!});
             $repeater.setErrors({!! json_encode($errors) !!});
 
             @if ($repeater->isSortable())
