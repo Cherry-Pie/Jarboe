@@ -1,8 +1,15 @@
-
+<?php
+/** @var \Yaro\Jarboe\Table\Fields\ColorPicker $field */
+?>
 <label class="label">{{ $field->title() }}</label>
 <label class="input {{ $errors->has($field->name()) ? 'state-error' : '' }}">
-    <i class="icon-append icon-color colorpicker-{{ $field->name() }}-icon"></i>
-    <input class="colorpicker-{{ $field->name() }}" type="text" value="{{ $field->oldOrDefault() }}" name="{{ $field->name() }}" data-color-format="{{ $field->getType() }}" placeholder="{{ $field->getPlaceholder() }}">
+    <i class="icon-append icon-color" style="background-color: {{ $field->oldOrDefault() ?: '#fff' }};">&nbsp;&nbsp;&nbsp;&nbsp;</i>
+    <input class="colorpicker-field"
+           type="text"
+           value="{{ $field->oldOrDefault() }}"
+           name="{{ $field->name() }}"
+           data-color-format="{{ $field->getType() }}"
+           placeholder="{{ $field->getPlaceholder() }}">
 </label>
 
 
@@ -10,25 +17,22 @@
     <div class="note note-error">{{ $message }}</div>
 @endforeach
 
-
-<style id="colorpicker-{{ $field->name() }}">
-    .icon-color.colorpicker-{{ $field->name() }}-icon:before {
-        content: "\00a0 \00a0 \00a0 \00a0 ";
-        background-color: {{ $field->oldOrDefault() ?: '#fff' }};
-    }
-</style>
-
 @pushonce('script_files', <script src="/vendor/jarboe/js/plugin/colorpicker/bootstrap-colorpicker.min.js"></script>)
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
-            $(".colorpicker-{{ $field->name() }}").colorpicker();
+        Jarboe.add('{{ $field->name() }}', function() {
+            $('input.colorpicker-field')
+                .colorpicker()
+                .on('changeColor', function(event) {
+                    let color = event.color.toRGB();
+                    color = 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',' + color.a + ')';
+                    $(this).parent().find('.icon-color').css('background-color', color);
+                });
+        }, '{{ $locale ?? 'default' }}');
 
-            $('.colorpicker-{{ $field->name() }}').blur(function () {
-                $('#colorpicker-{{ $field->name() }}').remove();
-                $('head').append('<style id="colorpicker-{{ $field->name() }}">.icon-color.colorpicker-{{ $field->name() }}-icon:before {content: "\\00a0 \\00a0 \\00a0 \\00a0 ";background-color: '+ $(this).val() +';}</style>');
-            })
-        })
+        $(document).ready(function () {
+            Jarboe.init('{{ $field->name() }}', '{{ $locale ?? 'default' }}');
+        });
     </script>
 @endpush

@@ -4,7 +4,6 @@ namespace Yaro\Jarboe\Table\Fields\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage as IlluminateStorage;
 
 trait Storage
 {
@@ -55,29 +54,5 @@ trait Storage
     public function getPath()
     {
         return $this->path;
-    }
-
-    public function getUrl($model)
-    {
-        if (is_null($model)) {
-            return null;
-        }
-
-        $filepath = $model->{$this->name()};
-        if (!$filepath) {
-            return null;
-        }
-
-        $disk = IlluminateStorage::disk($this->getDisk());
-
-        $paths = [];
-        if (is_array($filepath)) {
-            foreach ($filepath as $path) {
-                $paths[] = $this->isEncode() ? $path : $disk->url($path);
-            }
-            return $paths;
-        }
-
-        return $this->isEncode() ? $filepath : $disk->url($filepath);
     }
 }

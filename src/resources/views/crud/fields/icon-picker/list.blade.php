@@ -1,2 +1,1 @@
-
-<i class="fa {{ $model->{$field->name()} }}"></i>
+<i class="fa {{ $field->getAttribute($model) }}"></i>

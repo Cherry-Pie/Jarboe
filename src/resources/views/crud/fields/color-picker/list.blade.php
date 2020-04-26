@@ -1,2 +1,4 @@
-
-<div style="background-color: {{ $model->{$field->name()} ?: '#fff' }}">&nbsp;</div>
+<?php
+/** @var \Yaro\Jarboe\Table\Fields\ColorPicker $field */
+?>
+<div style="background-color: {{ $field->getAttribute($model) ?: '#fff' }}">&nbsp;</div>

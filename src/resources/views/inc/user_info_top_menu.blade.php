@@ -2,7 +2,7 @@
 <ul id="mobile-profile-img" class="header-dropdown-list hidden-xs padding-5">
     <li class="">
         <a href="#" class="dropdown-toggle no-margin userdropdown" data-toggle="dropdown">
-            <img src="{{ admin_user()->avatar }}" alt="{{ admin_user()->name }}" class="online" />
+            <img src="{{ admin_user()->avatar_url ?: '/vendor/jarboe/img/avatars/default.png' }}" alt="{{ admin_user()->name }}" class="online" />
         </a>
         <ul class="dropdown-menu pull-right">
             {{--

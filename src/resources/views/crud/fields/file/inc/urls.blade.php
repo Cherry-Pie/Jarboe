@@ -1,21 +1,35 @@
-<div style="width: 100%; margin-top: 12px;">
-    @if ($field->isMultiple())
-        <ul style="padding-left: 15px;">
-            @foreach (($field->getUrl($model) ?: []) as $url)
-                <li>
-                    @if (filter_var($url, FILTER_VALIDATE_URL))
-                        <a href="{{ $url }}" target="_blank">{{ $url }}</a>
-                    @else
-                        {{ $url }}
-                    @endif
-                </li>
-            @endforeach
-        </ul>
-    @else
-        @if (filter_var($field->getUrl($model), FILTER_VALIDATE_URL))
-            <a href="{{ $field->getUrl($model) }}" target="_blank">{{ $model->{$field->name()} }}</a>
-        @else
-            {{ $model->{$field->name()} }}
-        @endif
-    @endif
+<?php
+/** @var \Yaro\Jarboe\Table\Fields\File $field */
+?>
+<div class="dd" style="margin-top: 4px;">
+    <ol class="file-field-dd-list">
+        @foreach ($field->getPaths($model) as $path)
+            <li class="dd-item">
+                <div class="dd3-content">
+                    <div class="document-item" filetype="{{ pathinfo($path, PATHINFO_EXTENSION) }}">
+                        <span class="fileCorner"></span>
+                        @if (!$field->isReadonly())
+                            <input name="{{ $field->name() }}[paths][]" type="hidden" value="{{ $path }}">
+                        @endif
+                        <span class="elips">{{ $field->formUrl($path) }}</span>
+                        <span class="pull-right" style="line-height: 0px;">
+                            <a href="javascript:void(0);"
+                               class="btn btn-labeled btn-default clipclip"
+                               style="margin-right: 4px; position: initial;"
+                               data-clipboard-text="{{ $field->formUrl($path) }}">
+                                {{ __('jarboe::fields.clipboard_copy') }}
+                            </a>
+                            @if (!$field->isReadonly())
+                                <a href="javascript:void(0);"
+                                   class="btn btn-default btn-xs delete-file-btn"
+                                   style="margin-right: 4px;">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+                            @endif
+                        </span>
+                    </div>
+                </div>
+            </li>
+        @endforeach
+    </ol>
 </div>

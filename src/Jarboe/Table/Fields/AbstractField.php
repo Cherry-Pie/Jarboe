@@ -33,6 +33,9 @@ abstract class AbstractField implements FieldPropsInterface
 
     const DEFAULT_TAB_IDENT = '[extra]';
 
+    private $crud;
+    public static $repeaterAdapterClass;
+
     public static function make($name = '', $title = '')
     {
         $field = new static;
@@ -147,15 +150,17 @@ abstract class AbstractField implements FieldPropsInterface
         return false;
     }
 
-    abstract public function getListValue($model);
+    abstract public function getListView($model);
 
-    abstract public function getEditFormValue($model);
+    abstract public function getEditFormView($model);
 
-    abstract public function getCreateFormValue();
+    abstract public function getCreateFormView();
 
     // TODO: interface type-hinting
     public function prepare(CRUD $crud)
     {
+        $this->crud = $crud;
+
         if ($this->filter()) {
             $this->filter()->value(
                 $this->filter()->getValue($crud->tableIdentifier())
@@ -174,5 +179,10 @@ abstract class AbstractField implements FieldPropsInterface
             $this->locales($crud->getLocales());
             $this->setCurrentLocale($crud->getCurrentLocale());
         }
+    }
+
+    protected function crud(): CRUD
+    {
+        return $this->crud;
     }
 }

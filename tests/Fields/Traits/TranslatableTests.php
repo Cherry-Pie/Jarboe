@@ -61,7 +61,7 @@ trait TranslatableTests
     {
         $field = $this->field()->translatable();
 
-        $this->assertInstanceOf(View::class, $field->getListValue($this->model()));
+        $this->assertInstanceOf(View::class, $field->getListView($this->model()));
     }
 
     abstract protected function field(): AbstractField;

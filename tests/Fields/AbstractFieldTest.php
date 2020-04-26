@@ -291,7 +291,7 @@ abstract class AbstractFieldTest extends AbstractBaseTest
     {
         $field = $this->field();
 
-        $this->assertInstanceOf(View::class, $field->getListValue($this->model()));
+        $this->assertInstanceOf(View::class, $field->getListView($this->model()));
     }
 
     /**
@@ -301,7 +301,7 @@ abstract class AbstractFieldTest extends AbstractBaseTest
     {
         $field = $this->field();
 
-        $this->assertInstanceOf(View::class, $field->getCreateFormValue());
+        $this->assertInstanceOf(View::class, $field->getCreateFormView());
     }
 
     /**
@@ -311,7 +311,7 @@ abstract class AbstractFieldTest extends AbstractBaseTest
     {
         $field = $this->field();
 
-        $this->assertInstanceOf(View::class, $field->getEditFormValue($this->model()));
+        $this->assertInstanceOf(View::class, $field->getEditFormView($this->model()));
     }
 
     /**

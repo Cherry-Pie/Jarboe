@@ -53,7 +53,7 @@ class Time extends AbstractField
         return $this;
     }
 
-    public function getListValue($model)
+    public function getListView($model)
     {
         return view('jarboe::crud.fields.time.list', [
             'model' => $model,
@@ -61,7 +61,7 @@ class Time extends AbstractField
         ]);
     }
 
-    public function getEditFormValue($model)
+    public function getEditFormView($model)
     {
         $template = $this->isReadonly() ? 'readonly' : 'edit';
 
@@ -71,7 +71,7 @@ class Time extends AbstractField
         ]);
     }
 
-    public function getCreateFormValue()
+    public function getCreateFormView()
     {
         return view('jarboe::crud.fields.time.create', [
             'field' => $this,

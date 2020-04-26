@@ -1,11 +1,17 @@
-
+<?php
+/** @var \Yaro\Jarboe\Table\Fields\Password $field */
+?>
 <label class="label">{{ $field->title() }}</label>
 <label class="input {{ $errors->has($field->name()) ? 'state-error' : '' }}">
     @if ($field->hasTooltip())
         <i class="icon-append fa fa-question-circle"></i>
     @endif
 
-    <input type="password" value="{{ $field->hasOld() ? $field->old() : '' }}" name="{{ $field->name() }}" placeholder="{{ $field->oldOrAttribute($model) ? '••••••••' : $field->getPlaceholder() }}">
+    <input type="password"
+           autocomplete="new-password"
+           value="{{ $field->hasOld() ? $field->old() : '' }}"
+           name="{{ $field->name() }}"
+           placeholder="{{ $field->oldOrAttribute($model) ? '••••••••' : $field->getPlaceholder() }}">
 
     @if ($field->hasTooltip())
         <b class="tooltip tooltip-top-right">

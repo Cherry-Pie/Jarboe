@@ -1,4 +1,3 @@
-
 <label class="label">
     {{ $field->title() }}
     @include('jarboe::crud.fields.text.inc.translatable_locales_selector')

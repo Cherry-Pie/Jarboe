@@ -1,4 +1,3 @@
-
 @if ($field->hasClipboardButton() && (string) $field->getAttribute($model, $locale ?? null) !== '')
     <div class="p-relative">
         <a href="javascript:void(0);"

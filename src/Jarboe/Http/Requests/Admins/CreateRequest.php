@@ -25,7 +25,7 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'avatar' => 'mimes:jpeg,bmp,png,gif',
+            'avatar.*.file' => 'mimes:jpeg,bmp,png,gif',
             'name' => 'required',
             'email' => 'required|email|unique:admins',
             'password' => 'required|confirmed',

@@ -32,6 +32,7 @@
                 <directory suffix=".php">./src/Jarboe/Models</directory>
                 <directory suffix=".php">./src/Jarboe/Http/Requests</directory>
                 <directory suffix=".php">./src/Jarboe/Table/Fields/Adapters</directory>
+                <directory suffix=".php">./src/Jarboe/Table/Fields/Deprecated</directory>
                 <file>./src/Jarboe/Table/Fields/Repeater.php</file>
                 <file>./src/Jarboe/Http/Controllers/AdminsController.php</file>
                 <file>./src/Jarboe/Http/Controllers/AdminsRolesController.php</file>

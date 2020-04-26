@@ -4,6 +4,7 @@ namespace Yaro\Jarboe\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use Yaro\Jarboe\Pack\Image;
 
 class Admin extends Authenticatable
 {
@@ -32,8 +33,12 @@ class Admin extends Authenticatable
         'remember_token',
     ];
 
-    public function getAvatarAttribute($value)
+    protected $casts = [
+        'avatar' => 'array',
+    ];
+
+    public function getAvatarUrlAttribute($value)
     {
-        return $value ?: '/vendor/jarboe/img/avatars/male.png';
+        return (new Image($this->avatar))->croppedOrOriginalSourceUrl();
     }
 }

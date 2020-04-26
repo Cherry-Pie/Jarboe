@@ -1,4 +1,3 @@
-
 @if ($errors->any())
     <div class="alert alert-danger errors-container">
         <ul>

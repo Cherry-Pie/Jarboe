@@ -1,6 +1,5 @@
-
 <div class="inline-group">
-    <label class="label">&nbsp;</label>
+    <label class="label">{{ $field->title() }}</label>
     <label class="checkbox {{ $errors->has($field->name()) ? 'state-error' : '' }}">
         <input type="checkbox"
                name="{{ $field->name() }}"
@@ -10,7 +9,6 @@
         >
         <i></i>{{ $field->title() }}</label>
 </div>
-
 
 @foreach ($errors->get($field->name()) as $message)
     <div class="note note-error">{{ $message }}</div>

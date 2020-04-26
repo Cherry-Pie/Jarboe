@@ -2,6 +2,7 @@
 
 namespace Yaro\Jarboe\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use SplFileObject;
 
@@ -69,22 +70,31 @@ class Install extends Command
     private function copyMigrationFiles()
     {
         $this->comment('Creating migration files:');
-        if ($this->isMigrationFilesExist()) {
-            $this->comment('  - already exists');
-            return;
+
+        $date = Carbon::now();
+
+        if (!$this->isMigrationFileExist('create_admins_table.php')) {
+            shell_exec(sprintf(
+                'cp "%s" "%s"',
+                base_path('vendor/yaro/jarboe/src/database/migrations/2018_06_28_152903_create_admins_table.php'),
+                database_path(sprintf('migrations/%s_create_admins_table.php', $date->format('Y_m_d_His')))
+            ));
+            $date->addSecond();
         }
 
-        $name = date('Y_m_d_His') . '_create_admins_table.php';
-        shell_exec(sprintf(
-            'cp "%s" "%s"',
-            base_path('vendor/yaro/jarboe/src/database/migrations/2018_06_28_152903_create_admins_table.php'),
-            database_path('migrations/' . $name)
-        ));
+        if (!$this->isMigrationFileExist('add_otp_secret_column_to_admins_table.php')) {
+            shell_exec(sprintf(
+                'cp "%s" "%s"',
+                base_path('vendor/yaro/jarboe/src/database/migrations/2019_05_18_210659_add_otp_secret_column_to_admins_table.php'),
+                database_path(sprintf('migrations/%s_add_otp_secret_column_to_admins_table.php', $date->format('Y_m_d_His')))
+            ));
+            $date->addSecond();
+        }
     }
 
-    private function isMigrationFilesExist()
+    private function isMigrationFileExist($filename)
     {
-        return (bool)glob(database_path('migrations/*_create_admins_table.php'));
+        return (bool)glob(database_path('migrations/*_'. $filename));
     }
 
     private function copyThirdPartyMigrationFiles()

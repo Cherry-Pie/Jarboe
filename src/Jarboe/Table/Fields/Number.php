@@ -28,10 +28,10 @@ class Number extends AbstractField
             return null;
         }
 
-        return is_null($value) ? 0 : $value;
+        return is_null($value) ? 0 : (float) $value;
     }
 
-    public function getListValue($model)
+    public function getListView($model)
     {
         return view('jarboe::crud.fields.number.list', [
             'model' => $model,
@@ -39,7 +39,7 @@ class Number extends AbstractField
         ]);
     }
 
-    public function getEditFormValue($model)
+    public function getEditFormView($model)
     {
         $template = $this->isReadonly() ? 'readonly' : 'edit';
 
@@ -49,7 +49,7 @@ class Number extends AbstractField
         ]);
     }
 
-    public function getCreateFormValue()
+    public function getCreateFormView()
     {
         return view('jarboe::crud.fields.number.create', [
             'field' => $this,

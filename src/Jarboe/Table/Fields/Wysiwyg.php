@@ -63,7 +63,7 @@ class Wysiwyg extends AbstractField
         }
     }
 
-    public function getListValue($model)
+    public function getListView($model)
     {
         $template = 'list';
         if ($this->isTranslatable()) {
@@ -76,7 +76,7 @@ class Wysiwyg extends AbstractField
         ]);
     }
 
-    public function getEditFormValue($model)
+    public function getEditFormView($model)
     {
         $template = $this->isReadonly() ? 'readonly' : 'edit';
 
@@ -86,7 +86,7 @@ class Wysiwyg extends AbstractField
         ]);
     }
 
-    public function getCreateFormValue()
+    public function getCreateFormView()
     {
         return view(sprintf('jarboe::crud.fields.wysiwyg.%s.create', $this->getType()), [
             'field' => $this,

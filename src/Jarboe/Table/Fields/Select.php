@@ -160,7 +160,7 @@ class Select extends AbstractField
         $this->syncRelations($model, $request->get($this->name()));
     }
 
-    public function getListValue($model)
+    public function getListView($model)
     {
         return view('jarboe::crud.fields.select.list', [
             'model' => $model,
@@ -169,7 +169,7 @@ class Select extends AbstractField
         ]);
     }
 
-    public function getEditFormValue($model)
+    public function getEditFormView($model)
     {
         $template = $this->isReadonly() ? 'readonly' : 'edit';
 
@@ -179,7 +179,7 @@ class Select extends AbstractField
         ]);
     }
 
-    public function getCreateFormValue()
+    public function getCreateFormView()
     {
         return view('jarboe::crud.fields.select.create', [
             'field' => $this,

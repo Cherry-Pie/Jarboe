@@ -25,7 +25,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'avatar' => 'mimes:jpeg,bmp,png,gif',
+            'avatar.*.file' => 'mimes:jpeg,bmp,png,gif',
             'name' => 'required',
             'email' => 'required|email|unique:admins,email,'. $this->route('id'),
             'password' => 'confirmed',

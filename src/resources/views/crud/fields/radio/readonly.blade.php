@@ -6,7 +6,7 @@
         @foreach (array_chunk($field->getOptions(), round(count($field->getOptions()) / $field->getColumns()), true) as $options)
             <div class="col col-{{ 12 / $field->getColumns() }}">
                 @foreach ($options as $option => $title)
-                    <label class="radio state-disabled">
+                    <label class="radio state-disabled {{ $errors->has($field->name()) ? 'state-error' : '' }}">
                         <input type="radio" name="{{ $field->name() }}" value="{{ $option }}" {{ $field->isCurrentOption($option, $model)  ? 'checked="checked"' : '' }} disabled="disabled">
                         <i></i>
                         {{ $title }}
@@ -18,7 +18,7 @@
 @else
     <div class="inline-group">
         @foreach ($field->getOptions() as $option => $title)
-            <label class="radio state-disabled">
+            <label class="radio state-disabled {{ $errors->has($field->name()) ? 'state-error' : '' }}">
                 <input type="radio" name="{{ $field->name() }}" value="{{ $option }}" {{ $field->isCurrentOption($option, $model)  ? 'checked="checked"' : '' }} disabled="disabled">
                 <i></i>
                 {{ $title }}
@@ -26,3 +26,8 @@
         @endforeach
     </div>
 @endif
+
+
+@foreach ($errors->get($field->name()) as $message)
+    <div class="note note-error">{{ $message }}</div>
+@endforeach

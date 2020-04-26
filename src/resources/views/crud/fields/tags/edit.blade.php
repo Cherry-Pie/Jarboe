@@ -1,4 +1,3 @@
-
 <label class="label">{{ $field->title() }}</label>
 <label class="input {{ $errors->has($field->name()) ? 'state-error' : '' }}">
 
@@ -33,8 +32,4 @@
     <div class="note note-error">{{ $message }}</div>
 @endforeach
 
-@pushonce('script_files', <script>
-    $(".select-2--tags").select2({
-        tags: true
-    });
-</script>)
+@include('jarboe::crud.fields.tags.inc.scripts')

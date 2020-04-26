@@ -1,4 +1,3 @@
-
 @if ($field->isRelationField())
 
     @if ($field->isGroupedRelation())
@@ -21,11 +20,11 @@
 
 @else
     @if ($field->isMultiple())
-        @foreach($model->{$field->name()} as $option)
+        @foreach($field->getAttribute($model) as $option)
             {{ $options[$option] ?? '' }}
             <br>
         @endforeach
     @else
-        {{ $options[$model->{$field->name()}] ?? '' }}
+        {{ $options[$field->getAttribute($model)] ?? '' }}
     @endif
 @endif

@@ -10,7 +10,7 @@
         @if ($field->hidden('list'))
             @continue
         @endif
-        <td class="td-field-{{ $field->name() }}">{!! $field->getListValue($item) !!}</td>
+        <td class="td-field-{{ $field->name() }}">{!! $field->getListView($item) !!}</td>
     @endif
 
 @endforeach

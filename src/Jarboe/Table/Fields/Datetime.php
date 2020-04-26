@@ -38,7 +38,7 @@ class Datetime extends AbstractField
         return $this;
     }
 
-    public function getListValue($model)
+    public function getListView($model)
     {
         return view('jarboe::crud.fields.datetime.list', [
             'model' => $model,
@@ -46,7 +46,7 @@ class Datetime extends AbstractField
         ]);
     }
 
-    public function getEditFormValue($model)
+    public function getEditFormView($model)
     {
         $template = $this->isReadonly() ? 'readonly' : 'edit';
 
@@ -56,7 +56,7 @@ class Datetime extends AbstractField
         ]);
     }
 
-    public function getCreateFormValue()
+    public function getCreateFormView()
     {
         return view('jarboe::crud.fields.datetime.create', [
             'field' => $this,

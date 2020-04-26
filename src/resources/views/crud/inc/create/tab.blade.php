@@ -19,6 +19,11 @@
     @endif
 
     <section class="{{ $field->getCol() == 12 ? '' : 'col col-'. $field->getCol() }}">
-        {!! $field->getCreateFormValue() !!}
+        {!! $field->getCreateFormView() !!}
     </section>
+
+    @if (!$field->getCol())
+        <?php $rowsLeft = 12; ?>
+        </div>
+    @endif
 @endforeach

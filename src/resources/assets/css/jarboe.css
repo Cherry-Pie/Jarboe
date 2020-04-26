@@ -1,0 +1,415 @@
+#logo {
+    margin-top: 8px;
+}
+#logo img {
+    width: 34px;
+}
+.menu-on-top #fullscreen {
+    display: none!important;
+}
+
+.smart-form .col-7 {
+    width: 58.33%;
+}
+.smart-form .col-11 {
+    width: 91.66%;
+}
+.smart-form .col-0 {
+    display: none;
+}
+
+.select2-search-choice-close,
+.select2-selection__clear {
+    display: block;
+    width: 15px;
+}
+.select2-selection--multiple .select2-search-choice-close,
+.select2-selection--multiple .select2-selection__clear {
+    display: block;
+    width: 15px;
+    padding-right: 5px;
+    height: 20px;
+    line-height: 21px;
+}
+.select2-display-none, .select2-hidden-accessible {
+    display: none!important;
+}
+.select2-container .select2-choice, .select2-selection {
+    /*padding: 0 8px !important;*/
+}
+.select2-results li {
+    padding: 4px 2px 4px 8px;
+}
+.select2-selection__arrow {
+    display: none;
+}
+.select2-container-multi .select2-choices .select2-search-choice, .select2-selection__choice {
+    padding: 1px 28px 1px 8px !important;
+    margin: 4px 0 3px 5px !important;
+    box-sizing: border-box; !important;
+}
+.select2-selection__choice__remove {
+    padding-bottom: 3px;
+    padding-left: 6px;
+    padding-right: 4px;
+    padding-top: 3px;
+    margin: 0;
+    box-sizing: border-box;
+}
+.select2.select2-container.select2-container--default {
+    width: 100% !important;
+}
+
+table .hasinput input {
+    padding: 6px 12px;
+    box-sizing: border-box;
+}
+
+a.clipclip,
+a.clipclip.btn:active {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: auto;
+    padding: 1px 6px;
+}
+
+.editable-clear {
+    position: absolute;
+    bottom: 10px;
+    right: 24px;
+}
+
+td.smart-form>label.checkbox,
+th.smart-form>label.checkbox {
+    margin-bottom: 18px !important;
+    padding-left: 18px !important;
+}
+td.smart-form>label.checkbox i,
+th.smart-form>label.checkbox i {
+    top: 0px;
+}
+th.check-all-column {
+    width: 1px;
+}
+td.mass-checkbox-td {
+    width: 1px;
+}
+
+label.btn.translation-locale-label.focus {
+    outline: none;
+}
+
+td.jarboe-table-actions {
+    white-space: nowrap;
+}
+.check-all-column div.tooltip {
+    padding: 0 5px;
+    opacity: .9;
+    background: none;
+    line-height: 1.42857143;
+}
+
+.smart-style-2 #logo img {
+    filter: invert(100%);
+}
+
+div.colorpicker.dropdown-menu {
+    z-index: 1200;
+}
+.smart-form .modal-content div.tooltip {
+    position: absolute;
+    z-index: 1030;
+    display: block;
+    font-family: "Open Sans",Arial,Helvetica,Sans-Serif;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-break: auto;
+    line-height: 1.42857143;
+    text-align: left;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    white-space: normal;
+    word-break: normal;
+    word-spacing: normal;
+    word-wrap: normal;
+    font-size: 12px;
+    opacity: 1;
+    filter: alpha(opacity=1);
+    background: none;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    padding: 10px 28px;
+}
+
+.smart-form .icon-append.icon-color {
+    padding-left: 0;
+}
+
+.md-input {
+    box-sizing: border-box;
+}
+.md-input .md-editor>.md-preview {
+    box-sizing: border-box;
+}
+.md-editor.md-fullscreen-mode {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.md-editor .md-input {
+    max-height: 420px;
+}
+.md-editor.md-fullscreen-mode .md-input {
+    max-height: initial;
+}
+.md-editor>.md-preview {
+    width: auto !important;
+}
+.md-editor .md-header {
+    border-top: 1px solid #bdbdbd;
+    border-right: 1px solid #bdbdbd;
+    border-left: 1px solid #bdbdbd;
+}
+.md-editor.md-fullscreen-mode .md-header {
+    border: none;
+}
+
+.state-error .select2-selection {
+    border-color: #A90329;
+    background: #fff0f0;
+}
+
+.file-field-dd-list .dd-item-drag {
+    height: 36px;
+    border: #fff 1px solid;
+}
+span.elips {
+    display: inline-block;
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+.document-item {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+}
+.document-item::before {
+    box-sizing: initial;
+    position: absolute;
+    width: 16px;
+    height: 22px;
+    left: 0;
+    top: -3px;
+    content: '';
+    border: solid 2px #3E90D4;
+}
+.document-item::after {
+    box-sizing: initial;
+    content: 'file';
+    content: attr(filetype);
+    left: -4px;
+    padding: 0px 2px;
+    text-align: right;
+    line-height: 1.3;
+    position: absolute;
+    background-color: #000;
+    color: #fff;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    top: 9px;
+}
+.document-item .fileCorner {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 0 0 8px;
+    border-color: white transparent transparent #3E90D4;
+    position: absolute;
+    top: -3px;
+    left: 12px;
+}
+.file-field-dd-list .dd3-content {
+    font-size: 13px;
+    padding: 7px 0 2px 10px;
+    cursor: grab;
+}
+div.dd {
+    max-width: 100%;
+}
+
+div.repeater [data="data-repeater-default-item"] {
+    display: none;
+}
+div.repeater div.repeater-item {
+    position: relative;
+    margin-bottom: 6px;
+    border: 1px solid #f5f7fa;
+}
+div.repeater div.repeater-item:hover {
+    background-color: #94b1ca;
+}
+div.repeater .repeater-item-btn-container {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    bottom: auto;
+    left: auto;
+}
+div.repeater .repeater-item-btn-container a {
+    margin-left: 5px;
+}
+
+.ui-sortable-placeholder.row-dragging {
+    background: aliceblue;
+}
+
+div.repeater .drag-handle {
+    height: 30px;
+    background-color: #d7dae2;
+}
+
+div.repeater .drag-handle.sortable {
+    cursor: grab;
+}
+
+div.repeater span[data-repeater-heading] {
+    line-height: 30px;
+    font-size: 14px;
+    color: #333;
+    padding: 0 10px;
+}
+
+/* Image */
+div.image-field {
+    height: 50px;
+    max-height: 50px;
+    width: 50px;
+    max-width: 50px;
+    cursor: pointer;
+    display: inline-block;
+    background-size: cover;
+}
+div.field-modal {
+    box-sizing:border-box;
+    margin:initial;
+    padding: initial;
+}
+
+div.field-modal .modal-dialog {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+div.field-modal .modal-dialog .modal-content {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+div.field-modal .modal-dialog .modal-content .modal-header {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 15px;
+}
+div.field-modal .modal-dialog .modal-content .modal-body {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+
+
+
+.input-block .field-modal * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+@media (min-width: 768px) {
+    .input-block .field-modal .modal-dialog {
+        width:600px;
+        margin: 30px auto
+    }
+    .input-block .field-modal .modal-content {
+        -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+        box-shadow: 0 5px 15px rgba(0,0,0,.5)
+    }
+    .input-block .field-modal .modal-sm {
+        width: 300px
+    }
+}
+@media (min-width: 992px) {
+    .input-block .field-modal .modal-lg {
+        width:900px
+    }
+}
+
+.image-block {
+    margin-right: 10px;
+    display: inline-block;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+.image-left-part {
+    box-shadow: 0 0 1px 0px #000 inset;
+}
+.image-left-part img {
+    height: 180px;
+}
+.image-left-part a {
+    padding: 3px 8px;
+    width: 100%;
+}
+.image-full-modal {
+    padding: 0 !important;
+}
+.image-full-modal .modal-dialog {
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+div.image-block div.input.input-file {
+    min-width: 200px;
+    position: absolute;
+    top: -40px;
+    width: 100%;
+}
+div.image-block a.image-remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: auto;
+    width: auto;
+}
+div.image-block div.image-left-part {
+    position: relative;
+}
+div.modal.image-full-modal a.cropper-destroy,
+div.modal.image-full-modal a.cropper-init,
+div.modal.image-full-modal a.close-cropper-modal{
+    padding: 4px 8px;
+}
+/* end Image */
+/* File */
+ol.file-field-dd-list div.dd3-content {
+    cursor: initial;
+}
+ol.file-field-dd-list div.dd3-content span.elips {
+    max-width: 88%;
+}
+ol.file-field-dd-list div.dd3-content span.clipspan {
+    line-height: 0px;
+}
+ol.file-field-dd-list div.dd3-content span.clipspan .clipclip {
+    margin-right: 4px; position: initial;
+}
+/* end File */

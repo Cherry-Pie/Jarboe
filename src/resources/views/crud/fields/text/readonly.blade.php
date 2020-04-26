@@ -4,7 +4,6 @@
     @include('jarboe::crud.fields.text.inc.translatable_locales_selector')
 </label>
 <label class="input state-disabled">
-
     @if ($field->isTranslatable())
         @foreach ($field->getLocales() as $locale => $title)
             <div class="locale-field locale-field-{{ $field->name() }} locale-field-{{ $field->name() }}-{{ $locale }}"
@@ -15,6 +14,10 @@
                        value="{{ $field->getAttribute($model, $locale) }}"
                        placeholder="{{ $field->getPlaceholder() }}">
                 @include('jarboe::crud.fields.text.inc.tooltip_body')
+
+                @include('jarboe::crud.fields.text.inc.error_messages', [
+                    'messages' => $errors->get($field->name() .'.'. $locale)
+                ])
             </div>
         @endforeach
     @else
@@ -24,6 +27,10 @@
                placeholder="{{ $field->getPlaceholder() }}"
                disabled>
         @include('jarboe::crud.fields.text.inc.tooltip_body')
+
+        @include('jarboe::crud.fields.text.inc.error_messages', [
+            'messages' => $errors->get($field->name())
+        ])
     @endif
 </label>
 

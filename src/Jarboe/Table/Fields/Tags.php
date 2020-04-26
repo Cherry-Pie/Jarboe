@@ -18,7 +18,7 @@ class Tags extends AbstractField
         return is_array($value) ? $value : [];
     }
 
-    public function getListValue($model)
+    public function getListView($model)
     {
         return view('jarboe::crud.fields.tags.list', [
             'model' => $model,
@@ -26,7 +26,7 @@ class Tags extends AbstractField
         ]);
     }
 
-    public function getEditFormValue($model)
+    public function getEditFormView($model)
     {
         $template = $this->isReadonly() ? 'readonly' : 'edit';
 
@@ -36,7 +36,7 @@ class Tags extends AbstractField
         ]);
     }
 
-    public function getCreateFormValue()
+    public function getCreateFormView()
     {
         return view('jarboe::crud.fields.tags.create', [
             'field' => $this,

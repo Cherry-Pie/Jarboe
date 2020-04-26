@@ -4,9 +4,14 @@
 @push('scripts')
     <script>
         Jarboe.add('{{ $field->name() }}', function() {
-            let options = {!! json_encode($field->getOptions()) !!};
-            options.selector = '.tinymce-{{ $field->name() }}-{{ $locale }}';
-            tinymce.init(options);
+            $('.wysiwyg-tinymce-field').each(function() {
+                const $this = $(this);
+                let options = $this.data('options');
+                if ($this.is(':disabled')) {
+                    options.readonly = true;
+                }
+                $this.tinymce(options);
+            });
         }, '{{ $locale }}');
 
         $(document).ready(function () {
@@ -14,3 +19,10 @@
         });
     </script>
 @endpush
+
+@pushonce('style_files',
+<style>
+    label.state-error div.tox-tinymce {
+        border-color: #A90329 !important;
+    }
+</style>)

@@ -1,16 +1,16 @@
-
+<?php
+/** @var \Yaro\Jarboe\Table\Fields\ColorPicker $field */
+?>
 <label class="label">{{ $field->title() }}</label>
-<label class="input state-disabled">
-    <i class="icon-append icon-color colorpicker-{{ $field->name() }}-icon"></i>
-    <input class="colorpicker-{{ $field->name() }}" type="text" value="{{ $model->{$field->name()} }}" data-color-format="{{ $field->getType() }}" placeholder="{{ $field->getPlaceholder() }}" disabled="disabled">
+<label class="input state-disabled {{ $errors->has($field->name()) ? 'state-error' : '' }}">
+    <i class="icon-append icon-color" style="background-color: {{ $field->getAttribute($model) ?: '#fff' }};">&nbsp;&nbsp;&nbsp;&nbsp;</i>
+    <input type="text"
+           value="{{ $field->getAttribute($model) }}"
+           data-color-format="{{ $field->getType() }}"
+           placeholder="{{ $field->getPlaceholder() }}"
+           disabled="disabled">
 </label>
 
-
-@push('styles')
-<style id="colorpicker-{{ $field->name() }}">
-    .icon-color.colorpicker-{{ $field->name() }}-icon:before {
-        content: "\00a0 \00a0 \00a0 \00a0 ";
-        background-color: {{ $model->{$field->name()} ?: '#fff' }};
-    }
-</style>
-@endpush
+@foreach ($errors->get($field->name()) as $message)
+    <div class="note note-error">{{ $message }}</div>
+@endforeach

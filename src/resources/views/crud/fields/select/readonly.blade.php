@@ -1,7 +1,6 @@
-
 <label class="label">{{ $field->title() }}</label>
 
-<label class="select state-disabled {{ $field->isMultiple() ? 'select-multiple' : '' }}">
+<label class="select state-disabled {{ $field->isMultiple() ? 'select-multiple' : '' }} {{ $errors->has($field->name()) ? 'state-error' : '' }}">
     <select disabled="disabled" {{ $field->isMultiple() ? 'multiple' : '' }} class="custom-scroll">
         @if ($field->isAjax() && $field->isRelationField() && $field->isSelect2Type())
             @foreach ($field->getSelectedOptions($model) as $option => $title)
@@ -31,3 +30,11 @@
         <i></i>
     @endif
 </label>
+
+@foreach ($errors->get($field->name()) as $message)
+    <div class="note note-error">{{ $message }}</div>
+@endforeach
+
+@if ($field->isSelect2Type())
+    @include('jarboe::crud.fields.select.inc.select2_scripts')
+@endif

@@ -21,7 +21,7 @@ class Checkbox extends AbstractField
         return (bool) $value;
     }
 
-    public function getListValue($model)
+    public function getListView($model)
     {
         return view('jarboe::crud.fields.checkbox.list', [
             'model' => $model,
@@ -29,7 +29,7 @@ class Checkbox extends AbstractField
         ]);
     }
 
-    public function getEditFormValue($model)
+    public function getEditFormView($model)
     {
         $template = $this->isReadonly() ? 'readonly' : 'edit';
 
@@ -39,10 +39,20 @@ class Checkbox extends AbstractField
         ]);
     }
 
-    public function getCreateFormValue()
+    public function getCreateFormView()
     {
         return view('jarboe::crud.fields.checkbox.create', [
             'field' => $this,
         ]);
+    }
+
+    public function oldOrAttribute($model, $locale = null)
+    {
+        $value = parent::oldOrAttribute($model, $locale);
+        if ($value === 'true' || $value === 'false') {
+            $value = $value === 'true';
+        }
+
+        return $value;
     }
 }

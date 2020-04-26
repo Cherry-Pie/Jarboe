@@ -15,7 +15,7 @@ class IconPicker extends AbstractField
         return (string) parent::value($request);
     }
 
-    public function getListValue($model)
+    public function getListView($model)
     {
         return view('jarboe::crud.fields.icon-picker.list', [
             'model' => $model,
@@ -23,7 +23,7 @@ class IconPicker extends AbstractField
         ]);
     }
 
-    public function getEditFormValue($model)
+    public function getEditFormView($model)
     {
         $template = $this->isReadonly() ? 'readonly' : 'edit';
 
@@ -33,7 +33,7 @@ class IconPicker extends AbstractField
         ]);
     }
 
-    public function getCreateFormValue()
+    public function getCreateFormView()
     {
         return view('jarboe::crud.fields.icon-picker.create', [
             'field' => $this,

@@ -23,7 +23,7 @@ class Hidden extends AbstractField
         return (string) parent::value($request);
     }
 
-    public function getListValue($model)
+    public function getListView($model)
     {
         return view('jarboe::crud.fields.hidden.list', [
             'model' => $model,
@@ -31,20 +31,26 @@ class Hidden extends AbstractField
         ]);
     }
 
-    public function getEditFormValue($model)
+    public function getEditFormView($model)
     {
-        $template = $this->isReadonly() ? 'readonly' : 'edit';
-
-        return view('jarboe::crud.fields.hidden.'. $template, [
+        return view('jarboe::crud.fields.hidden.edit', [
             'model' => $model,
             'field' => $this,
         ]);
     }
 
-    public function getCreateFormValue()
+    public function getCreateFormView()
     {
         return view('jarboe::crud.fields.hidden.create', [
             'field' => $this,
         ]);
+    }
+
+    /**
+     * @param int $col
+     */
+    public function setCol(int $col): void
+    {
+        $this->col = 0;
     }
 }

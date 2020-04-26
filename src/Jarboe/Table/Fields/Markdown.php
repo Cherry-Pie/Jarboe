@@ -14,7 +14,7 @@ class Markdown extends AbstractField
         return (string) parent::value($request);
     }
 
-    public function getListValue($model)
+    public function getListView($model)
     {
         return view('jarboe::crud.fields.markdown.list', [
             'model' => $model,
@@ -22,7 +22,7 @@ class Markdown extends AbstractField
         ]);
     }
 
-    public function getEditFormValue($model)
+    public function getEditFormView($model)
     {
         $template = $this->isReadonly() ? 'readonly' : 'edit';
 
@@ -32,7 +32,7 @@ class Markdown extends AbstractField
         ]);
     }
 
-    public function getCreateFormValue()
+    public function getCreateFormView()
     {
         return view('jarboe::crud.fields.markdown.create', [
             'field' => $this,

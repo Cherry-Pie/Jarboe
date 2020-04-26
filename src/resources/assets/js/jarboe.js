@@ -68,6 +68,24 @@ const Jarboe = {
                 initer();
             }
         }
-    }
+    },
+
+    /**
+     * Transform camelCase and PascalCase strings into kebab-case-strings.
+     * @param str
+     * @returns {string}
+     */
+    kebabCase: function(str) {
+        return str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
+    },
+
+    /**
+     * Escapes string for use in regex.
+     * @param string
+     * @returns {*}
+     */
+    escapeRegExp: function(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    },
 };
 const jarboe = Jarboe;

@@ -1,9 +1,8 @@
-
 <span class="parse-to-format-moment"
       style="display: none;"
-      data-date="{{ $model->{$field->name()} }}"
+      data-date="{{ $field->getAttribute($model) }}"
       data-format="{{ $field->getDateFormat() }}">
-        {{ $model->{$field->name()} }}
+        {{ $field->getAttribute($model) }}
 </span>
 
 @pushonce('script_files', <script>

@@ -82,7 +82,7 @@ class Radio extends AbstractField
         return $this->columns;
     }
 
-    public function getListValue($model)
+    public function getListView($model)
     {
         return view('jarboe::crud.fields.radio.list', [
             'model' => $model,
@@ -91,7 +91,7 @@ class Radio extends AbstractField
         ]);
     }
 
-    public function getEditFormValue($model)
+    public function getEditFormView($model)
     {
         $template = $this->isReadonly() ? 'readonly' : 'edit';
 
@@ -101,7 +101,7 @@ class Radio extends AbstractField
         ]);
     }
 
-    public function getCreateFormValue()
+    public function getCreateFormView()
     {
         return view('jarboe::crud.fields.radio.create', [
             'field' => $this,

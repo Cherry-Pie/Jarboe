@@ -1,33 +1,21 @@
-@if ($field->isMultiple())
+<?php
+/** @var \Yaro\Jarboe\Table\Fields\Image $field */
+/** @var \Yaro\Jarboe\Pack\Image $image */
+?>
 
-@else
-    @if (filter_var($field->getCroppedOrOriginalUrl($model), FILTER_VALIDATE_URL))
-        <div style="background-image: url('{{ $field->getCroppedOrOriginalUrl($model) }}')"
+@foreach ($field->getImagesPack($model) as $image)
+    @if (filter_var($image->croppedOrOriginalSourceUrl(), FILTER_VALIDATE_URL))
+        <div style="background-image: url('{{ $image->croppedOrOriginalSourceUrl() }}')"
              class="image-field"
              data-lity
-             data-lity-target="{{ $field->getCroppedOrOriginalUrl($model) }}"></div>
-    @elseif (preg_match('~^data:~', $field->getCroppedOrOriginalUrl($model)))
-        <div style="background-image: url('{{ $field->getCroppedOrOriginalUrl($model) }}')"
+             data-lity-target="{{ $image->croppedOrOriginalSourceUrl() }}"></div>
+    @elseif (preg_match('~^data:~', $image->croppedOrOriginalSourceUrl()))
+        <div style="background-image: url('{{ $image->croppedOrOriginalSourceUrl() }}')"
              class="image-field"
              data-lity
-             data-lity-target="{{ $field->getCroppedOrOriginalUrl($model) }}"></div>
+             data-lity-target="{{ $image->croppedOrOriginalSourceUrl() }}"></div>
     @else
-        {{ $field->getCroppedOrOriginalUrl($model) }}
+        {{ $image->croppedOrOriginalSourceUrl() }}
+        <br>
     @endif
-@endif
-
-
-
-
-@pushonce('style_files', <style>
-    div.image-field {
-        height: 50px;
-        max-height: 50px;
-        width: 50px;
-        max-width: 50px;
-        cursor: pointer;
-        display: inline-block;
-        background-size: cover;
-    }
-</style>)
-
+@endforeach

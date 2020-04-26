@@ -15,6 +15,10 @@
                           disabled="disabled"
                           placeholder="{{ $field->getPlaceholder() }}">{{ $field->getAttribute($model, $locale) }}</textarea>
                 @include('jarboe::crud.fields.textarea.inc.tooltip_body')
+
+                @include('jarboe::crud.fields.textarea.inc.error_messages', [
+                    'messages' => $errors->get($field->name() .'.'. $locale)
+                ])
             </div>
         @endforeach
     @else
@@ -24,6 +28,10 @@
                   disabled="disabled"
                   placeholder="{{ $field->getPlaceholder() }}">{{ $field->getAttribute($model) }}</textarea>
         @include('jarboe::crud.fields.textarea.inc.tooltip_body')
+
+        @include('jarboe::crud.fields.textarea.inc.error_messages', [
+            'messages' => $errors->get($field->name())
+        ])
     @endif
 </label>
 

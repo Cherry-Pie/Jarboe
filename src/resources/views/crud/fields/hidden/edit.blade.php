@@ -1,2 +1,1 @@
-
-<input type="hidden" value="{{ $model->{$field->name()} }}" name="{{ $field->name() }}">
+<input type="hidden" value="{{ $field->getAttribute($model) }}" name="{{ $field->name() }}">

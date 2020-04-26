@@ -4,7 +4,7 @@ namespace Yaro\Jarboe\Table\Fields;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Yaro\Jarboe\Table\Fields\Adapters\RepeaterFile;
+use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\Traits\Translatable;
 
 class Repeater extends AbstractField
@@ -13,6 +13,8 @@ class Repeater extends AbstractField
 
     private $fields = [];
     private $sortable = false;
+    private $modelObject;
+    private $headingName = '';
 
     public function sortable(bool $enable = true)
     {
@@ -37,12 +39,19 @@ class Repeater extends AbstractField
 
     public function addField(AbstractField $field)
     {
-        if (is_a($field, File::class)) {
-            $field = new RepeaterFile($field);
+        $adapter = $field::$repeaterAdapterClass;
+        if ($adapter) {
+            $field = new $adapter($field);
         }
+
         $this->fields[] = $field;
 
         return $this;
+    }
+
+    public function beforeUpdate($model)
+    {
+        $this->modelObject = $model;
     }
 
     public function value(Request $request)
@@ -69,6 +78,7 @@ class Repeater extends AbstractField
                 $data[$locale] = $localeData;
             }
         } else {
+            $index = 0;
             foreach ($repeaterItems as $item) {
                 $itemData = [];
                 /** @var AbstractField $field */
@@ -78,6 +88,7 @@ class Repeater extends AbstractField
                     );
                 }
                 $data[] = $itemData;
+                $index++;
             }
         }
 
@@ -89,44 +100,86 @@ class Repeater extends AbstractField
         return $this->fields;
     }
 
-    public function getListValue($model)
+    public function getListView($model)
     {
         return view('jarboe::crud.fields.repeater.list', [
+            'crud' => $this->crud(),
             'repeater' => $this,
             'model' => $model,
         ]);
     }
 
-    public function getEditFormValue($model)
+    public function getEditFormView($model)
     {
         return view('jarboe::crud.fields.repeater.edit', [
-            'model' => $model,
+            'crud' => $this->crud(),
             'repeater' => $this,
+            'model' => $model,
         ]);
     }
 
-    public function getCreateFormValue()
+    public function getCreateFormView()
     {
         return view('jarboe::crud.fields.repeater.create', [
+            'crud' => $this->crud(),
             'repeater' => $this,
         ]);
     }
 
-    public function errors($messages)
+    public function errors(array $messages): array
     {
-        $repeaterMessages = [];
-        foreach ($messages as $name => $errors) {
-            $errors = array_map(function ($message) use ($name) {
-                $parts = explode('.', $name);
-                $trueName = array_pop($parts);
-                return preg_replace('~' . preg_quote($name) . '~', $trueName, $message);
-            }, $errors);
-
-            $name = preg_replace('~\.~', '][', $name) . ']';
-            $name = preg_replace('~\]~', '', $name, 1);
-            $repeaterMessages[$name] = $errors;
+        $errors = [];
+        foreach ($messages as $key => $value) {
+            foreach ($value as &$error) {
+                $parts = explode('.', $key);
+                $name = array_pop($parts);
+                $error = str_replace($key, $name, $error);
+            }
+            array_set($errors, $key, $value);
         }
 
-        return $repeaterMessages;
+        return $errors[$this->name()] ?? [];
+    }
+
+    public function getRepeaterItemFormView(array $data)
+    {
+        $model = new class($data, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS) extends \ArrayObject
+        {
+            public function offsetGet($index)
+            {
+                if (!parent::offsetExists($index)) {
+                    return null;
+                }
+                return parent::offsetGet($index);
+            }
+        };
+
+        return view('jarboe::crud.fields.repeater.inc.item_edit', [
+            'repeater' => $this,
+            'model' => $model,
+            'rowsLeft' => 12,
+        ]);
+    }
+
+    public function heading(string $fieldName)
+    {
+        $this->headingName = $fieldName;
+
+        return $this;
+    }
+
+    public function getHeadingName(): string
+    {
+        return $this->headingName;
+    }
+
+    public function prepare(CRUD $crud)
+    {
+        parent::prepare($crud);
+
+        /** @var AbstractField $field */
+        foreach ($this->getFields() as $field) {
+            $field->prepare($crud);
+        }
     }
 }

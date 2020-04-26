@@ -34,125 +34,7 @@
          Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
     @include('jarboe::inc.meta.apple_touch_icon')
 
-
-    <style>
-        #logo {
-            margin-top: 8px;
-        }
-        #logo img {
-            width: 34px;
-        }
-        .menu-on-top #fullscreen {
-            display: none!important;
-        }
-
-        .smart-form .col-7 {
-            width: 58.33%;
-        }
-        .smart-form .col-11 {
-            width: 91.66%;
-        }
-        .smart-form .col-0 {
-            display: none;
-        }
-
-        .select2-search-choice-close,
-        .select2-selection__clear {
-            display: block;
-            width: 15px;
-        }
-        .select2-selection--multiple .select2-search-choice-close,
-        .select2-selection--multiple .select2-selection__clear {
-            display: block;
-            width: 15px;
-            padding-right: 5px;
-            height: 20px;
-            line-height: 21px;
-        }
-        .select2-display-none, .select2-hidden-accessible {
-            display: none!important;
-        }
-        .select2-container .select2-choice, .select2-selection {
-            /*padding: 0 8px !important;*/
-        }
-        .select2-results li {
-            padding: 4px 2px 4px 8px;
-        }
-        .select2-selection__arrow {
-            display: none;
-        }
-        .select2-container-multi .select2-choices .select2-search-choice, .select2-selection__choice {
-            padding: 1px 28px 1px 8px !important;
-            margin: 4px 0 3px 5px !important;
-            box-sizing: border-box; !important;
-        }
-        .select2-selection__choice__remove {
-            padding-bottom: 3px;
-            padding-left: 6px;
-            padding-right: 4px;
-            padding-top: 3px;
-            margin: 0;
-            box-sizing: border-box;
-        }
-        .select2.select2-container.select2-container--default {
-            width: 100% !important;
-        }
-
-        table .hasinput input {
-            padding: 6px 12px;
-            box-sizing: border-box;
-        }
-
-        a.clipclip,
-        a.clipclip.btn:active {
-            position: absolute;
-            top: 0;
-            right: 0;
-            left: auto;
-            padding: 1px 6px;
-        }
-
-        .editable-clear {
-            position: absolute;
-            bottom: 10px;
-            right: 24px;
-        }
-
-        td.smart-form>label.checkbox,
-        th.smart-form>label.checkbox {
-            margin-bottom: 18px !important;
-            padding-left: 18px !important;
-        }
-        td.smart-form>label.checkbox i,
-        th.smart-form>label.checkbox i {
-            top: 0px;
-        }
-        th.check-all-column {
-            width: 1px;
-        }
-        td.mass-checkbox-td {
-            width: 1px;
-        }
-
-        label.btn.translation-locale-label.focus {
-            outline: none;
-        }
-
-        td.jarboe-table-actions {
-            white-space: nowrap;
-        }
-        .check-all-column div.tooltip {
-            padding: 0 5px;
-            opacity: .9;
-            background: none;
-            line-height: 1.42857143;
-        }
-
-        .smart-style-2 #logo img {
-            filter: invert(100%);
-        }
-
-    </style>
+    <link rel="stylesheet" type="text/css" media="screen" href="/vendor/jarboe/css/jarboe.css">
 
     @stack('style_files')
     @stack('styles')
@@ -225,7 +107,7 @@
 <!--================================================== -->
 
 <!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
-<script data-pace-options='{ "restartOnRequestAfter": true }' src="/vendor/jarboe/js/plugin/pace/pace.min.js"></script>
+<script data-pace-options='{ "restartOnRequestAfter": false }' src="/vendor/jarboe/js/plugin/pace/pace.min.js"></script>
 
 <script src="/vendor/jarboe/js/libs/jquery-3.2.1.min.js"></script>
 <script src="/vendor/jarboe/js/libs/jquery-ui.min.js"></script>

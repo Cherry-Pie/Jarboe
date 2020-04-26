@@ -1,7 +1,5 @@
-
 <label class="label">{{ $field->title() }}</label>
 <label class="input {{ $errors->has($field->name()) ? 'state-error' : '' }}">
-
     <div class="input-group">
         <input data-placement="bottomLeft" class="form-control icp icp-auto" value="{{ $field->oldOrAttribute($model) }}" name="{{ $field->name() }}" type="text" readonly="readonly"/>
         <span class="input-group-addon">
@@ -35,10 +33,13 @@
 @endpush
 
 @push('scripts')
-
     <script>
-        $(document).ready(function() {
+        Jarboe.add('{{ $field->name() }}', function() {
             $('.icp-auto').iconpicker();
-        })
+        }, '{{ $locale ?? 'default' }}');
+
+        $(document).ready(function () {
+            Jarboe.init('{{ $field->name() }}', '{{ $locale ?? 'default' }}');
+        });
     </script>
 @endpush

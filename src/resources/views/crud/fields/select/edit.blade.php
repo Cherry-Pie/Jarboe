@@ -1,11 +1,12 @@
-
 <label class="label">{{ $field->title() }}</label>
 
 <label class="select {{ $field->isMultiple() ? 'select-multiple' : '' }} {{ $errors->has($field->name()) ? 'state-error' : '' }}">
     <select name="{{ $field->name() }}{{ $field->isMultiple() ? '[]' : '' }}"
             {{ $field->isMultiple() ? 'multiple' : '' }}
-            class="custom-scroll {{ $field->isSelect2Type() ? 'select2'.$field->name() : '' }}"
-            {{ $field->isSelect2Type() ? 'style="width:100%"' : '' }}>
+            class="custom-scroll {{ $field->isSelect2Type() ? 'select2-field' : '' }}"
+            data-relation-search-url="{{ $field->isAjax() && $field->isRelationField() ? $field->getRelationSearchUrl() : '' }}"
+            data-original-name="{{ $field->name() }}"
+            {!! $field->isSelect2Type() ? 'style="width:100%"' : '' !!}>
 
         @if ($field->isAjax() && $field->isRelationField() && $field->isSelect2Type())
             @if ($field->isGroupedRelation())
@@ -51,27 +52,5 @@
 @endforeach
 
 @if ($field->isSelect2Type())
-    @pushonce('script_files', <script src="/vendor/jarboe/js/plugin/select2/select2.min.js"></script>)
-
-    @push('scripts')
-        <script>
-            var options = {
-                @if ($field->isAjax() && $field->isRelationField())
-                ajax: {
-                    url: '{{ $field->getRelationSearchUrl() }}',
-                    method: 'post',
-                    dataType: 'json',
-                    data: function (params) {
-                        return {
-                            term: params.term || "",
-                            page: params.page || 1,
-                            field: '{{ $field->name() }}'
-                        };
-                    }
-                },
-                @endif
-            };
-            $('.select2{{ $field->name() }}').select2(options);
-        </script>
-    @endpush
+    @include('jarboe::crud.fields.select.inc.select2_scripts')
 @endif

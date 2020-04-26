@@ -1,4 +1,3 @@
-
 <label class="label">{{ $field->title() }}</label>
 
 <label class="input {{ $errors->has($field->name()) ? 'state-error' : '' }}">
@@ -6,12 +5,13 @@
     <input type="hidden"
            name="{{ $field->name() }}"
            value="{{ $field->oldOrAttribute($model) }}"
-           class="datepicker-{{ $field->name() }}-value-field">
+           class="datepicker-value-field">
     <input type="text"
            value="{{ $field->oldOrAttribute($model) }}"
            placeholder="{{ $field->getPlaceholder() }}"
-           class="datepicker-{{ $field->name() }}"
-           data-dateformat="{{ $field->getDateFormat() }}"
+           class="datepicker-field"
+           data-date-format="{{ $field->getDateFormat() }}"
+           data-number-of-months="{{ $field->getMonths() }}"
            autocomplete="off">
 </label>
 
@@ -23,28 +23,38 @@
 
 @push('scripts')
     <script>
-        $(".datepicker-{{ $field->name() }}").datepicker({
-            dateFormat: "{{ $field->getDateFormat() }}",
-            numberOfMonths: {{ $field->getMonths() }},
-            prevText: '<i class="fa fa-chevron-left"></i>',
-            nextText: '<i class="fa fa-chevron-right"></i>',
-        }).on('change', function() {
-            var d = $(this).datepicker('getDate');
-            var date = [
-                d.getFullYear(),
-                ('0' + (d.getMonth() + 1)).slice(-2),
-                ('0' + d.getDate()).slice(-2)
-            ].join('-');
-            $('.datepicker-{{ $field->name() }}-value-field').val(date);
-        });
-    </script>
-@endpush
+        Jarboe.add('{{ $field->name() }}', function() {
+            $('.datepicker-field').not('.hasDatepicker').each(function() {
+                let $this = $(this);
 
-@push('scripts')
-    <script>
-        var $ctx = $('.datepicker-{{ $field->name() }}');
-        if ($ctx.val()) {
-            $ctx.val(moment($ctx.val()).format('{{ $field->getDateFormat() }}'));
-        }
+                $this.datepicker({
+                    dateFormat: $this.data(jarboe.kebabCase('dateFormat')),
+                    numberOfMonths: $this.data(jarboe.kebabCase('numberOfMonths')),
+                    prevText: '<i class="fa fa-chevron-left"></i>',
+                    nextText: '<i class="fa fa-chevron-right"></i>',
+                }).on('change', function() {
+                    var d = $(this).datepicker('getDate');
+                    var date = [
+                        d.getFullYear(),
+                        ('0' + (d.getMonth() + 1)).slice(-2),
+                        ('0' + d.getDate()).slice(-2)
+                    ].join('-');
+
+                    $(this).parent().find('input.datepicker-value-field').val(date);
+                });
+
+                if ($this.val()) {
+                    $this.val(
+                        moment($this.val()).format(
+                            $this.data(jarboe.kebabCase('dateFormat'))
+                        )
+                    );
+                }
+            });
+        }, '{{ $locale ?? 'default' }}');
+
+        $(document).ready(function () {
+            Jarboe.init('{{ $field->name() }}', '{{ $locale ?? 'default' }}');
+        });
     </script>
 @endpush

@@ -1,9 +1,8 @@
-
 <span id="xeditable-number-{{ $field->name() }}-{{ $model->getKey() }}"
       style="display: none;"
       class="parse-to-format-moment"
-      data-value="{{ $model->{$field->name()} }}"
-      data-momentformat="{{ $field->getDateFormat() }}">{{ $model->{$field->name()} }}</span>
+      data-value="{{ $field->getAttribute($model) }}"
+      data-momentformat="{{ $field->getDateFormat() }}">{{ $field->getAttribute($model) }}</span>
 
 @pushonce('script_files', <script>
     $('.parse-to-format-moment').each(function() {
@@ -27,7 +26,7 @@
                 pk: '{{ $model->getKey() }}',
                 name: '{{ $field->name() }}',
                 title: '{{ $field->title() }}',
-                value: '{{ $model->{$field->name()} }}',
+                value: '{{ $field->getAttribute($model) }}',
                 format: 'yyyy-mm-dd',
                 viewformat: 'yyyy-mm-dd',
                 clear: {!! $field->isNullable() ? '"× clear"' : 'false' !!},
@@ -50,7 +49,6 @@
                     return data;
                 },
                 success: function(response, newValue) {
-                    console.log(newValue);
                     return {
                         newValue: response.value
                     };

@@ -8,7 +8,10 @@
         <label class="input {{ $errors->has($field->name() .'.'. $locale) ? 'state-error' : '' }}">
             <div class="locale-field locale-tab-{{ $locale }} locale-field-{{ $field->name() }} locale-field-{{ $field->name() }}-{{ $locale }}"
                  style="{{ $field->isCurrentLocale($locale) ? '' : 'display:none;' }}">
-                <textarea class="summernote-{{ $field->name() }}-{{ $locale }}" name="{{ $field->name() }}[{{ $locale }}]" style="display: none;">{!! $field->getAttribute($model, $locale) !!}</textarea>
+                <textarea class="summernote-{{ $field->name() }}-{{ $locale }} wysiwyg-summernote-field"
+                          name="{{ $field->name() }}[{{ $locale }}]"
+                          data-options="{{ json_encode($field->getOptions()) }}"
+                          style="display: none;">{!! $field->getAttribute($model, $locale) !!}</textarea>
                 @include('jarboe::crud.fields.wysiwyg.summernote.inc.error_messages', [
                     'messages' => $errors->get($field->name() .'.'. $locale)
                 ])
@@ -18,7 +21,10 @@
     @endforeach
 @else
     <label class="input {{ $errors->has($field->name()) ? 'state-error' : '' }}">
-        <textarea class="summernote-{{ $field->name() }}-default" name="{{ $field->name() }}" style="display: none;">{!! $field->getAttribute($model) !!}</textarea>
+        <textarea class="summernote-{{ $field->name() }}-default wysiwyg-summernote-field"
+                  name="{{ $field->name() }}"
+                  data-options="{{ json_encode($field->getOptions()) }}"
+                  style="display: none;">{!! $field->getAttribute($model) !!}</textarea>
         @include('jarboe::crud.fields.wysiwyg.summernote.inc.error_messages', [
             'messages' => $errors->get($field->name())
         ])

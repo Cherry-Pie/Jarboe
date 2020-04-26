@@ -4,7 +4,7 @@
         <br>
     @endforeach
 @else
-    @foreach((is_array($model->{$field->name()}) ? $model->{$field->name()} : []) as $value)
+    @foreach((is_array($field->getAttribute($model)) ? $field->getAttribute($model) : []) as $value)
         {{ $value }}
         <br>
     @endforeach

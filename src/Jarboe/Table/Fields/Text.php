@@ -35,7 +35,7 @@ class Text extends AbstractField
         return is_array($value) ? $value : (string) $value;
     }
 
-    public function getListValue($model)
+    public function getListView($model)
     {
         $template = 'list';
         if ($this->isTranslatable()) {
@@ -48,7 +48,7 @@ class Text extends AbstractField
         ]);
     }
 
-    public function getEditFormValue($model)
+    public function getEditFormView($model)
     {
         $template = $this->isReadonly() ? 'readonly' : 'edit';
 
@@ -58,7 +58,7 @@ class Text extends AbstractField
         ]);
     }
 
-    public function getCreateFormValue()
+    public function getCreateFormView()
     {
         $template = 'create';
 

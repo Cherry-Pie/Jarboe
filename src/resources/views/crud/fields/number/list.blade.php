@@ -1,15 +1,15 @@
 <?php
 /** @var \Yaro\Jarboe\Table\Fields\Number $field */
 ?>
-@if ($field->hasClipboardButton() && (string) $model->{$field->name()} !== '')
+@if ($field->hasClipboardButton() && (string) $field->getAttribute($model) !== '')
     <div class="p-relative">
-        <a href="javascript:void(0);" class="btn btn-labeled btn-default clipclip" data-clipboard-text="{{ $model->{$field->name()} }}" id="clipclip-number-{{ $field->name() }}-{{ $model->getKey() }}">
+        <a href="javascript:void(0);" class="btn btn-labeled btn-default clipclip" data-clipboard-text="{{ $field->getAttribute($model) }}" id="clipclip-number-{{ $field->name() }}-{{ $model->getKey() }}">
             {{ $field->getClipboardCaption($model) ?: __('jarboe::fields.clipboard_copy') }}
         </a>
     </div>
 @endif
 
-<span id="xeditable-number-{{ $field->name() }}-{{ $model->getKey() }}">{{ $model->{$field->name()} }}</span>
+<span id="xeditable-number-{{ $field->name() }}-{{ $model->getKey() }}">{{ $field->getAttribute($model) }}</span>
 
 @if ($field->isInline())
     @pushonce('script_files', <script src="/vendor/jarboe/js/plugin/x-editable/jquery.mockjax.min.js"></script>)

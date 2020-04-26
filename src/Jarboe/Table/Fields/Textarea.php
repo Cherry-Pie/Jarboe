@@ -73,7 +73,7 @@ class Textarea extends AbstractField
         return is_array($value) ? $value : (string) $value;
     }
 
-    public function getListValue($model)
+    public function getListView($model)
     {
         $template = 'list';
         if ($this->isTranslatable()) {
@@ -86,7 +86,7 @@ class Textarea extends AbstractField
         ]);
     }
 
-    public function getEditFormValue($model)
+    public function getEditFormView($model)
     {
         $template = $this->isReadonly() ? 'readonly' : 'edit';
 
@@ -96,7 +96,7 @@ class Textarea extends AbstractField
         ]);
     }
 
-    public function getCreateFormValue()
+    public function getCreateFormView()
     {
         return view('jarboe::crud.fields.textarea.create', [
             'field' => $this,

@@ -17,6 +17,7 @@ use Yaro\Jarboe\Http\Controllers\Traits\Handlers\InlineHandlerTrait;
 use Yaro\Jarboe\Http\Controllers\Traits\Handlers\ListHandlerTrait;
 use Yaro\Jarboe\Http\Controllers\Traits\Handlers\OrderByHandlerTrait;
 use Yaro\Jarboe\Http\Controllers\Traits\Handlers\PerPageHandlerTrait;
+use Yaro\Jarboe\Http\Controllers\Traits\Handlers\RenderRepeaterItemHandlerTrait;
 use Yaro\Jarboe\Http\Controllers\Traits\Handlers\RestoreHandlerTrait;
 use Yaro\Jarboe\Http\Controllers\Traits\Handlers\SearchHandlerTrait;
 use Yaro\Jarboe\Http\Controllers\Traits\Handlers\SearchRelationHandlerTrait;
@@ -68,6 +69,7 @@ abstract class AbstractTableController
     use SearchRelationHandlerTrait;
     use SearchHandlerTrait;
     use BreadcrumbsTrait;
+    use RenderRepeaterItemHandlerTrait;
 
     /**
      * Permission group name.
@@ -176,6 +178,9 @@ abstract class AbstractTableController
                     return $this->handleForceDelete($request, $id);
                 case 'inline':
                     return $this->handleInline($request);
+                case 'renderRepeaterItem':
+                    $fieldName = $id;
+                    return $this->handleRenderRepeaterItem($request, $fieldName);
 
                 default:
                     throw new \RuntimeException('Invalid method ' . $name);
@@ -184,7 +189,7 @@ abstract class AbstractTableController
             throw $e;
         } catch (UnauthorizedException $e) {
             return $this->createUnauthorizedResponse($request, $e);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // TODO: response objects
             if ($request->isXmlHttpRequest() || $request->wantsJson()) {
                 return response()->json([

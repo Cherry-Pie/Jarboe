@@ -87,8 +87,8 @@ class RowMarkupFieldTest extends AbstractFieldTest
     {
         $field = $this->field();
 
-        $this->assertIsString($field->getListValue($this->model()));
-        $this->assertEmpty($field->getListValue($this->model()));
+        $this->assertIsString($field->getListView($this->model()));
+        $this->assertEmpty($field->getListView($this->model()));
     }
 
     /**

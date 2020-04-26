@@ -54,15 +54,14 @@
 @push('scripts')
     <script>
         Jarboe.add('{{ $field->name() }}', function() {
-            let options = {!! json_encode($field->getOptions()) !!};
-            options.callbacks = {
-                onInit: function (e) {
-                    @if ($field->isReadonly())
-                    $(this).summernote('disable');
-                    @endif
-                },
-            };
-            $('.summernote-{{ $field->name() }}-{{ $locale }}').summernote(options);
+            $('.wysiwyg-summernote-field').each(function() {
+                const $this = $(this);
+                let options = $this.data('options');
+                if ($this.is(':disabled')) {
+                    options.readonly = true;
+                }
+                $this.summernote(options);
+            });
         }, '{{ $locale }}');
 
         $(document).ready(function () {

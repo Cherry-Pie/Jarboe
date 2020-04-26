@@ -1,2 +1,1 @@
-
-{{ $model->{$field->name()} }}
+{{ $field->getAttribute($model) }}

@@ -38,7 +38,7 @@ class RowMarkup extends AbstractField
         return true;
     }
 
-    public function getListValue($model)
+    public function getListView($model)
     {
         return '';
     }
@@ -51,7 +51,7 @@ class RowMarkup extends AbstractField
         }
     }
 
-    public function getEditFormValue($model)
+    public function getEditFormView($model)
     {
         return view('jarboe::crud.inc.edit.tab', [
             'item'     => $model,
@@ -60,7 +60,7 @@ class RowMarkup extends AbstractField
         ]);
     }
 
-    public function getCreateFormValue()
+    public function getCreateFormView()
     {
         return view('jarboe::crud.inc.create.tab', [
             'fields'   => $this->getFields(),

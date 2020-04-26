@@ -29,7 +29,7 @@ class AdminsController extends AbstractTableController
         ]);
 
         $this->addFields([
-            Image::make('avatar', 'Avatar')->encode()->crop()->ratio(200, 200)->width(1)->col(4),
+            Image::make('avatar', 'Avatar')->encode()->crop(false)->ratio(200, 200)->width(1)->col(4),
             RowMarkup::make()->col(8)->fields([
                 Text::make('name', 'Name')->col(6),
                 Password::make('password', 'Password')->col(6),

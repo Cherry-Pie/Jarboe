@@ -14,4 +14,13 @@
             </label>
         @endforeach
     </div>
+
+    @push('scripts')
+        <script>
+            $('label.translation-{{ $repeater->name() }}-locale-label').on('click', function() {
+                $('.locale-field-{{ $repeater->name() }}').hide();
+                $('.locale-field-{{ $repeater->name() }}-'+ $(this).data('locale')).show();
+            });
+        </script>
+    @endpush
 @endif
