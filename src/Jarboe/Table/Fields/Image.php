@@ -174,7 +174,7 @@ class Image extends AbstractField
         }
 
         $data = $data ?: [];
-        if ($this->isNullable() ) {
+        if ($this->isNullable()) {
             $data = $data ?: null;
         }
 
