@@ -138,11 +138,6 @@ class Select extends AbstractField
         return $value;
     }
 
-    public function shouldSkip(Request $request)
-    {
-        return $this->isRelationField();
-    }
-
     public function afterStore($model, Request $request)
     {
         $this->afterUpdate($model, $request);

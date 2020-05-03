@@ -45,11 +45,6 @@ class Radio extends AbstractField
         return $option == $model->{$this->name};
     }
 
-    public function shouldSkip(Request $request)
-    {
-        return $this->isRelationField();
-    }
-
     public function afterStore($model, Request $request)
     {
         $this->afterUpdate($model, $request);
