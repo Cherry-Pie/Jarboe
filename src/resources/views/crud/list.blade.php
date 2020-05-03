@@ -382,7 +382,6 @@ CRUD.init();
             handle: 'td.reorder-handler',
             placeholder: "ui-state-highlight",
             update: function( event, ui ) {
-              console.log(ui);
               var el = ui.item;
               var prev = ui.item[0].previousElementSibling;
               var next = ui.item[0].nextElementSibling;

@@ -71,7 +71,6 @@
             }
 
             $('.datepicker-s-{{ $filter->field()->name() }}-to-value-field, .datepicker-s-{{ $filter->field()->name() }}-from-value-field').on('change', function () {
-                console.log(this.value.toLowerCase());
                 if (this.value.toLowerCase() == 'invalid date') {
                     this.value = '';
                 }

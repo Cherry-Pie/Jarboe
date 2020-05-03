@@ -188,7 +188,6 @@
                     }
 
                     if (!knobEnabled && knobPreviousValue !== null) {
-                        console.log(this.v, knobPreviousValue, knobEnabled);
                         $modal.find('.knob').val(knobPreviousValue).trigger("change");
                         return;
                     }

@@ -24,7 +24,6 @@
             @endif
 
             function getDate(value, format) {
-                console.log(value);
                 try {
                     return $.datepicker.parseDate(format, value);
                 } catch (error) {}

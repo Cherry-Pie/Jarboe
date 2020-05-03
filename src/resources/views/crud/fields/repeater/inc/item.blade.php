@@ -73,7 +73,6 @@
                         complete: function () {
                             @foreach ($repeater->getFields() as $field)
                                 Jarboe.init('{{ $field->name() }}');
-                                console.log('{{ $field->name() }}');
                             @endforeach
                         }
                     });
