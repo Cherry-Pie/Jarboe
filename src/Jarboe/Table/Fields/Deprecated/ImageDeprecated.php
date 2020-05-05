@@ -1,6 +1,6 @@
 <?php
 
-namespace Yaro\Jarboe\Table\Fields;
+namespace Yaro\Jarboe\Table\Fields\Deprecated;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
