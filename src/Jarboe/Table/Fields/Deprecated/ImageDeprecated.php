@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
 use Yaro\Jarboe\Table\Fields\Traits\Storage;
+use Yaro\Jarboe\Table\Fields\AbstractField;
 use Illuminate\Support\Facades\Storage as IlluminateStorage;
 use Intervention\Image\ImageManagerStatic as InterventionImage;
 
