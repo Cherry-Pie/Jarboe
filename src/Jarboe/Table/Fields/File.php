@@ -35,7 +35,7 @@ class File extends AbstractField
 
     public function value(Request $request)
     {
-        $data = $request->get($this->name());
+        $data = Arr::get($request->all(), $this->name());
         $paths = Arr::get($data, 'paths', []);
         $files = Arr::get($data, 'files', []);
 
