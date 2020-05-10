@@ -12,7 +12,7 @@
                             <input name="{{ $field->name() }}[paths][]" type="hidden" value="{{ $path }}">
                         @endif
                         <span class="elips">{{ $field->formUrl($path) }}</span>
-                        <span class="pull-right" style="line-height: 0px;">
+                        <span class="pull-right" style="line-height: 0px;position: absolute;top: 0;right: 0;">
                             <a href="javascript:void(0);"
                                class="btn btn-labeled btn-default clipclip"
                                style="margin-right: 4px; position: initial;"
