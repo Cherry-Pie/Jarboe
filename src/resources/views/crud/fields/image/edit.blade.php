@@ -249,7 +249,10 @@
 
             $wrapper.find('.image-row-container-preview').css('width', 'auto').css('height', 'auto');
 
-            $wrapper.find('a.cropper-modal-open').removeClass('disabled').trigger('click');
+            $wrapper.find('a.cropper-modal-open').removeClass('disabled');
+            if ($wrapper.data('should-auto-open-modal')) {
+                $wrapper.find('a.cropper-modal-open').trigger('click');
+            }
         });
     }, '{{ $locale ?? 'default' }}');
 

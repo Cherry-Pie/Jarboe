@@ -2,7 +2,7 @@
 /** @var \Yaro\Jarboe\Table\Fields\Image $field */
 /** @var \Yaro\Jarboe\Pack\Image $image */
 ?>
-<div class="image-block">
+<div class="image-block" data-should-auto-open-modal="{{ $field->shouldAutoOpenModal() }}">
     <div class="image-left-part">
         <div class="input input-file {{ $errors->has($field->name()) ? 'state-error' : '' }}">
                 <span class="button">

@@ -22,6 +22,7 @@ class Image extends AbstractField
 
     protected $encode = false;
     protected $crop = false;
+    protected $shouldAutoOpen = null;
     protected $ratio = [
         'width'  => false,
         'height' => false,
@@ -305,5 +306,21 @@ class Image extends AbstractField
         }
 
         return $pack ?: [$defaultImage];
+    }
+
+    public function autoOpen(bool $shouldAutoOpen = true)
+    {
+        $this->shouldAutoOpen = $shouldAutoOpen;
+
+        return $this;
+    }
+
+    public function shouldAutoOpenModal(): bool
+    {
+        if (!is_null($this->shouldAutoOpen)) {
+            return $this->shouldAutoOpen;
+        }
+
+        return $this->isCrop();
     }
 }
