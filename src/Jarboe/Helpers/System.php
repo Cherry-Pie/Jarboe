@@ -70,7 +70,7 @@ class System
     {
         $samples = $this->systemLoadSamples();
         array_walk($samples, function (&$load) {
-            $load = round(($load * 100) / $this->cpus,2);
+            $load = round(($load * 100) / $this->cpus, 2);
         });
 
         return $samples;
