@@ -42,6 +42,47 @@ const Jarboe = {
         $.bigBox(settings, callback);
     },
 
+    smallToastSuccess: function(title, content, timeout) {
+        this.smallToast({
+            title: title,
+            content: content,
+            timeout: timeout,
+            color: '#739E73',
+            icon: 'fa fa-check',
+        });
+    },
+
+    smallToastDanger: function(title, content, timeout) {
+        this.smallToast({
+            title: title,
+            content: content,
+            timeout: timeout,
+            color: '#C46A69',
+            icon: 'fa fa-warning shake animated',
+        });
+    },
+
+    smallToastWarning: function(title, content, timeout) {
+        this.smallToast({
+            title: title,
+            content: content,
+            timeout: timeout,
+            color: '#C79121',
+            icon: 'fa fa-shield fadeInLeft animated',
+        });
+    },
+
+    smallToastInfo: function(title, content, timeout) {
+        this.smallToast({
+            title: title,
+            content: content,
+            timeout: timeout,
+            color: '#3276B1',
+            icon: 'fa fa-bell swing animated',
+        });
+    },
+
+
     /**
      * Object that hold functions for initialising plugins and stuff for fields.
      */

@@ -2,6 +2,7 @@
 
 namespace Yaro\Jarboe;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
@@ -9,6 +10,7 @@ use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Yaro\Jarboe\Console\Commands\Install;
 use Yaro\Jarboe\Console\Commands\Make\Tool as MakeTool;
 use Yaro\Jarboe\Helpers\Locale;
+use Yaro\Jarboe\Helpers\System;
 use Yaro\Jarboe\Table\Repositories\EloquentModelRepository;
 use Yaro\Jarboe\Table\Repositories\ModelRepositoryInterface;
 use Yaro\Jarboe\ViewComponents\Breadcrumbs\Breadcrumbs;
@@ -124,6 +126,12 @@ class ServiceProvider extends IlluminateServiceProvider
 
         View::composer('jarboe::inc.locale_selector', function ($view) {
             $view->localeHelper = new Locale();
+        });
+
+        View::composer('jarboe::inc.footer', function ($view) {
+            $view->jarboeVersion = Jarboe::VERSION;
+            $view->laravelVersion = Application::VERSION;
+            $view->system = new System();
         });
     }
 

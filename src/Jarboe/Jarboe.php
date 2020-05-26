@@ -7,6 +7,8 @@ use Yaro\Jarboe\Table\CRUD;
 
 class Jarboe
 {
+    const VERSION = 'dev';
+
     public function crud($uri, $controller)
     {
         $delimiter = CRUD::BASE_URL_DELIMITER;
