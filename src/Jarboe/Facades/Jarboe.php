@@ -4,6 +4,10 @@ namespace Yaro\Jarboe\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * @method static array routeGroupOptions(bool $availableForGuest = false)
+ * @method static void crud($uri, $controller)
+ */
 class Jarboe extends Facade
 {
     /**

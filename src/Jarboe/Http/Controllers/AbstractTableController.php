@@ -190,6 +190,11 @@ abstract class AbstractTableController
         } catch (UnauthorizedException $e) {
             return $this->createUnauthorizedResponse($request, $e);
         } catch (\Throwable $e) {
+            $response = $this->onException($e);
+            if (!is_null($response)) {
+                return $response;
+            }
+
             // TODO: response objects
             if ($request->isXmlHttpRequest() || $request->wantsJson()) {
                 return response()->json([
@@ -201,6 +206,19 @@ abstract class AbstractTableController
             $this->notifyBigDanger(get_class($e), $e->getMessage(), 0);
             return redirect()->back()->withInput($request->input());
         }
+    }
+
+    /**
+     * Event for processing exceptions before forming error response.
+     * Non-null return value will be processed as response.
+     *
+     * @param \Throwable $exception
+     *
+     * @return mixed|void
+     */
+    protected function onException(\Throwable $exception)
+    {
+        // dummy
     }
 
     /**
