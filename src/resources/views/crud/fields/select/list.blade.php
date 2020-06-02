@@ -20,7 +20,7 @@
 
 @else
     @if ($field->isMultiple())
-        @foreach($field->getAttribute($model) as $option)
+        @foreach(($field->getAttribute($model) ?: []) as $option)
             {{ $options[$option] ?? '' }}
             <br>
         @endforeach
