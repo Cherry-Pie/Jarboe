@@ -22,6 +22,7 @@ trait EditHandlerTrait
      */
     public function handleEdit(Request $request, $id)
     {
+        $this->beforeInit();
         $this->init();
         $this->bound();
 
@@ -64,6 +65,7 @@ trait EditHandlerTrait
         return [];
     }
 
+    abstract protected function beforeInit();
     abstract protected function init();
     abstract protected function bound();
     abstract protected function crud(): CRUD;

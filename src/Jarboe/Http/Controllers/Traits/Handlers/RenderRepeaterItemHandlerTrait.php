@@ -21,6 +21,7 @@ trait RenderRepeaterItemHandlerTrait
      */
     public function handleRenderRepeaterItem($request, $fieldName)
     {
+        $this->beforeInit();
         $this->init();
         $this->bound();
 
@@ -39,6 +40,7 @@ trait RenderRepeaterItemHandlerTrait
         ]);
     }
 
+    abstract protected function beforeInit();
     abstract protected function init();
     abstract protected function bound();
     abstract protected function crud(): CRUD;

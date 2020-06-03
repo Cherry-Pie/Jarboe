@@ -20,6 +20,7 @@ trait OrderByHandlerTrait
         return redirect($this->crud()->listUrl());
     }
 
+    abstract protected function beforeInit();
     abstract protected function init();
     abstract protected function bound();
     abstract protected function crud(): CRUD;

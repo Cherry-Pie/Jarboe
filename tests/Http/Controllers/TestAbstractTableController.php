@@ -16,6 +16,7 @@ class TestAbstractTableController extends AbstractTableController
 {
     private $shouldThrowValidationException = false;
     protected $shouldEnableSoftDelete = true;
+    private $beforeInitClosure;
 
     public function init()
     {
@@ -218,5 +219,20 @@ class TestAbstractTableController extends AbstractTableController
     public function enableBatchCheckboxes(bool $enabled = true)
     {
         parent::enableBatchCheckboxes($enabled);
+    }
+
+    protected function beforeInit()
+    {
+        parent::beforeInit();
+
+        $closure = $this->beforeInitClosure;
+        if (is_callable($closure)) {
+            $closure();
+        }
+    }
+
+    public function setBeforeInitClosure(\Closure $closure)
+    {
+        $this->beforeInitClosure = $closure;
     }
 }

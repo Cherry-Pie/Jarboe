@@ -20,6 +20,7 @@ trait StoreHandlerTrait
      */
     public function handleStore(Request $request)
     {
+        $this->beforeInit();
         $this->init();
         $this->bound();
 
@@ -54,6 +55,7 @@ trait StoreHandlerTrait
         return redirect($this->crud()->listUrl());
     }
 
+    abstract protected function beforeInit();
     abstract protected function init();
     abstract protected function bound();
     abstract protected function crud(): CRUD;

@@ -20,6 +20,7 @@ trait ForceDeleteHandlerTrait
      */
     public function handleForceDelete(Request $request, $id)
     {
+        $this->beforeInit();
         $this->init();
         $this->bound();
 
@@ -47,6 +48,7 @@ trait ForceDeleteHandlerTrait
         ], 422);
     }
 
+    abstract protected function beforeInit();
     abstract protected function init();
     abstract protected function bound();
     abstract protected function crud(): CRUD;

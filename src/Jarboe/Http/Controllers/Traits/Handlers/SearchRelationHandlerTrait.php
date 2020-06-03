@@ -19,6 +19,7 @@ trait SearchRelationHandlerTrait
      */
     public function searchRelation(Request $request)
     {
+        $this->beforeInit();
         $this->init();
         $this->bound();
 
@@ -71,6 +72,7 @@ trait SearchRelationHandlerTrait
         ]);
     }
 
+    abstract protected function beforeInit();
     abstract protected function init();
     abstract protected function bound();
     abstract protected function crud(): CRUD;

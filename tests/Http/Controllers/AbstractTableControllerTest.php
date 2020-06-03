@@ -1329,4 +1329,30 @@ class AbstractTableControllerTest extends AbstractBaseTest
         $this->controller->crud()->preferences()->saveCurrentLocale('table', 'en');
         $this->assertEquals('en', $this->controller->crud()->preferences()->getCurrentLocale('table'));
     }
+
+    /**
+     * @test
+     */
+    public function check_before_init()
+    {
+        $this->assertNull($this->controller->crud()->getRawPerPage());
+
+        $perPage = [
+            10,
+            20,
+            30,
+        ];
+
+        $closure = function () use ($perPage) {
+            $this->paginate($perPage);
+        };
+        $this->controller->setBeforeInitClosure($closure->bindTo($this->controller));
+
+        // to trigger beforeInit()
+        $this->controller->list($this->createRequest());
+
+
+        $this->assertEquals($perPage, $this->controller->crud()->getRawPerPage());
+        $this->assertEquals(10, $this->controller->crud()->getPerPageParam());
+    }
 }

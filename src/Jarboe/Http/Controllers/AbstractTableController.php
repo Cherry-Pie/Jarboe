@@ -222,6 +222,16 @@ abstract class AbstractTableController
     }
 
     /**
+     * Method for overriding to define basic/common init() settings.
+     *
+     * @return void
+     */
+    protected function beforeInit()
+    {
+        // dummy
+    }
+
+    /**
      * Bound fields/tools/etc with global data.
      */
     protected function bound()

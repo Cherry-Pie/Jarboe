@@ -16,6 +16,7 @@ trait SortableHandlerTrait
      */
     public function switchSortable()
     {
+        $this->beforeInit();
         $this->init();
         $this->bound();
 
@@ -39,6 +40,7 @@ trait SortableHandlerTrait
      */
     public function moveItem($id, Request $request)
     {
+        $this->beforeInit();
         $this->init();
         $this->bound();
 
@@ -53,6 +55,7 @@ trait SortableHandlerTrait
         ]);
     }
 
+    abstract protected function beforeInit();
     abstract protected function init();
     abstract protected function bound();
     abstract protected function crud(): CRUD;

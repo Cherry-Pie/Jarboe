@@ -21,6 +21,7 @@ trait CreateHandlerTrait
      */
     public function handleCreate(Request $request)
     {
+        $this->beforeInit();
         $this->init();
         $this->bound();
 
@@ -59,6 +60,7 @@ trait CreateHandlerTrait
         return [];
     }
 
+    abstract protected function beforeInit();
     abstract protected function init();
     abstract protected function bound();
     abstract protected function crud(): CRUD;
