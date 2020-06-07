@@ -1,7 +1,7 @@
 <?php
 
 if (!function_exists('admin_url')) {
-    function admin_url($path = '')
+    function admin_url()
     {
         $isSubdomainBasedPanel = config('jarboe.admin_panel.subdomain_panel_enabled', false);
         $prefix = '';
@@ -9,10 +9,13 @@ if (!function_exists('admin_url')) {
             $prefix = config('jarboe.admin_panel.prefix');
         }
 
-        return url(implode('/', [
+        $args = func_get_args();
+        $args[0] = implode('/', [
             $prefix,
-            ltrim($path, '/'),
-        ]));
+            ltrim($args[0] ?? '', '/'),
+        ]);
+
+        return call_user_func_array('url', $args);
     }
 }
 
