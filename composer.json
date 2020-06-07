@@ -3,6 +3,7 @@
     "description": "Awesome package to build admin panels",
     "keywords": ["laravel", "admin", "panel"],
     "homepage": "https://jarboe.app",
+    "license": "https://github.com/Cherry-Pie/Jarboe/blob/master/LICENSE.md",
     "authors": [
         {
             "name": "Yaro",
