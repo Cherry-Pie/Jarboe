@@ -413,3 +413,11 @@ ol.file-field-dd-list div.dd3-content span.clipspan .clipclip {
     margin-right: 4px; position: initial;
 }
 /* end File */
+
+.smart-style-2 nav>ul>li>a {
+    padding-top: 6px;
+    padding-bottom: 7px;
+}
+.dt-toolbar-footer .dataTables_paginate.paging_simple_numbers nav {
+    float: right;
+}
