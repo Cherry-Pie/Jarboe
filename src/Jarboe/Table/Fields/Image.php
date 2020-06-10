@@ -4,14 +4,13 @@ namespace Yaro\Jarboe\Table\Fields;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage as IlluminateStorage;
 use Illuminate\Support\Str;
+use Intervention\Image\ImageManagerStatic as InterventionImage;
 use Yaro\Jarboe\Table\Fields\Traits\Filename;
 use Yaro\Jarboe\Table\Fields\Traits\Nullable;
 use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
 use Yaro\Jarboe\Table\Fields\Traits\Storage;
-use Illuminate\Support\Facades\Storage as IlluminateStorage;
-use Intervention\Image\ImageManagerStatic as InterventionImage;
 
 class Image extends AbstractField
 {
