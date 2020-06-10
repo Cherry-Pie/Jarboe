@@ -414,7 +414,7 @@ ol.file-field-dd-list div.dd3-content span.clipspan .clipclip {
 }
 /* end File */
 
-.smart-style-2 nav>ul>li>a {
+.smart-style-2 .dataTables_paginate.paging_simple_numbers nav>ul>li>a {
     padding-top: 6px;
     padding-bottom: 7px;
 }
