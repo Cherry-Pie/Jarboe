@@ -26,7 +26,15 @@
                     <option value="">{{ __('jarboe::fields.select.none') }}</option>
                 @endif
                 @foreach ($field->getOptions() as $option => $title)
-                    <option {{ $field->isCurrentOption($option) ? 'selected' : '' }} value="{{ $option }}">{{ $title }}</option>
+                    @if (is_array($title))
+                        <optgroup label="{{ $option }}">
+                            @foreach ($title as $groupItemOption => $groupOptionTitle)
+                                <option {{ $field->isCurrentOption($groupItemOption) ? 'selected' : '' }} value="{{ $groupItemOption }}">{{ $groupOptionTitle }}</option>
+                            @endforeach
+                        </optgroup>
+                    @else
+                        <option {{ $field->isCurrentOption($option) ? 'selected' : '' }} value="{{ $option }}">{{ $title }}</option>
+                    @endif
                 @endforeach
             @endif
         @endif

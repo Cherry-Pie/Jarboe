@@ -1,9 +1,9 @@
 {
     "name": "yaro/jarboe",
     "description": "Awesome package to build admin panels",
-    "keywords": ["laravel", "admin", "panel"],
+    "keywords": ["laravel", "admin", "panel", "cms", "content management system", "crud"],
     "homepage": "https://jarboe.app",
-    "license": "https://github.com/Cherry-Pie/Jarboe/blob/master/LICENSE.md",
+    "license": "proprietary",
     "authors": [
         {
             "name": "Yaro",

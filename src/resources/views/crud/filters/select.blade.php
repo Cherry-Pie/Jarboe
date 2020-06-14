@@ -27,7 +27,15 @@
                     @endif
 
                     @foreach ($filter->field()->getOptions() as $option => $title)
-                        <option {{ in_array($option, $values) ? 'selected' : '' }} value="{{ $option }}">{{ $title }}</option>
+                        @if (is_array($title))
+                            <optgroup label="{{ $option }}">
+                                @foreach ($title as $groupItemOption => $groupOptionTitle)
+                                    <option {{ in_array($groupItemOption, $values) ? 'selected' : '' }} value="{{ $groupItemOption }}">{{ $groupOptionTitle }}</option>
+                                @endforeach
+                            </optgroup>
+                        @else
+                            <option {{ in_array($option, $values) ? 'selected' : '' }} value="{{ $option }}">{{ $title }}</option>
+                        @endif
                     @endforeach
                 @endif
             @endif
