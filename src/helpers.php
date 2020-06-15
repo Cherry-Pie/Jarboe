@@ -29,6 +29,13 @@ if (!function_exists('admin_user_guard')) {
     }
 }
 
+if (!function_exists('admin_auth')) {
+    function admin_auth()
+    {
+        return auth(admin_user_guard());
+    }
+}
+
 if (!function_exists('admin_user')) {
     function admin_user()
     {
