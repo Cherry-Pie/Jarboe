@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+
+## [1.1.0] - 2020-06-16
+### Added
 - Added grouping by `<optgroup>` tag for `options()` method in `Select` field.
 - `admin_auth()` helper.
 - Relation search via ajax for `Tags` field.
@@ -23,3 +26,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Unreleased]: https://github.com/Cherry-Pie/Jarboe
 [1.0.0]: https://github.com/Cherry-Pie/Jarboe
+[1.1.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.0.0...1.1.0
