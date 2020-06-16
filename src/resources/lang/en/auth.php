@@ -19,6 +19,10 @@ return [
         'otp_password' => 'OTP Password',
         'otp_password_tooltip' => 'Enter your OTP password',
         'otp_password_required_message' => 'Please enter your OTP password',
+        'password_maxlength_message' => 'Please enter no more than {0} characters.',
+        'password_minlength_message' => 'Please enter at least {0} characters.',
+        'otp_password_maxlength_message' => 'Please enter no more than {0} characters.',
+        'otp_password_minlength_message' => 'Please enter at least {0} characters.',
     ],
     'registration' => [
         'already_registered' => 'Already registered?',
@@ -40,6 +44,10 @@ return [
         'password_required_message' => 'Please enter your password',
         'password_confirmation_required_message' => 'Please enter your password one more time',
         'password_confirmation_equal_to_message' => 'Please enter the same password as above',
+        'password_confirmation_maxlength_message' => 'Please enter no more than {0} characters.',
+        'password_confirmation_minlength_message' => 'Please enter at least {0} characters.',
+        'password_maxlength_message' => 'Please enter no more than {0} characters.',
+        'password_minlength_message' => 'Please enter at least {0} characters.',
     ],
     'otp' => [
         'description' => 'Scan image with the two-factor authentication app on your phone. Or enter the code above.',

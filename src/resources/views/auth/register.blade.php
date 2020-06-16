@@ -150,18 +150,22 @@
                 // Messages for form validation
                 messages : {
                     name : {
-                        required : '{{ __('jarboe::auth.registration.name_required_message') }}'
+                        required : '{{ __('jarboe::auth.registration.name_required_message') }}',
                     },
                     email : {
                         required : '{{ __('jarboe::auth.registration.email_required_message') }}',
-                        email : '{{ __('jarboe::auth.registration.email_email_message') }}'
+                        email : '{{ __('jarboe::auth.registration.email_email_message') }}',
                     },
                     password : {
-                        required : '{{ __('jarboe::auth.registration.password_required_message') }}'
+                        required : '{{ __('jarboe::auth.registration.password_required_message') }}',
+                        maxlength: '{{ __('jarboe::auth.registration.password_maxlength_message') }}',
+                        minlength: '{{ __('jarboe::auth.registration.password_minlength_message') }}',
                     },
                     password_confirmation : {
                         required : '{{ __('jarboe::auth.registration.password_confirmation_required_message') }}',
-                        equalTo : '{{ __('jarboe::auth.registration.password_confirmation_equal_to_message') }}'
+                        equalTo : '{{ __('jarboe::auth.registration.password_confirmation_equal_to_message') }}',
+                        maxlength: '{{ __('jarboe::auth.registration.password_confirmation_maxlength_message') }}',
+                        minlength: '{{ __('jarboe::auth.registration.password_confirmation_minlength_message') }}',
                     },
                 },
 
@@ -174,4 +178,3 @@
         });
     </script>
 @endsection
-

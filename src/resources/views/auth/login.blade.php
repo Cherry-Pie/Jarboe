@@ -147,13 +147,17 @@
                 messages : {
                     email : {
                         required : '{{ __('jarboe::auth.login.email_required_message') }}',
-                        email : '{{ __('jarboe::auth.login.email_email_message') }}'
+                        email : '{{ __('jarboe::auth.login.email_email_message') }}',
                     },
                     password : {
-                        required : '{{ __('jarboe::auth.login.password_required_message') }}'
+                        required : '{{ __('jarboe::auth.login.password_required_message') }}',
+                        maxlength: '{{ __('jarboe::auth.login.password_maxlength_message') }}',
+                        minlength: '{{ __('jarboe::auth.login.password_minlength_message') }}',
                     },
                     otp : {
-                        required : '{{ __('jarboe::auth.login.otp_password_required_message') }}'
+                        required : '{{ __('jarboe::auth.login.otp_password_required_message') }}',
+                        maxlength: '{{ __('jarboe::auth.login.otp_password_maxlength_message') }}',
+                        minlength: '{{ __('jarboe::auth.login.otp_password_minlength_message') }}',
                     },
                 },
 
