@@ -24,6 +24,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Everything, initial release.
 
 
-[Unreleased]: https://github.com/Cherry-Pie/Jarboe
+[Unreleased]: https://github.com/Cherry-Pie/Jarboe/compare/1.1.0...master
 [1.0.0]: https://github.com/Cherry-Pie/Jarboe
 [1.1.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.0.0...1.1.0
