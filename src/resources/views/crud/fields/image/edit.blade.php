@@ -71,7 +71,7 @@
         });
 
         $('.image-remove').unbind('click').on('click', function() {
-            let $btn = $(this);
+            const $btn = $(this);
 
             jarboe.confirmBox({
                 title: "{{ __('jarboe::fields.image.confirmbox_delete_image_title') }}",
@@ -80,9 +80,13 @@
                     '{{ __('jarboe::fields.image.confirmbox_delete_image_yes') }}': function() {
                         $btn.addClass('disabled');
 
-                        let $imageLeftPart = $btn.closest('.image-block').find('.image-left-part');
+                        const $wrapper = $btn.closest('.image-block');
+                        $wrapper.find('.input-file input.upload-input').val('');
+                        $wrapper.find('.input-file input[type="text"]').val('');
+
+                        const $imageLeftPart = $wrapper.find('.image-left-part');
                         $imageLeftPart.find('.cropper-modal-open').addClass('disabled');
-                        let $imageRowContainer = $imageLeftPart.find('.image-row-container-preview');
+                        const $imageRowContainer = $imageLeftPart.find('.image-row-container-preview');
                         $imageRowContainer.removeAttr('style');
                         $imageRowContainer.find('img')
                             .removeAttr('style')
@@ -215,6 +219,8 @@
             const $wrapper = $(ctx).closest('.image-block');
             const $modal = $wrapper.find('.field-modal');
             const $btn = $modal.find('.cropper-init');
+
+            $wrapper.find('.image-remove').removeClass('disabled');
 
             $(ctx).parent().next().val(
                 ctx.value.split('\\').pop().split('/').pop()
