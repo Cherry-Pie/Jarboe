@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Added grouping by `<optgroup>` tag for `options()` method in `Select` field.
 - `admin_auth()` helper.
+- Relation search via ajax for `Tags` field.
 
 ### Fixed
 - Fixed css for pagination block for `light` theme.

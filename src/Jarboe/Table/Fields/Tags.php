@@ -4,11 +4,14 @@ namespace Yaro\Jarboe\Table\Fields;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Yaro\Jarboe\Table\Fields\Traits\Ajax;
+use Yaro\Jarboe\Table\Fields\Traits\Relations;
 
 class Tags extends AbstractField
 {
-    private $relationMethod;
-    private $relationTitleField;
+    use Ajax;
+    use Relations;
+
     private $isOptionsHidden = false;
 
     public function value(Request $request)
@@ -80,39 +83,6 @@ class Tags extends AbstractField
         );
     }
 
-    public function relation(string $method, string $titleField)
-    {
-        $this->relationMethod = $method;
-        $this->relationTitleField = $titleField;
-
-        return $this;
-    }
-
-    public function getRelationMethod()
-    {
-        return $this->relationMethod;
-    }
-
-    public function getRelationTitleField()
-    {
-        return $this->relationTitleField;
-    }
-
-    public function getOptions()
-    {
-        if (!$this->isRelationField()) {
-            return [];
-        }
-
-        $model = $this->model;
-        $relationClassObject = $this->getRelationClassObject(new $model);
-
-        return $relationClassObject->pluck(
-            $this->getRelationTitleField(),
-            $relationClassObject->getKeyName()
-        )->toArray();
-    }
-
     public function getSelectedOptions($model)
     {
         if (!$this->isRelationField()) {
@@ -162,11 +132,6 @@ class Tags extends AbstractField
         return false;
     }
 
-    public function isRelationField()
-    {
-        return $this->getRelationTitleField() && $this->getRelationMethod();
-    }
-
     public function hideOptions(bool $hide = true)
     {
         $this->isOptionsHidden = $hide;
@@ -181,5 +146,10 @@ class Tags extends AbstractField
         }
 
         return $this->isOptionsHidden;
+    }
+
+    public function isGroupedRelation()
+    {
+        return false;
     }
 }

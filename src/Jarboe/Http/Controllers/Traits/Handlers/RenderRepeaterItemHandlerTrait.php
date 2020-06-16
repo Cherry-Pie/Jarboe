@@ -2,11 +2,11 @@
 
 namespace Yaro\Jarboe\Http\Controllers\Traits\Handlers;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
 use Throwable;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\Repeater;
 
@@ -25,7 +25,9 @@ trait RenderRepeaterItemHandlerTrait
         $this->init();
         $this->bound();
 
-        $errorMessages = new MessageBag($request->get('errors', []));
+        $errorMessages = new MessageBag(
+            $this->flatten($request->get('errors', []))
+        );
         view()->share(
             'errors', $errorMessages ?: new ViewErrorBag()
         );
@@ -38,6 +40,45 @@ trait RenderRepeaterItemHandlerTrait
                 $request->get('data')
             )->render(),
         ]);
+    }
+
+    /**
+     * Flatten a multi-dimensional associative array with dots, without index part at the end.
+     *
+     * @return array
+     */
+    private function flatten($array, $prepend = '', bool $force = false): array
+    {
+        $results = [];
+
+        if ($force) {
+            $results[$prepend] = $array;
+            return $results;
+        }
+
+        foreach ($array as $key => $value) {
+            if (is_array($value) && !empty($value)) {
+                $isLastArray = false;
+                foreach ($value as $innerValue) {
+                    if (is_array($innerValue)) {
+                        $isLastArray = false;
+                        break;
+                    }
+
+                    $isLastArray = true;
+                }
+
+                if ($isLastArray) {
+                    $results = array_merge($results, $this->flatten($value, $prepend . $key, true));
+                } else {
+                    $results = array_merge($results, $this->flatten($value, $prepend . $key . '.'));
+                }
+            } else {
+                $results[$prepend . $key] = $value;
+            }
+        }
+
+        return $results;
     }
 
     abstract protected function beforeInit();

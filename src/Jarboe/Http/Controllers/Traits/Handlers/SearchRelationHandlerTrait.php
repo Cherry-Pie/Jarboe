@@ -5,16 +5,15 @@ namespace Yaro\Jarboe\Http\Controllers\Traits\Handlers;
 use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\Select;
+use Yaro\Jarboe\Table\Fields\Tags;
 
 trait SearchRelationHandlerTrait
 {
     /**
      * Handle relation search action.
-     * Currently used for SelectField with type `select2` and `ajax = true`.
+     * Currently used for Select field with type `select2` and `ajax = true`, and Tags field with `ajax = true`.
      *
-     * @param string $field
-     * @param string $page
-     * @param string $term
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function searchRelation(Request $request)
@@ -30,7 +29,7 @@ trait SearchRelationHandlerTrait
         $fieldName = $request->get('field');
         $page = (int) $request->get('page');
 
-        /** @var Select $field */
+        /** @var Select|Tags $field */
         $field = $this->crud()->getFieldByName($fieldName);
         if (!$field) {
             throw new \RuntimeException(sprintf('Field [%s] not setted to crud', $fieldName));

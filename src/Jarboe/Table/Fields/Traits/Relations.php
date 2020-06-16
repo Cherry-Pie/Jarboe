@@ -14,12 +14,14 @@ use Illuminate\Support\Arr;
 
 trait Relations
 {
+    use RelationSearchUrl;
+
     protected $perPage = 20;
 
     protected $options = [];
     protected $relations = [];
-    protected $relationSearchUrl;
     protected $additionalCondition;
+    protected $searchCallback;
 
     public function options(array $options)
     {
@@ -255,19 +257,16 @@ trait Relations
         return (bool) $this->relations;
     }
 
-    public function setRelationSearchUrl($url)
-    {
-        $this->relationSearchUrl = $url;
-    }
-
-    public function getRelationSearchUrl()
-    {
-        return $this->relationSearchUrl;
-    }
-
     public function addCondition(\Closure $callback)
     {
         $this->additionalCondition = $callback;
+
+        return $this;
+    }
+
+    public function relationSearch(\Closure $callback)
+    {
+        $this->searchCallback = $callback;
 
         return $this;
     }

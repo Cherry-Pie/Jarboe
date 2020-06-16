@@ -4,6 +4,7 @@ namespace Yaro\Jarboe\Table\Fields;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Yaro\Jarboe\Table\Fields\Traits\Ajax;
 use Yaro\Jarboe\Table\Fields\Traits\Nullable;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
 use Yaro\Jarboe\Table\Fields\Traits\Relations;
@@ -13,6 +14,7 @@ class Select extends AbstractField
     use Orderable;
     use Relations;
     use Nullable;
+    use Ajax;
 
     const SIMPLE   = 'simple';
     const SELECT_2 = 'select2';
@@ -24,8 +26,6 @@ class Select extends AbstractField
 
     protected $multiple = false;
     protected $type = self::SIMPLE;
-    protected $ajax = false;
-    protected $searchCallback;
 
     public function isSelect2Type()
     {
@@ -52,18 +52,6 @@ class Select extends AbstractField
     public function getType()
     {
         return $this->type;
-    }
-
-    public function ajax(bool $ajax = true)
-    {
-        $this->ajax = $ajax;
-
-        return $this;
-    }
-
-    public function isAjax()
-    {
-        return $this->ajax;
     }
 
     public function multiple(bool $multiple = true)
@@ -114,13 +102,6 @@ class Select extends AbstractField
         }
 
         return (string) $option === (string) $model->{$this->name};
-    }
-
-    public function relationSearch(\Closure $callback)
-    {
-        $this->searchCallback = $callback;
-
-        return $this;
     }
 
     public function value(Request $request)
