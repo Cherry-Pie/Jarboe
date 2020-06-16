@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Fixed css for pagination block for `light` theme.
+- Proper check for `Image` field validation errors.
 
 ## [1.0.0] - 2020-06-07
 ### Added

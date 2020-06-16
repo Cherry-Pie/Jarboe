@@ -4,7 +4,7 @@
 ?>
 <div class="image-block" data-should-auto-open-modal="{{ $field->shouldAutoOpenModal() }}">
     <div class="image-left-part">
-        <div class="input input-file {{ $errors->has($field->name()) ? 'state-error' : '' }}">
+        <div class="input input-file {{ $errors->has($field->name() .'.'. $index .'.*') ? 'state-error' : '' }}">
                 <span class="button">
                     <input type="file"
                            class="upload-input"
@@ -38,8 +38,10 @@
         <input type="hidden" name="{{ $field->name() }}[{{ $index }}][crop][rotate_background]" class="crop-rotate-background" value="{{ $image->cropRotateBackground() }}">
     </div>
 
-    @foreach ($errors->get($field->name()) as $message)
-        <div class="note note-error">{{ $message }}</div>
+    @foreach ($errors->get($field->name() .'.'. $index .'.*') as $errorKey => $errorMessages)
+        @foreach ($errorMessages as $message)
+            <div class="note note-error">{{ $message }}</div>
+        @endforeach
     @endforeach
 
     @include('jarboe::crud.fields.image.inc.modal')
