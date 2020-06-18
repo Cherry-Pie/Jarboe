@@ -46,4 +46,9 @@ return [
         'confirmbox_delete_yes' => 'Yes',
         'confirmbox_delete_no' => 'No',
     ],
+
+    'checkbox' => [
+        'yes' => 'YES',
+        'no' => 'NO',
+    ],
 ];

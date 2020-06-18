@@ -31,9 +31,13 @@ trait InlineHandlerTrait
 
         $id = $request->get('_pk');
         $value = $request->get('_value');
+        $locale = $request->get('_locale');
         /** @var AbstractField $field */
         $field = $this->crud()->getFieldByName($request->get('_name'));
-        $locale = $request->get('_locale');
+
+        $request->replace([
+            $field->name() => $value,
+        ]);
 
         $model = $this->crud()->repo()->find($id);
         if (!$field->isInline() || !$this->crud()->actions()->isAllowed('edit', $model) || $field->isReadonly()) {
@@ -58,14 +62,14 @@ trait InlineHandlerTrait
         }
 
         $model = $this->crud()->repo()->update($id, [
-            $field->name() => $value,
+            $field->name() => $field->value($request),
         ]);
         $field->afterUpdate($model, $request);
 
         $this->idEntity = $model->getKey();
 
         return response()->json([
-            'value' => $model->{$field->name()},
+            'value' => $field->getAttribute($model, $locale),
         ]);
     }
 
