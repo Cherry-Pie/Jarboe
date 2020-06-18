@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- New js helpers in `jarboe` object: `bigToastSuccess`, `bigToastDanger`, `bigToastWarning`, `bigToastInfo`.
 
 ## [1.1.0] - 2020-06-16
 ### Added
