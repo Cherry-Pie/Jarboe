@@ -46,11 +46,10 @@ class Hidden extends AbstractField
         ]);
     }
 
-    /**
-     * @param int $col
-     */
-    public function setCol(int $col): void
+    public function col(int $col)
     {
         $this->col = 0;
+
+        return $this;
     }
 }

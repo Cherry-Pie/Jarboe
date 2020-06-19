@@ -32,7 +32,17 @@ class HiddenFieldTest extends AbstractFieldTest
     {
         $field = $this->field();
 
-        $this->assertEquals(0, $field->getCol());
+        $this->assertSame(0, $field->getCol());
+    }
+
+    /**
+     * @test
+     */
+    public function changed_col_width()
+    {
+        $field = $this->field()->col(42);
+
+        $this->assertSame(0, $field->getCol());
     }
 
     /**

@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Translation keys `jarboe::fields.checkbox.yes` and `jarboe::fields.checkbox.no` that are used in `Checkbox` field inline mode.
 - `FieldsetMarkup` field for dividing form into blocks with its own `<legend>`.
 
+### Fixed
+- Immutable `col` value for `Hidden` field.
+
 ## [1.1.0] - 2020-06-16
 ### Added
 - Added grouping by `<optgroup>` tag for `options()` method in `Select` field.
