@@ -48,6 +48,48 @@ abstract class AbstractActionTest extends AbstractBaseTest
     /**
      * @test
      */
+    public function check_tooltip()
+    {
+        /** @var AbstractAction $action */
+        list($action, $crud) = $this->getPreparedActionAndCrud();
+
+        $this->assertNull($action->getTooltip());
+        $this->assertEquals($action::TOOLTIP_POSITION_TOP, $action->getTooltipPosition());
+
+        $tooltipTitle = 'tooltip-title-default';
+        $action = $action->tooltip($tooltipTitle);
+        $this->assertEquals($tooltipTitle, $action->getTooltip());
+        $this->assertEquals($action::TOOLTIP_POSITION_TOP, $action->getTooltipPosition());
+
+        $tooltipTitle = 'tooltip-title-bottom';
+        $action = $action->tooltip($tooltipTitle, $action::TOOLTIP_POSITION_BOTTOM);
+        $this->assertEquals($tooltipTitle, $action->getTooltip());
+        $this->assertEquals($action::TOOLTIP_POSITION_BOTTOM, $action->getTooltipPosition());
+
+        $tooltipTitle = 'tooltip-title-top';
+        $action = $action->tooltip($tooltipTitle, $action::TOOLTIP_POSITION_TOP);
+        $this->assertEquals($tooltipTitle, $action->getTooltip());
+        $this->assertEquals($action::TOOLTIP_POSITION_TOP, $action->getTooltipPosition());
+
+        $tooltipTitle = 'tooltip-title-left';
+        $action = $action->tooltip($tooltipTitle, $action::TOOLTIP_POSITION_LEFT);
+        $this->assertEquals($tooltipTitle, $action->getTooltip());
+        $this->assertEquals($action::TOOLTIP_POSITION_LEFT, $action->getTooltipPosition());
+
+        $tooltipTitle = 'tooltip-title-right';
+        $action = $action->tooltip($tooltipTitle, $action::TOOLTIP_POSITION_RIGHT);
+        $this->assertEquals($tooltipTitle, $action->getTooltip());
+        $this->assertEquals($action::TOOLTIP_POSITION_RIGHT, $action->getTooltipPosition());
+
+        $tooltipTitle = 'tooltip-title-random';
+        $action = $action->tooltip($tooltipTitle, 'sasa lele');
+        $this->assertEquals($tooltipTitle, $action->getTooltip());
+        $this->assertEquals($action::TOOLTIP_POSITION_TOP, $action->getTooltipPosition());
+    }
+
+    /**
+     * @test
+     */
     public function check_is_allowed()
     {
         $model = Model::first();
