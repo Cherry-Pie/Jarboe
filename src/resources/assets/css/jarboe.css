@@ -421,3 +421,9 @@ ol.file-field-dd-list div.dd3-content span.clipspan .clipclip {
 .dt-toolbar-footer .dataTables_paginate.paging_simple_numbers nav {
     float: right;
 }
+
+fieldset fieldset.inner-fieldset {
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
