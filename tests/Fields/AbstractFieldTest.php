@@ -6,6 +6,7 @@ use Illuminate\View\View;
 use Yaro\Jarboe\Table\Fields\AbstractField;
 use Yaro\Jarboe\Table\Filters\TextFilter;
 use Yaro\Jarboe\Tests\AbstractBaseTest;
+use Yaro\Jarboe\Tests\Models\Model;
 
 abstract class AbstractFieldTest extends AbstractBaseTest
 {
@@ -18,6 +19,29 @@ abstract class AbstractFieldTest extends AbstractBaseTest
     abstract protected function getFieldWithName(): AbstractField;
     abstract protected function getFieldWithNameAndTitle(): AbstractField;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->loadMigrationsFrom([
+            '--database' => 'testing',
+            '--realpath' => realpath(__DIR__.'/../database/migrations'),
+        ]);
+    }
+
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('database.default', 'testing');
+    }
+
     protected function field(): AbstractField
     {
         return $this->getFieldWithName();
@@ -25,7 +49,19 @@ abstract class AbstractFieldTest extends AbstractBaseTest
 
     protected function getFieldName(): string
     {
-        return self::NAME;
+        return static::NAME;
+    }
+
+    protected function setOld($value)
+    {
+        session()->put('_old_input.'. static::NAME, $value);
+        request()->setLaravelSession(session());
+    }
+
+    protected function flushOld()
+    {
+        session()->forget('_old_input');
+        request()->setLaravelSession(session());
     }
 
     /**
@@ -95,9 +131,9 @@ abstract class AbstractFieldTest extends AbstractBaseTest
     public function model_is_setted()
     {
         $field = $this->field();
-        $field->setModel(self::class);
+        $field->setModel(static::class);
 
-        $this->assertEquals(self::class, $field->getModel());
+        $this->assertEquals(static::class, $field->getModel());
     }
 
     /**
@@ -107,7 +143,7 @@ abstract class AbstractFieldTest extends AbstractBaseTest
     {
         $field = $this->field();
 
-        $this->assertEquals(self::NAME, $field->name());
+        $this->assertEquals(static::NAME, $field->name());
     }
 
     /**
@@ -115,9 +151,9 @@ abstract class AbstractFieldTest extends AbstractBaseTest
      */
     public function name_redefined()
     {
-        $field = $this->field()->name(self::ANOTHER_NAME);
+        $field = $this->field()->name(static::ANOTHER_NAME);
 
-        $this->assertEquals(self::ANOTHER_NAME, $field->name());
+        $this->assertEquals(static::ANOTHER_NAME, $field->name());
     }
 
     /**
@@ -127,7 +163,7 @@ abstract class AbstractFieldTest extends AbstractBaseTest
     {
         $field = $this->getFieldWithName();
 
-        $this->assertEquals(self::TITLE_FROM_NAME, $field->title());
+        $this->assertEquals(static::TITLE_FROM_NAME, $field->title());
     }
 
     /**
@@ -137,7 +173,7 @@ abstract class AbstractFieldTest extends AbstractBaseTest
     {
         $field = $this->getFieldWithNameAndTitle();
 
-        $this->assertEquals(self::TITLE, $field->title());
+        $this->assertEquals(static::TITLE, $field->title());
     }
 
     /**
@@ -145,9 +181,9 @@ abstract class AbstractFieldTest extends AbstractBaseTest
      */
     public function title_redefined()
     {
-        $field = $this->getFieldWithNameAndTitle()->title(self::ANOTHER_TITLE);
+        $field = $this->getFieldWithNameAndTitle()->title(static::ANOTHER_TITLE);
 
-        $this->assertEquals(self::ANOTHER_TITLE, $field->title());
+        $this->assertEquals(static::ANOTHER_TITLE, $field->title());
     }
 
     /**
@@ -155,9 +191,9 @@ abstract class AbstractFieldTest extends AbstractBaseTest
      */
     public function title_not_generated_after_name_change()
     {
-        $field = $this->getFieldWithNameAndTitle()->name(self::ANOTHER_NAME);
+        $field = $this->getFieldWithNameAndTitle()->name(static::ANOTHER_NAME);
 
-        $this->assertEquals(self::TITLE, $field->title());
+        $this->assertEquals(static::TITLE, $field->title());
     }
 
     /**
@@ -432,5 +468,99 @@ abstract class AbstractFieldTest extends AbstractBaseTest
         $field = $this->field();
 
         $this->assertFalse($field->hasMaxlength());
+    }
+
+    /**
+     * @test
+     */
+    public function check_get_attribute()
+    {
+        $model = Model::first();
+        $field = $this->field();
+
+        $this->assertEquals($model->getAttribute(static::NAME), $field->getAttribute($model));
+    }
+
+    /**
+     * @test
+     */
+    public function check_old_or_get_attribute_without_old()
+    {
+        $model = Model::first();
+        $field = $this->field();
+
+        $model->setAttribute(self::NAME, 'value');
+        $this->assertSame('value', $field->getAttribute($model));
+    }
+
+    /**
+     * @test
+     */
+    public function check_old_or_get_attribute_with_old()
+    {
+        $model = Model::first();
+        $field = $this->field();
+
+        $model->setAttribute(self::NAME, 'value');
+        $this->setOld('oldvalue');
+        $this->assertSame('oldvalue', $field->oldOrAttribute($model));
+    }
+
+    /**
+     * @test
+     */
+    public function check_has_old()
+    {
+        $field = $this->field();
+
+        $this->setOld('oldvalue');
+        $this->assertTrue($field->hasOld(static::NAME));
+    }
+
+    /**
+     * @test
+     */
+    public function check_has_no_old()
+    {
+        $field = $this->field();
+
+        $this->assertFalse($field->hasOld(static::NAME));
+    }
+
+    /**
+     * @test
+     */
+    public function check_old()
+    {
+        $field = $this->field();
+        $this->assertSame(old(static::NAME), $field->old());
+
+        $this->setOld('sasa lele');
+        $this->assertSame(old(static::NAME), $field->old());
+    }
+
+    /**
+     * @test
+     */
+    public function check_old_or_default()
+    {
+        $field = $this->field();
+
+        // without old, without default
+        $this->assertNull($field->oldOrDefault());
+
+        // with old, without default
+        $this->setOld('sasa lele');
+        $this->assertSame('sasa lele', $field->oldOrDefault());
+
+        // with old, with default
+        $this->setOld('sasa lele');
+        $field->default('default-value');
+        $this->assertSame('sasa lele', $field->oldOrDefault());
+
+        // without old, with default
+        $this->flushOld();
+        $field->default('default-value');
+        $this->assertSame($field->getDefault(), $field->oldOrDefault());
     }
 }

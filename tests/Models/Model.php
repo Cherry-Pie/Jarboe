@@ -14,5 +14,6 @@ class Model extends EloquentModel
     protected $fillable = [
         'title',
         'description',
+        'checkbox',
     ];
 }

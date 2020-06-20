@@ -18,6 +18,7 @@ class CreateSeeds extends Migration
             Model::create([
                 'title' => sprintf('title #%s', $position),
                 'description' => sprintf('description #%s', $position),
+                'checkbox' => (bool) rand(0, 1),
             ]);
         }
 

@@ -9,6 +9,7 @@ use Spatie\Permission\Exceptions\UnauthorizedException;
 use Yaro\Jarboe\Http\Controllers\AbstractTableController;
 use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\AbstractField;
+use Yaro\Jarboe\Table\Fields\Checkbox;
 use Yaro\Jarboe\Table\Fields\Text;
 use Yaro\Jarboe\Tests\Models\Model;
 
@@ -29,6 +30,7 @@ class TestAbstractTableController extends AbstractTableController
         $this->addFields([
             Text::make('title')->inline(),
             Text::make('description'),
+            Checkbox::make('checkbox'),
         ]);
     }
 

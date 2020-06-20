@@ -18,6 +18,7 @@ class CreateDefaultModelTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('description');
+            $table->boolean('checkbox');
             $table->softDeletes();
             $table->timestamps();
         });
