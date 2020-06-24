@@ -27,7 +27,7 @@ class DateFilter extends AbstractFilter
 
         return view('jarboe::crud.filters.'. $view, [
             'filter' => $this,
-        ])->render();
+        ]);
     }
 
     public function apply($model)

@@ -22,7 +22,7 @@ class SelectFilter extends AbstractFilter
             'filter' => $this,
             'values' => $values,
             'desearch' => self::NO_INPUT_APPLIED,
-        ])->render();
+        ]);
     }
 
     public function multiple(bool $multiple = true)

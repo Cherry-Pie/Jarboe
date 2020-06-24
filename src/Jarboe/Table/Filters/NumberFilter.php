@@ -23,7 +23,7 @@ class NumberFilter extends AbstractFilter
     {
         return view('jarboe::crud.filters.number', [
             'filter' => $this,
-        ])->render();
+        ]);
     }
 
     public function apply($model)

@@ -69,13 +69,13 @@ class CheckboxFilter extends AbstractFilter
             'filter' => $this,
             'value' => $this->value(),
             'desearch' => self::NO_INPUT_APPLIED,
-        ])->render();
+        ]);
     }
 
     public function apply($query)
     {
         $value = $this->value();
-        if ($value == self::NO_INPUT_APPLIED) {
+        if ($value === self::NO_INPUT_APPLIED) {
             return;
         }
 

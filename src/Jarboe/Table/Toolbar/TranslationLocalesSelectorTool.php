@@ -30,7 +30,7 @@ class TranslationLocalesSelectorTool extends AbstractTool
         return view('jarboe::crud.toolbar.translation_locales_selector', [
             'tool' => $this,
             'locales' => $this->crud()->getLocales(),
-        ])->render();
+        ]);
     }
 
     /**

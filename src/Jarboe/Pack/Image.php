@@ -26,7 +26,7 @@ class Image
 
     public function croppedOrOriginalSourceUrl($default = null)
     {
-        $source = Arr::get($this->data, 'sources.cropped', $this->originalSource());
+        $source = Arr::get($this->data, 'sources.cropped') ?: $this->originalSource();
         if (!$source) {
             return $default;
         }
@@ -51,7 +51,7 @@ class Image
 
     public function originalSource($default = null)
     {
-        return Arr::get($this->data, 'sources.original', $default);
+        return Arr::get($this->data, 'sources.original') ?: $default;
     }
 
     public function croppedSourceUrl($default = null)
@@ -67,7 +67,7 @@ class Image
 
     public function croppedSource($default = null)
     {
-        return Arr::get($this->data, 'sources.cropped', $default);
+        return Arr::get($this->data, 'sources.cropped') ?: $default;
     }
 
     public function isEncoded(): bool
@@ -84,11 +84,6 @@ class Image
     public function getDisk()
     {
         return Arr::get($this->data, 'storage.disk');
-    }
-
-    public function getMimeType()
-    {
-        return Arr::get($this->data, 'meta.mime_type');
     }
 
     public function cropWidth()

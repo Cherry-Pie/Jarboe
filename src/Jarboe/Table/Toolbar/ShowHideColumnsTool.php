@@ -29,7 +29,7 @@ class ShowHideColumnsTool extends AbstractTool
     {
         return view('jarboe::crud.toolbar.show_hide_columns', [
             'tool' => $this,
-        ])->render();
+        ]);
     }
 
     /**

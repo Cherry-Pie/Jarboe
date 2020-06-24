@@ -23,7 +23,7 @@ class TextFilter extends AbstractFilter
     {
         return view('jarboe::crud.filters.text', [
             'filter' => $this,
-        ])->render();
+        ]);
     }
 
     public function apply($query)
