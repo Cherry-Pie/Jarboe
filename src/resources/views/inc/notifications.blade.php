@@ -21,3 +21,7 @@
         });
     </script>
 @endif
+
+<?php
+session()->forget('jarboe_notifications');
+?>

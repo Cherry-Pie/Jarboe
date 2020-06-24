@@ -3,6 +3,7 @@
 namespace Yaro\Jarboe\Http\Controllers;
 
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as RequestFacade;
 use Illuminate\Validation\ValidationException;
@@ -204,7 +205,14 @@ abstract class AbstractTableController
             }
 
             $this->notifyBigDanger(get_class($e), $e->getMessage(), 0);
-            return redirect()->back()->withInput($request->input());
+
+            /** @var RedirectResponse $redirect */
+            $redirect = redirect()->back();
+            if ($redirect->getTargetUrl() == $request->url()) {
+                $redirect->setTargetUrl(admin_url());
+            }
+
+            return $redirect->withInput($request->input());
         }
     }
 

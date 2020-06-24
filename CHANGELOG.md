@@ -13,10 +13,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Filter classes method `render` returns `Illuminate\View\View` instance instead of rendered html string.
+- Using `put` instead of `flash` for notification messages to preserve them across several redirects.
 
 ### Fixed
 - Immutable `col` value for `Hidden` field.
 - `CheckboxFilter` handle `0` value properly.
+- Infinite redirection if page with exception is the same "previous" page in session.
 
 ## [1.1.0] - 2020-06-16
 ### Added

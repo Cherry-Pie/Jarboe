@@ -27,7 +27,7 @@ trait NotifyTrait
             'timeout' => $timeout,
         ];
 
-        session()->flash($ident, $messages);
+        session()->put($ident, $messages);
     }
 
     protected function notifySmall(string $title, string $content = null, int $timeout = 4000, string $color = null, string $icon = null)
