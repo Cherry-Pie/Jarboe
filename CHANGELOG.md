@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Inline editing for `Checkbox` field.
 - Translation keys `jarboe::fields.checkbox.yes` and `jarboe::fields.checkbox.no` that are used in `Checkbox` field inline mode.
 - `FieldsetMarkup` field for dividing form into blocks with its own `<legend>`.
+- Jquery UI datepicker switches locale depending on selected locale from `list` of `jarboe/locales.php` configuration file.
 
 ### Changed
 - Filter classes method `render` returns `Illuminate\View\View` instance instead of rendered html string.

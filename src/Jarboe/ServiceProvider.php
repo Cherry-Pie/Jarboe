@@ -122,6 +122,13 @@ class ServiceProvider extends IlluminateServiceProvider
 
             $view->themeClass = Arr::get($themes, $selectedTheme, $selectedTheme);
             $view->menuOnTop = $this->app->config->get('jarboe.admin_panel.menu_on_top');
+
+            $localeHelper = new Locale();
+            $currentLocale = $localeHelper->current();
+            if ($currentLocale == 'en' || $currentLocale == 'en-US') {
+                $currentLocale = false;
+            }
+            $view->currentLocale = $currentLocale;
         });
 
         View::composer('jarboe::inc.locale_selector', function ($view) {

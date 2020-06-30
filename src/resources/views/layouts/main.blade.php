@@ -147,6 +147,9 @@
 
 <script src="/vendor/jarboe/js/plugin/js.cookie/js.cookie.js"></script>
 
+@if ($currentLocale)
+    <script src="/vendor/jarboe/js/plugin/jquery-ui/i18n/datepicker-{{ $currentLocale }}.js"></script>
+@endif
 
 <audio preload="auto" autobuffer="auto" style="display: none;">
     <source src="/vendor/jarboe/sound/messagebox.mp3" type="audio/mpeg">
