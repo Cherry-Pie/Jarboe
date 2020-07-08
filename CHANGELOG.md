@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Translation keys `jarboe::fields.checkbox.yes` and `jarboe::fields.checkbox.no` that are used in `Checkbox` field inline mode.
 - `FieldsetMarkup` field for dividing form into blocks with its own `<legend>`.
 - Jquery UI datepicker switches locale depending on selected locale from `list` of `jarboe/locales.php` configuration file.
+- "OTP secret" field in admins table controller when `jarboe.admin_panel.two_factor_auth.enabled` config option is `true`.
 
 ### Changed
 - Filter classes method `render` returns `Illuminate\View\View` instance instead of rendered html string.

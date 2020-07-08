@@ -2,6 +2,7 @@
 
 namespace Yaro\Jarboe\Http\Controllers;
 
+use Yaro\Jarboe\Etc\CustomFields\OtpSecret;
 use Yaro\Jarboe\Etc\CustomFields\PermissionField;
 use Yaro\Jarboe\Etc\CustomFields\RoleField;
 use Yaro\Jarboe\Http\Requests\Admins\CreateRequest;
@@ -28,20 +29,26 @@ class AdminsController extends AbstractTableController
             'permissions',
         ]);
 
+        $fields = [
+            Text::make('name', 'Name')->col(6),
+            Password::make('password', 'Password')->col(6),
+            Text::make('email', 'Email')->col(6),
+            Password::make('password_confirmation', 'Repeat password')->col(6),
+            RoleField::make('roles', 'Roles')
+                ->relation('roles', 'name')
+                ->col(6),
+            PermissionField::make('permissions', 'Permissions')
+                ->relation('permissions', 'name')
+                ->col(6),
+        ];
+        if (config('jarboe.admin_panel.two_factor_auth.enabled')) {
+            $fields[] = OtpSecret::make('otp_secret')->tooltip('Will be generated automatically on save')->placeholder('OTP secret')->col(6);
+        }
+
+
         $this->addFields([
             Image::make('avatar', 'Avatar')->encode()->crop(false)->ratio(200, 200)->width(1)->col(4),
-            RowMarkup::make()->col(8)->fields([
-                Text::make('name', 'Name')->col(6),
-                Password::make('password', 'Password')->col(6),
-                Text::make('email', 'Email')->col(6),
-                Password::make('password_confirmation', 'Repeat password')->col(6),
-                RoleField::make('roles', 'Roles')
-                    ->relation('roles', 'name')
-                    ->col(6),
-                PermissionField::make('permissions', 'Permissions')
-                    ->relation('permissions', 'name')
-                    ->col(6),
-            ]),
+            RowMarkup::make()->col(8)->fields($fields),
         ]);
     }
 
