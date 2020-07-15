@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+
+## [1.2.0] - 2020-07-15
+### Added
 - New js helpers in `jarboe` object: `bigToastSuccess`, `bigToastDanger`, `bigToastWarning`, `bigToastInfo`.
 - Inline editing for `Checkbox` field.
 - Translation keys `jarboe::fields.checkbox.yes` and `jarboe::fields.checkbox.no` that are used in `Checkbox` field inline mode.
@@ -40,5 +43,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 [Unreleased]: https://github.com/Cherry-Pie/Jarboe/compare/1.1.0...master
+[1.2.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/Cherry-Pie/Jarboe
