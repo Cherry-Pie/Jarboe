@@ -93,7 +93,6 @@ trait VersionableTrait
         static::saved(function ($model) {
             $model->versionablePostSave();
         });
-
     }
 
     /**
