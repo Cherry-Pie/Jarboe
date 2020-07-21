@@ -21,6 +21,8 @@ class CreateAdminsTable extends Migration
             $table->longText('avatar')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            $table->string('otp_secret')->nullable()->after('avatar');
         });
     }
 

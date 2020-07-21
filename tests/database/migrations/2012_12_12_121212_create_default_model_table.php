@@ -22,6 +22,15 @@ class CreateDefaultModelTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+
+        Schema::create('versionable_model', function ($table) {
+            $table->increments('id');
+            $table->string('title');
+            $table->string('description');
+            $table->boolean('checkbox');
+            $table->softDeletes();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -32,5 +41,6 @@ class CreateDefaultModelTable extends Migration
     public function down()
     {
         Schema::drop('default_model');
+        Schema::drop('versionable_model');
     }
 }

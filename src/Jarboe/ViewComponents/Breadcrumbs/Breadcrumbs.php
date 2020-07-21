@@ -50,6 +50,18 @@ class Breadcrumbs implements BreadcrumbsInterface
         return true;
     }
 
+    public function isEmptyForHistoryPage(): bool
+    {
+        /** @var Crumb $crumb */
+        foreach ($this->crumbs as $crumb) {
+            if ($crumb->shouldBeShownOnHistoryPage()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Return the current element
      * @link https://php.net/manual/en/iterator.current.php

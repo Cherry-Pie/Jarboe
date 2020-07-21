@@ -9,6 +9,7 @@ return [
         'table' => 'Table',
         'editing' => 'Editing',
         'creating' => 'Creating',
+        'history' => 'History',
     ],
 
     'refresh' => [
@@ -81,6 +82,17 @@ return [
         'message' => 'You can improve your security further after logging out by closing this opened browser',
         'confirm_no' => 'No',
         'confirm_yes' => 'Yes',
+    ],
+
+    'history' => [
+        'revert_success_title' => 'Successfully reverted',
+        'revert_success_description' => 'Model was reverted to its state on :datetime',
+        'revert_button' => 'Revert',
+        'revert_failed' => 'Revert failed',
+        'revert_confirm_yes' => 'Yes',
+        'revert_confirm_no' => 'No',
+        'revert_confirm_title' => 'Revert model?',
+        'revert_confirm_description' => 'Model will be reverted and new revision will be created',
     ],
 
 ];

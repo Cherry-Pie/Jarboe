@@ -79,6 +79,16 @@ trait UrlTrait
         return sprintf('%s%srender-repeater-item/%s', $this->baseUrl(), self::BASE_URL_DELIMITER, $fieldName);
     }
 
+    public function historyUrl($id)
+    {
+        return sprintf('%s%s%s/history', $this->baseUrl(), self::BASE_URL_DELIMITER, $id);
+    }
+
+    public function revertUrl($id)
+    {
+        return sprintf('%s%s%s/revert', $this->baseUrl(), self::BASE_URL_DELIMITER, $id);
+    }
+
     public function baseUrl()
     {
         $chunks = explode(self::BASE_URL_DELIMITER, request()->url());

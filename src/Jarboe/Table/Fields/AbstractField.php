@@ -150,6 +150,13 @@ abstract class AbstractField implements FieldPropsInterface
         return false;
     }
 
+    public function getHistoryView($value)
+    {
+        return view('jarboe::crud.fields.abstract.history', [
+            'value' => $value,
+        ]);
+    }
+
     abstract public function getListView($model);
 
     abstract public function getEditFormView($model);

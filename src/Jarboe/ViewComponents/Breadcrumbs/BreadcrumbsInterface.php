@@ -8,4 +8,5 @@ interface BreadcrumbsInterface extends \Iterator
     public function isEmptyForListPage(): bool;
     public function isEmptyForCreatePage(): bool;
     public function isEmptyForEditPage(): bool;
+    public function isEmptyForHistoryPage(): bool;
 }

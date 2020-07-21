@@ -25,5 +25,8 @@ trait BreadcrumbsTrait
         View::composer('jarboe::crud.edit', function ($view) {
             $view->with('breadcrumbs', $this->breadcrumbs());
         });
+        View::composer('jarboe::crud.history', function ($view) {
+            $view->with('breadcrumbs', $this->breadcrumbs());
+        });
     }
 }

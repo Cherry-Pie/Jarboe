@@ -9,6 +9,7 @@ class Crumb
     private $shouldBeShownOnListPage = true;
     private $shouldBeShownOnCreatePage = true;
     private $shouldBeShownOnEditPage = true;
+    private $shouldBeShowOnHistoryPage = true;
 
     public function __construct($title = '', $url = '')
     {
@@ -81,12 +82,20 @@ class Crumb
 
         return $this;
     }
+    
+    public function showOnHistoryPage(bool $shouldBeShown = true)
+    {
+        $this->showOnHistoryPage = $shouldBeShown;
+
+        return $this;
+    }
 
     public function showOnlyOnListPage()
     {
         $this->showOnListPage(true);
         $this->showOnCreatePage(false);
         $this->showOnEditPage(false);
+        $this->showOnHistoryPage(false);
 
         return $this;
     }
@@ -96,6 +105,7 @@ class Crumb
         $this->showOnListPage(false);
         $this->showOnCreatePage(true);
         $this->showOnEditPage(false);
+        $this->showOnHistoryPage(false);
 
         return $this;
     }
@@ -105,6 +115,17 @@ class Crumb
         $this->showOnListPage(false);
         $this->showOnCreatePage(false);
         $this->showOnEditPage(true);
+        $this->showOnHistoryPage(false);
+
+        return $this;
+    }
+
+    public function showOnlyOnHistoryPage()
+    {
+        $this->showOnListPage(false);
+        $this->showOnCreatePage(false);
+        $this->showOnEditPage(false);
+        $this->showOnHistoryPage(true);
 
         return $this;
     }
@@ -122,5 +143,10 @@ class Crumb
     public function shouldBeShownOnListPage(): bool
     {
         return $this->shouldBeShownOnListPage;
+    }
+
+    public function shouldBeShownOnHistoryPage(): bool
+    {
+        return $this->shouldBeShowOnHistoryPage;
     }
 }

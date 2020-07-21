@@ -18,7 +18,6 @@ use Yaro\Jarboe\ViewComponents\Breadcrumbs\BreadcrumbsInterface;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
-
     /**
      * A list of artisan commands
      *
@@ -40,6 +39,7 @@ class ServiceProvider extends IlluminateServiceProvider
             __DIR__.'/../config/admin_panel.php' => config_path('jarboe/admin_panel.php'),
             __DIR__.'/../config/crud.php' => config_path('jarboe/crud.php'),
             __DIR__.'/../config/locales.php' => config_path('jarboe/locales.php'),
+            __DIR__.'/../config/versionable.php' => config_path('jarboe/versionable.php'),
         ], 'config');
 
         if ($this->app->runningInConsole()) {
@@ -75,6 +75,7 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/admin_panel.php', 'jarboe.admin_panel');
         $this->mergeConfigFrom(__DIR__.'/../config/crud.php', 'jarboe.crud');
         $this->mergeConfigFrom(__DIR__.'/../config/locales.php', 'jarboe.locales');
+        $this->mergeConfigFrom(__DIR__.'/../config/versionable.php', 'jarboe.versionable');
 
         $this->app->singleton('jarboe', function ($app) {
             return new Jarboe();

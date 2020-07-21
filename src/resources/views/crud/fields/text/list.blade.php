@@ -56,7 +56,7 @@
                 @if ($field->isMaskable())
                     editable.input.$input.mask('{{ $field->getMaskPattern() }}', { placeholder: '{{ $field->getMaskPlaceholder() }}' });
                 @endif
-            });;
+            });
         </script>
     @endpush
 @endif

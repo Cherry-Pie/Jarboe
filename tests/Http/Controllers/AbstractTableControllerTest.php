@@ -2,6 +2,7 @@
 
 namespace Yaro\Jarboe\Tests\Http\Controllers;
 
+use Illuminate\Container\Container;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
@@ -11,6 +12,7 @@ use Spatie\Permission\Exceptions\UnauthorizedException;
 use Yaro\Jarboe\Exceptions\PermissionDenied;
 use Yaro\Jarboe\Http\Controllers\AbstractTableController;
 use Yaro\Jarboe\Models\Admin;
+use Yaro\Jarboe\Table\Actions\HistoryAction;
 use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\Checkbox;
 use Yaro\Jarboe\Table\Fields\Markup\RowMarkup;
@@ -22,6 +24,7 @@ use Yaro\Jarboe\Table\Toolbar\MassDeleteTool;
 use Yaro\Jarboe\Table\Toolbar\ShowHideColumnsTool;
 use Yaro\Jarboe\Tests\AbstractBaseTest;
 use Yaro\Jarboe\Tests\Models\Model;
+use Yaro\Jarboe\Tests\Models\VersionableModel;
 use Yaro\Jarboe\ViewComponents\Breadcrumbs\BreadcrumbsInterface;
 use Yaro\Jarboe\ViewComponents\Breadcrumbs\Crumb;
 
@@ -1354,5 +1357,146 @@ class AbstractTableControllerTest extends AbstractBaseTest
 
         $this->assertEquals($perPage, $this->controller->crud()->getRawPerPage());
         $this->assertEquals(10, $this->controller->crud()->getPerPageParam());
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_history_call()
+    {
+        $this->controller->overrideModel(VersionableModel::class);
+        $this->controller->crud()->actions()->add(new HistoryAction());
+
+        $model = VersionableModel::first();
+        $baseView = $this->controller->handleHistory($this->createRequest(), $model->id);
+        $magicView = $this->controller->history($this->createRequest(), $model->id);
+
+        $this->assertInstanceOf(View::class, $magicView);
+        $this->assertEquals($baseView, $magicView);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_history_call_without_action_button()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $this->controller->overrideModel(VersionableModel::class);
+        $model = VersionableModel::first();
+        $this->controller->handleHistory($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_history_call_unauthorized()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $this->controller->setPermissions('unauthorized');
+        $this->controller->crud()->actions()->add(new HistoryAction());
+
+        $this->controller->overrideModel(VersionableModel::class);
+        $model = VersionableModel::first();
+        $this->controller->handleHistory($this->createRequest(), $model->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_history_call_unauthorized_response()
+    {
+        $this->controller->overrideModel(VersionableModel::class);
+
+        $this->controller->setPermissions('unauthorized');
+        $this->controller->crud()->actions()->add(new HistoryAction());
+
+        $model = VersionableModel::first();
+        $response = $this->controller->history($this->createRequest(), $model->id);
+        $this->assertEquals(
+            $this->controller->createUnauthorizedResponse($this->createRequest(), UnauthorizedException::forPermissions(['history'])),
+            $response
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_revert_call()
+    {
+        // to prevent cli output of dump() helper
+        $_SERVER['VAR_DUMPER_FORMAT'] = 'html';
+
+        $this->controller->overrideModel(VersionableModel::class);
+        $this->controller->crud()->actions()->add(new HistoryAction());
+
+        $model = VersionableModel::first();
+
+        $baseResponse = $this->controller->handleRevert($this->createRequest([
+            'version' => $model->previousVersion()->version_id,
+        ]), $model->id);
+
+        $request = $this->createRequest([
+            'version' => $model->previousVersion()->version_id,
+        ]);
+        Container::getInstance()->request = $request;
+        $magicResponse = $this->controller->revert($request, $model->id);
+
+        $this->assertInstanceOf(JsonResponse::class, $magicResponse);
+        $this->assertInstanceOf(JsonResponse::class, $baseResponse);
+
+        unset($_SERVER['VAR_DUMPER_FORMAT']);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_revert_call_without_version()
+    {
+        $this->expectException(\RuntimeException::class);
+
+        $this->controller->overrideModel(VersionableModel::class);
+        $this->controller->crud()->actions()->add(new HistoryAction());
+
+        $this->controller->handleRevert($this->createRequest(), VersionableModel::first()->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_revert_call_unauthorized()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $this->controller->overrideModel(VersionableModel::class);
+        $this->controller->crud()->actions()->add(new HistoryAction());
+
+        $model = VersionableModel::first();
+        $this->controller->setPermissions('unauthorized');
+
+        $this->controller->handleRevert($this->createRequest([
+            'version' => VersionableModel::first()->previousVersion()->version_id,
+        ]), $model->id);
+    }
+
+    /**
+     * @test
+     */
+    public function check_magic_revert_call_permission_denied()
+    {
+        $this->expectException(PermissionDenied::class);
+
+        $this->controller->overrideModel(VersionableModel::class);
+        $model = VersionableModel::first();
+        $this->controller->crud()->actions()->add(
+            HistoryAction::make()->check(function () {
+                return false;
+            })
+        );
+
+        $this->controller->handleRevert($this->createRequest([
+            'version' => VersionableModel::first()->previousVersion()->version_id,
+        ]), $model->id);
     }
 }

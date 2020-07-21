@@ -14,6 +14,8 @@ use Yaro\Jarboe\Http\Controllers\Traits\Handlers\CreateHandlerTrait;
 use Yaro\Jarboe\Http\Controllers\Traits\Handlers\DeleteHandlerTrait;
 use Yaro\Jarboe\Http\Controllers\Traits\Handlers\EditHandlerTrait;
 use Yaro\Jarboe\Http\Controllers\Traits\Handlers\ForceDeleteHandlerTrait;
+use Yaro\Jarboe\Http\Controllers\Traits\Handlers\HistoryHandlerTrait;
+use Yaro\Jarboe\Http\Controllers\Traits\Handlers\RevertHandlerTrait;
 use Yaro\Jarboe\Http\Controllers\Traits\Handlers\InlineHandlerTrait;
 use Yaro\Jarboe\Http\Controllers\Traits\Handlers\ListHandlerTrait;
 use Yaro\Jarboe\Http\Controllers\Traits\Handlers\OrderByHandlerTrait;
@@ -48,6 +50,8 @@ use Yaro\Jarboe\ViewComponents\Breadcrumbs\BreadcrumbsInterface;
  * @method mixed restore(Request $request, $id)
  * @method mixed forceDelete(Request $request, $id)
  * @method mixed inline(Request $request)
+ * @method mixed history(Request $request, $id)
+ * @method mixed revert(Request $request, $id)
  */
 abstract class AbstractTableController
 {
@@ -71,6 +75,8 @@ abstract class AbstractTableController
     use SearchHandlerTrait;
     use BreadcrumbsTrait;
     use RenderRepeaterItemHandlerTrait;
+    use HistoryHandlerTrait;
+    use RevertHandlerTrait;
 
     /**
      * Permission group name.
@@ -87,6 +93,8 @@ abstract class AbstractTableController
      *     'delete'      => 'permission:delete',
      *     'restore'     => 'permission:restore',
      *     'forceDelete' => 'permission:force-delete',
+     *     'history'     => 'permission:history',
+     *     'revert'      => 'permission:revert',
      * )
      */
     protected $permissions = '';
@@ -182,6 +190,10 @@ abstract class AbstractTableController
                 case 'renderRepeaterItem':
                     $fieldName = $id;
                     return $this->handleRenderRepeaterItem($request, $fieldName);
+                case 'history':
+                    return $this->handleHistory($request, $id);
+                case 'revert':
+                    return $this->handleRevert($request, $id);
 
                 default:
                     throw new \RuntimeException('Invalid method ' . $name);

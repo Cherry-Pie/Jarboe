@@ -90,6 +90,15 @@ class Install extends Command
             ));
             $date->addSecond();
         }
+
+        if (!$this->isMigrationFileExist('create_versions_table.php')) {
+            shell_exec(sprintf(
+                'cp "%s" "%s"',
+                base_path('vendor/yaro/jarboe/src/database/migrations/2020_07_15_213242_create_versions_table.php'),
+                database_path(sprintf('migrations/%s_create_versions_table.php', $date->format('Y_m_d_His')))
+            ));
+            $date->addSecond();
+        }
     }
 
     private function isMigrationFileExist($filename)

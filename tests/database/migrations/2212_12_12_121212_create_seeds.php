@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 use Yaro\Jarboe\Tests\Models\Model;
+use Yaro\Jarboe\Tests\Models\VersionableModel;
 
 class CreateSeeds extends Migration
 {
@@ -20,6 +21,17 @@ class CreateSeeds extends Migration
                 'description' => sprintf('description #%s', $position),
                 'checkbox' => (bool) rand(0, 1),
             ]);
+
+            $model = VersionableModel::create([
+                'title' => sprintf('title #%s', $position),
+                'description' => sprintf('description #%s', $position),
+                'checkbox' => (bool) rand(0, 1),
+            ]);
+            foreach (range(1, 5) as $position) {
+                $model->update([
+                    'title' => sprintf('%s: %s - %s', $model->title, $position, \Illuminate\Support\Str::random()),
+                ]);
+            }
         }
 
         \DB::table('permissions')->insert([

@@ -31,6 +31,8 @@ class Jarboe
         Route::post($uri . $delimiter .'{id}/force-delete', $controller .'@forceDelete');
         Route::any($uri . $delimiter .'toolbar/{toolbar}', $controller .'@toolbar');
         Route::post($uri . $delimiter .'render-repeater-item/{name}', $controller .'@renderRepeaterItem');
+        Route::get($uri . $delimiter .'{id}/history', $controller .'@history');
+        Route::post($uri . $delimiter .'{id}/revert', $controller .'@revert');
     }
 
     public function routeGroupOptions(bool $availableForGuest = false): array

@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Revisions functionality.
+- Optional `getHistoryView` method for field classes, which is responsible for rendering view for version's diff value.
+- Added two new permissions: `history` and `revert`.
+- New migration file `**_create_versions_table.php`.
+- New config file `jarboe/versionable.php` for specifying default versions model.
+- Breadcrumbs classes updated to handle new "versions timeline" page.
+- New translation keys in `resources/lang/en/common.php`.
 
 ## [1.2.0] - 2020-07-15
 ### Added

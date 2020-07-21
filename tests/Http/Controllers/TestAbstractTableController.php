@@ -18,10 +18,14 @@ class TestAbstractTableController extends AbstractTableController
     private $shouldThrowValidationException = false;
     protected $shouldEnableSoftDelete = true;
     private $beforeInitClosure;
+    /**
+     * @var string
+     */
+    private $overridedModelClass;
 
     public function init()
     {
-        $this->setModel(Model::class);
+        $this->setModel($this->overridedModelClass ?: Model::class);
         $this->softDeletes($this->shouldEnableSoftDelete);
         $this->filter(function ($model) {
             $model->withTrashed();
@@ -221,6 +225,11 @@ class TestAbstractTableController extends AbstractTableController
     public function enableBatchCheckboxes(bool $enabled = true)
     {
         parent::enableBatchCheckboxes($enabled);
+    }
+
+    public function overrideModel(string $class)
+    {
+        $this->overridedModelClass = $class;
     }
 
     protected function beforeInit()
