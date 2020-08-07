@@ -36,6 +36,10 @@
 
                 <!-- Timeline Content -->
                 <div class="smart-timeline">
+                    @if (!$versions->total() || ($versions->total() == 1 && !$item->currentVersion()->diff($version)))
+                        <h3 class="text-center">{{ __('jarboe::common.history.no_versions') }}</h3>
+                    @endif
+
                     @include('jarboe::crud.inc.history.timeline', [
                         'versions' => $versions,
                         'item' => $item,

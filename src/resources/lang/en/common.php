@@ -93,6 +93,7 @@ return [
         'revert_confirm_no' => 'No',
         'revert_confirm_title' => 'Revert model?',
         'revert_confirm_description' => 'Model will be reverted and new revision will be created',
+        'no_versions' => 'No versions history yet',
     ],
 
 ];
