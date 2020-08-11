@@ -52,9 +52,11 @@ abstract class AbstractFieldTest extends AbstractBaseTest
         return static::NAME;
     }
 
-    protected function setOld($value)
+    protected function setOld($value, $name = null)
     {
-        session()->put('_old_input.'. static::NAME, $value);
+        $name = $name ?: static::NAME;
+
+        session()->put('_old_input.'. $name, $value);
         request()->setLaravelSession(session());
     }
 

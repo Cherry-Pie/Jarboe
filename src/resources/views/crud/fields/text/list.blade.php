@@ -1,15 +1,21 @@
+<?php
+/**
+ * @var \Yaro\Jarboe\Table\Fields\Text $field
+ */
+?>
+
 @if ($field->hasClipboardButton() && (string) $field->getAttribute($model, $locale ?? null) !== '')
     <div class="p-relative">
         <a href="javascript:void(0);"
            class="btn btn-labeled btn-default clipclip"
            data-clipboard-text="{{ $field->getAttribute($model, $locale ?? null) }}"
-           id="clipclip-text-{{ $field->name() }}-{{ $model->getKey() }}-{{ $locale ?? 'default' }}">
+           id="clipclip-text-{{ crc32($field->name()) }}-{{ $model->getKey() }}-{{ $locale ?? 'default' }}">
             {{ $field->getClipboardCaption($model) ?: __('jarboe::fields.clipboard_copy') }}
         </a>
     </div>
 @endif
 
-<span id="xeditable-text-{{ $field->name() }}-{{ $model->getKey() }}-{{ $locale ?? 'default' }}">{{ $field->getAttribute($model, $locale ?? null) }}</span>
+<span id="xeditable-text-{{ crc32($field->name()) }}-{{ $model->getKey() }}-{{ $locale ?? 'default' }}">{{ $field->getAttribute($model, $locale ?? null) }}</span>
 
 
 @if ($field->isInline())
@@ -18,7 +24,7 @@
 
     @push('scripts')
         <script>
-            $('#xeditable-text-{{ $field->name() }}-{{ $model->getKey() }}-{{ $locale ?? 'default' }}').editable({
+            $('#xeditable-text-{{ crc32($field->name()) }}-{{ $model->getKey() }}-{{ $locale ?? 'default' }}').editable({
                 url: '{{ $field->getInlineUrl() }}',
                 type: 'text',
                 pk: '{{ $model->getKey() }}',
@@ -44,10 +50,10 @@
                     return data;
                 },
                 success: function(response, newValue) {
-                    $('#clipclip-text-{{ $field->name() }}-{{ $model->getKey() }}-{{ $locale ?? 'default' }}').attr('data-clipboard-text',  response.value);
+                    $('#clipclip-text-{{ crc32($field->name()) }}-{{ $model->getKey() }}-{{ $locale ?? 'default' }}').attr('data-clipboard-text',  response.value);
                 },
                 error: function(response, newValue) {
-                    return response.responseJSON.errors["{{ $field->name() }}"].join("\n");
+                    return response.responseJSON.errors["{{ $field->belongsToArray() ? $field->getDotPatternName() : $field->name() }}"].join("\n");
                 },
                 @foreach ($field->getInlineOptions() as $key => $value)
                     {{ $key }}: "{{ $value }}",

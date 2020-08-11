@@ -15,5 +15,10 @@ class Model extends EloquentModel
         'title',
         'description',
         'checkbox',
+        'meta',
+    ];
+
+    protected $casts = [
+        'meta' => 'array',
     ];
 }

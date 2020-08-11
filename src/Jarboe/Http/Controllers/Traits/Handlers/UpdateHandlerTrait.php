@@ -35,7 +35,20 @@ trait UpdateHandlerTrait
         }
 
         $fields = $this->crud()->getFieldsWithoutMarkup();
+
+        $inputs = [];
+        /** @var AbstractField $field */
+        foreach ($fields as $field) {
+            if ($field->belongsToArray()) {
+                $inputs += [$field->name() => $request->input($field->getDotPatternName())];
+            }
+        }
+        $request->replace(
+            $request->all() + $inputs
+        );
+
         $data = [];
+        $additional = [];
         /** @var AbstractField $field */
         foreach ($fields as $field) {
             if ($field->hidden('edit') || $field->isReadonly() || $field->shouldSkip($request)) {
@@ -44,8 +57,15 @@ trait UpdateHandlerTrait
 
             $field->beforeUpdate($model);
 
+            if ($field->belongsToArray()) {
+                $additional[$field->getAncestorName()][$field->getDescendantName()] = $field->value($request);
+                continue;
+            }
+
             $data += [$field->name() => $field->value($request)];
         }
+
+        $data = $data + $additional;
 
         $model = $this->crud()->repo()->update($id, $data);
         /** @var AbstractField $field */

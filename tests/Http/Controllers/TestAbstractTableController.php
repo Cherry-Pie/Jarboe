@@ -34,6 +34,8 @@ class TestAbstractTableController extends AbstractTableController
         $this->addFields([
             Text::make('title')->inline(),
             Text::make('description'),
+            Text::make('meta[title]'),
+            Text::make('meta[description]'),
             Checkbox::make('checkbox'),
         ]);
     }

@@ -3,6 +3,7 @@
 namespace Yaro\Jarboe\Table\Fields;
 
 use Illuminate\Http\Request;
+use Yaro\Jarboe\Table\Fields\Traits\BelongsToArray;
 use Yaro\Jarboe\Table\Fields\Traits\Clipboard;
 use Yaro\Jarboe\Table\Fields\Traits\Inline;
 use Yaro\Jarboe\Table\Fields\Traits\Maskable;
@@ -24,6 +25,7 @@ class Text extends AbstractField
     use Maskable;
     use Placeholder;
     use Maxlength;
+    use BelongsToArray;
 
     public function value(Request $request)
     {

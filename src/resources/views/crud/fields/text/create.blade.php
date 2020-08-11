@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \Yaro\Jarboe\Table\Fields\Text $field
+ */
+?>
 
 <label class="label">
     {{ $field->title() }}
@@ -8,7 +13,7 @@
     @foreach ($field->getLocales() as $locale => $title)
         <div class="locale-field locale-tab-{{ $locale }} locale-field-{{ $field->name() }} locale-field-{{ $field->name() }}-{{ $locale }}"
              style="{{ $field->isCurrentLocale($locale) ? '' : 'display:none;' }}">
-            <label class="input {{ $errors->has($field->name() .'.'. $locale) ? 'state-error' : '' }}">
+            <label class="input {{ $field->hasError($errors, $locale) ? 'state-error' : '' }}">
                 @include('jarboe::crud.fields.text.inc.tooltip_icon')
                 <input type="text"
                        @if ($field->hasMaxlength())
@@ -24,13 +29,13 @@
                 @include('jarboe::crud.fields.text.inc.tooltip_body')
 
                 @include('jarboe::crud.fields.text.inc.error_messages', [
-                    'messages' => $errors->get($field->name() .'.'. $locale)
+                    'messages' => $field->getErrors($errors, $locale),
                 ])
             </label>
         </div>
     @endforeach
 @else
-    <label class="input {{ $errors->has($field->name()) ? 'state-error' : '' }}">
+    <label class="input {{ $field->hasError($errors) ? 'state-error' : '' }}">
         @include('jarboe::crud.fields.text.inc.tooltip_icon')
         <input type="text"
                @if ($field->hasMaxlength())
@@ -46,7 +51,7 @@
         @include('jarboe::crud.fields.text.inc.tooltip_body')
 
         @include('jarboe::crud.fields.text.inc.error_messages', [
-            'messages' => $errors->get($field->name())
+            'messages' => $field->getErrors($errors),
         ])
     </label>
 @endif

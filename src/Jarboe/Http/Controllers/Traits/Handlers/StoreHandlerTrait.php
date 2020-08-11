@@ -35,14 +35,35 @@ trait StoreHandlerTrait
 
         $fields = $this->crud()->getFieldsWithoutMarkup();
 
+        $inputs = [];
+        /** @var AbstractField $field */
+        foreach ($fields as $field) {
+            if ($field->belongsToArray()) {
+                $inputs += [$field->name() => $request->input($field->getDotPatternName())];
+            }
+        }
+        $request->replace(
+            $request->all() + $inputs
+        );
+
+
         $data = [];
+        $additional = [];
         /** @var AbstractField $field */
         foreach ($fields as $field) {
             if ($field->hidden('create') || $field->shouldSkip($request)) {
                 continue;
             }
+
+            if ($field->belongsToArray()) {
+                $additional[$field->getAncestorName()][$field->getDescendantName()] = $field->value($request);
+                continue;
+            }
+
             $data += [$field->name() => $field->value($request)];
         }
+
+        $data = $data + $additional;
 
         $model = $this->crud()->repo()->store($data);
         /** @var AbstractField $field */

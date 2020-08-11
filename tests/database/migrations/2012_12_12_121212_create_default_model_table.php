@@ -19,6 +19,7 @@ class CreateDefaultModelTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->boolean('checkbox');
+            $table->json('meta')->default('[]');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +29,7 @@ class CreateDefaultModelTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->boolean('checkbox');
+            $table->json('meta')->default('[]');
             $table->softDeletes();
             $table->timestamps();
         });

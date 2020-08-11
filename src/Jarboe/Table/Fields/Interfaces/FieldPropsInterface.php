@@ -16,4 +16,5 @@ interface FieldPropsInterface
     public function isTranslatable();
     public function isMaskable();
     public function hasMaxlength(): bool;
+    public function belongsToArray(): bool;
 }

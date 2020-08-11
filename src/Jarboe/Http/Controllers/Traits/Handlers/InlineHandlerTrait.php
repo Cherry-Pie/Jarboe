@@ -35,9 +35,9 @@ trait InlineHandlerTrait
         /** @var AbstractField $field */
         $field = $this->crud()->getFieldByName($request->get('_name'));
 
-        $request->replace([
-            $field->name() => $value,
-        ]);
+        $request->replace(
+            $request->all() + [$field->name() => $value]
+        );
 
         $model = $this->crud()->repo()->find($id);
         if (!$field->isInline() || !$this->crud()->actions()->isAllowed('edit', $model) || $field->isReadonly()) {
@@ -45,11 +45,12 @@ trait InlineHandlerTrait
         }
 
         if (method_exists($this, 'update')) {
-            list($rules, $messages, $attributes) = $this->getValidationDataForInlineField($request, $field->name());
+            $keyName = $field->belongsToArray() ? $field->getDotPatternName() : $field->name();
+            list($rules, $messages, $attributes) = $this->getValidationDataForInlineField($request, $keyName);
             if ($rules) {
                 $this->validate(
                     $request,
-                    [$field->name() => $rules],
+                    [$keyName => $rules],
                     $messages,
                     $attributes
                 );
@@ -61,8 +62,17 @@ trait InlineHandlerTrait
             app()->setLocale($locale);
         }
 
+        $fieldName = $field->name();
+        $fieldValue = $field->value($request);
+        if ($field->belongsToArray()) {
+            $fieldName = $field->getAncestorName();
+            $arrayValue = $field->getAttribute($model);
+            $arrayValue = is_array($arrayValue) ? $arrayValue : [];
+            $fieldValue = $arrayValue + [$field->getDescendantName() => $fieldValue];
+        }
+
         $model = $this->crud()->repo()->update($id, [
-            $field->name() => $field->value($request),
+            $fieldName => $fieldValue,
         ]);
         $field->afterUpdate($model, $request);
 

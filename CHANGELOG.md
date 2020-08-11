@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - New config file `jarboe/versionable.php` for specifying default versions model.
 - Breadcrumbs classes updated to handle new "versions timeline" page.
 - New translation keys in `resources/lang/en/common.php`.
+- Support listing/editing exact value from array column via `Text` field. (not supported for fields within `Repeater` field, with `translatable()` enabled, for multi-level arrays)
 
 ## [1.2.0] - 2020-07-15
 ### Added

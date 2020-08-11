@@ -25,12 +25,13 @@ trait RenderRepeaterItemHandlerTrait
         $this->init();
         $this->bound();
 
-        $errorMessages = new MessageBag(
+        $messageBag = new MessageBag(
             $this->flatten($request->get('errors', []))
         );
-        view()->share(
-            'errors', $errorMessages ?: new ViewErrorBag()
-        );
+        $viewErrorBag = new ViewErrorBag();
+        $viewErrorBag->put('default', $messageBag);
+
+        view()->share('errors', $viewErrorBag);
 
         /** @var Repeater $repeater */
         $repeater = $this->crud()->getFieldByName($fieldName);

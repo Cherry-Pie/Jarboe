@@ -7,6 +7,7 @@ use Yaro\Jarboe\Table\CRUD;
 use Yaro\Jarboe\Table\Fields\Interfaces\FieldPropsInterface;
 use Yaro\Jarboe\Table\Fields\Traits\Column;
 use Yaro\Jarboe\Table\Fields\Traits\DefaultTrait;
+use Yaro\Jarboe\Table\Fields\Traits\Errors;
 use Yaro\Jarboe\Table\Fields\Traits\Filter;
 use Yaro\Jarboe\Table\Fields\Traits\Hidden;
 use Yaro\Jarboe\Table\Fields\Traits\Model;
@@ -30,6 +31,7 @@ abstract class AbstractField implements FieldPropsInterface
     use OldAndAttribute;
     use Model;
     use Filter;
+    use Errors;
 
     const DEFAULT_TAB_IDENT = '[extra]';
 
@@ -191,5 +193,25 @@ abstract class AbstractField implements FieldPropsInterface
     protected function crud(): CRUD
     {
         return $this->crud;
+    }
+
+    public function belongsToArray(): bool
+    {
+        return false;
+    }
+
+    public function getAncestorName(): string
+    {
+        throw new \RuntimeException('Not available: must be inherited from BelongsToArray trait.');
+    }
+
+    public function getDescendantName(): string
+    {
+        throw new \RuntimeException('Not available: must be inherited from BelongsToArray trait.');
+    }
+
+    public function getDotPatternName(): string
+    {
+        throw new \RuntimeException('Not available: must be inherited from BelongsToArray trait.');
     }
 }

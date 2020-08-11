@@ -8,6 +8,9 @@ trait OldAndAttribute
     {
         if (is_null($name)) {
             $name = $this->name();
+            if ($this->belongsToArray()) {
+                $name = $this->getDotPatternName();
+            }
         }
 
         return old($name);
@@ -25,6 +28,10 @@ trait OldAndAttribute
             $name .= '.'. $locale;
         }
 
+        if ($this->belongsToArray()) {
+            $name = $this->getDotPatternName();
+        }
+
         if ($this->hasOld($name)) {
             return $this->old($name);
         }
@@ -37,6 +44,10 @@ trait OldAndAttribute
         $name = $this->name();
         if ($locale) {
             $name .= '.'. $locale;
+        }
+
+        if ($this->belongsToArray()) {
+            $name = $this->getDotPatternName();
         }
 
         if ($this->hasOld($name)) {
@@ -52,10 +63,19 @@ trait OldAndAttribute
             return $model->getTranslation($this->name(), $locale, false);
         }
 
+        if ($this->belongsToArray()) {
+            $values = $model->{$this->getAncestorName()};
+            return $values[$this->getDescendantName()] ?? null;
+        }
+
         return $model->{$this->name()};
     }
 
     abstract public function getDefault();
     abstract public function name(string $name = null);
     abstract public function isTranslatable();
+    abstract public function belongsToArray(): bool;
+    abstract public function getAncestorName(): string;
+    abstract public function getDescendantName(): string;
+    abstract public function getDotPatternName(): string;
 }
