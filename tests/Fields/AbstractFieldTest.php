@@ -315,10 +315,12 @@ abstract class AbstractFieldTest extends AbstractBaseTest
     {
         $field = $this->field();
 
-        $this->assertFalse($field->shouldSkip(
+        $this->assertFalse(
+            $field->shouldSkip(
             $this->createRequest([
                 $field->name() => 'value',
-            ]))
+            ])
+        )
         );
     }
 
