@@ -63,10 +63,12 @@ class FieldsetMarkupFieldTest extends AbstractFieldTest
     {
         $field = $this->field();
 
-        $this->assertTrue($field->shouldSkip(
+        $this->assertTrue(
+            $field->shouldSkip(
             $this->createRequest([
                 $field->name() => 'value',
-            ]))
+            ])
+        )
         );
     }
 
