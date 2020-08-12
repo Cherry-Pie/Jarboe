@@ -6,13 +6,13 @@ install: travis_retry composer install --no-interaction --prefer-dist
 
 jobs:
   include:
-    - stage: tests
+    - stage: Tests
       php: 7.2
       script: vendor/bin/phpunit
-    - stage: tests
+    - stage: Tests
       php: 7.3
       script: vendor/bin/phpunit
-    - stage: tests
+    - stage: Tests
       php: 7.4
       script: vendor/bin/phpunit --coverage-clover=coverage.clover
       after_script:
