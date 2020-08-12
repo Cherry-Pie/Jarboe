@@ -23,7 +23,6 @@ tools:
         excluded_dirs:
             - vendor
             - tests
-    external_code_coverage: true
 checks:
     php:
         code_rating: true
@@ -157,3 +156,17 @@ checks:
         argument_type_checks: true
         avoid_aliased_php_functions: true
         deadlock_detection_in_loops: true
+build:
+  environment:
+    php:
+      version: 7.4
+  dependencies:
+    before:
+      - composer install --no-interaction --prefer-dist
+  tests:
+    override:
+      -
+        command: vendor/bin/phpunit --coverage-clover=clover.xml
+        coverage:
+          file: clover.xml
+          format: php-clover
