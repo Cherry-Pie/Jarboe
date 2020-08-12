@@ -1,16 +1,20 @@
 language: php
 
-php:
-  - 7.2
-  - 7.3
-  - 7.4
-
 sudo: false
 
 install: travis_retry composer install --no-interaction --prefer-dist
 
-script: vendor/bin/phpunit --coverage-clover=coverage.clover
-
-after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+jobs:
+  include:
+    - stage: Tests
+      php: 7.2
+      script: vendor/bin/phpunit
+    - stage: Tests
+      php: 7.3
+      script: vendor/bin/phpunit
+    - stage: Tests
+      php: 7.4
+      script: vendor/bin/phpunit --coverage-clover=coverage.clover
+      after_script:
+        - wget https://scrutinizer-ci.com/ocular.phar
+        - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
