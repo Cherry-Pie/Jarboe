@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+
+## [1.3.0] - 2020-08-17
+### Added
 - Revisions functionality.
 - Optional `getHistoryView` method for field classes, which is responsible for rendering view for version's diff value.
 - Added two new permissions: `history` and `revert`.
@@ -50,7 +53,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Everything, initial release.
 
 
-[Unreleased]: https://github.com/Cherry-Pie/Jarboe/compare/1.2.0...master
+[Unreleased]: https://github.com/Cherry-Pie/Jarboe/compare/1.3.0...master
+[1.3.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/Cherry-Pie/Jarboe
