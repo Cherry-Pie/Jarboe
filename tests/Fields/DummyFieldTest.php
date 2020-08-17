@@ -46,10 +46,10 @@ class DummyFieldTest extends AbstractFieldTest
 
         $this->assertTrue(
             $field->shouldSkip(
-            $this->createRequest([
+                $this->createRequest([
                 $field->name() => 'value',
             ])
-        )
+            )
         );
     }
 }
