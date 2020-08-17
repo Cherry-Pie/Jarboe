@@ -110,10 +110,10 @@ class PasswordFieldTest extends AbstractFieldTest
 
         $this->assertTrue(
             $field->shouldSkip(
-            $this->createRequest([
+                $this->createRequest([
                 self::NAME => '',
             ])
-        )
+            )
         );
     }
 
@@ -126,10 +126,10 @@ class PasswordFieldTest extends AbstractFieldTest
 
         $this->assertFalse(
             $field->shouldSkip(
-            $this->createRequest([
+                $this->createRequest([
                 self::NAME => 'value',
             ])
-        )
+            )
         );
     }
 }
