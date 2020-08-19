@@ -135,7 +135,7 @@ class Repeater extends AbstractField
                 $name = array_pop($parts);
                 $error = str_replace($key, $name, $error);
             }
-            array_set($errors, $key, $value);
+            Arr::set($errors, $key, $value);
         }
 
         return $errors[$this->name()] ?? [];
