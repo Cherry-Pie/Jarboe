@@ -4,19 +4,28 @@ namespace Yaro\Jarboe\Table\Fields;
 
 use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
+use Yaro\Jarboe\Table\Fields\Traits\Translatable;
 
 class Markdown extends AbstractField
 {
     use Orderable;
+    use Translatable;
 
     public function value(Request $request)
     {
-        return (string) parent::value($request);
+        $value = parent::value($request);
+
+        return is_array($value) ? $value : (string) $value;
     }
 
     public function getListView($model)
     {
-        return view('jarboe::crud.fields.markdown.list', [
+        $template = 'list';
+        if ($this->isTranslatable()) {
+            $template .= '_translatable';
+        }
+
+        return view('jarboe::crud.fields.markdown.'. $template, [
             'model' => $model,
             'field' => $this,
         ]);
