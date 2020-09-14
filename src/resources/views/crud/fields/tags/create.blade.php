@@ -1,3 +1,7 @@
+<?php
+/** @var \Yaro\Jarboe\Table\Fields\Tags $field */
+?>
+
 <label class="label">{{ $field->title() }}</label>
 <label class="input {{ $errors->has($field->name()) ? 'state-error' : '' }}">
 

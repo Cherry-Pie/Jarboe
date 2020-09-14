@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 
+## [1.5.0] - 2020-09-14
+### Added
+- `delimiters` method for `Tags` field.
+
 ## [1.4.1] - 2020-09-14
 ### Fixed
 - `Markdown` field edit view.
@@ -65,7 +69,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Everything, initial release.
 
 
-[Unreleased]: https://github.com/Cherry-Pie/Jarboe/compare/1.4.1...master
+[Unreleased]: https://github.com/Cherry-Pie/Jarboe/compare/1.5.0...master
+[1.5.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.4.1...1.5.0
 [1.4.1]: https://github.com/Cherry-Pie/Jarboe/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.3.1...1.4.0
 [1.3.1]: https://github.com/Cherry-Pie/Jarboe/compare/1.3.0...1.3.1

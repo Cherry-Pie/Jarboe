@@ -1,3 +1,7 @@
+<?php
+/** @var \Yaro\Jarboe\Table\Fields\Tags $field */
+?>
+
 <label class="label">{{ $field->title() }}</label>
 <label class="input state-disabled {{ $errors->has($field->name()) ? 'state-error' : '' }}">
     <select class="select-2--tags form-control" multiple="multiple" readonly disabled>

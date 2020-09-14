@@ -13,6 +13,10 @@ class Tags extends AbstractField
     use Relations;
 
     private $isOptionsHidden = false;
+    private $delimiters = [
+        ',',
+        ' ',
+    ];
 
     public function value(Request $request)
     {
@@ -44,6 +48,18 @@ class Tags extends AbstractField
         return view('jarboe::crud.fields.tags.create', [
             'field' => $this,
         ]);
+    }
+
+    public function delimiters(array $delimiters)
+    {
+        $this->delimiters = $delimiters;
+
+        return $this;
+    }
+
+    public function getDelimiters(): array
+    {
+        return $this->delimiters;
     }
 
     public function shouldSkip(Request $request)

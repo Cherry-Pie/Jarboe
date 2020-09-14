@@ -1,6 +1,7 @@
 <?php
 /** @var \Yaro\Jarboe\Table\Fields\Tags $field */
 ?>
+
 @pushonce('script_files', <script src="/vendor/jarboe/js/plugin/select2/select2.min.js"></script>)
 
 @pushonce('scripts', <script>
@@ -10,7 +11,7 @@
 
             let options = {
                 tags: true,
-                tokenSeparators: [',', ' '],
+                tokenSeparators: {{ json_encode($field->getDelimiters()) }},
             };
             if ($this.data('relation-search-url')) {
                 options.ajax = {
