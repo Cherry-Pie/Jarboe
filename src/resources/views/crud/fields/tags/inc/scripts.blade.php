@@ -11,7 +11,7 @@
 
             let options = {
                 tags: true,
-                tokenSeparators: {{ json_encode($field->getDelimiters()) }},
+                tokenSeparators: {!! json_encode($field->getDelimiters()) !!},
             };
             if ($this.data('relation-search-url')) {
                 options.ajax = {
