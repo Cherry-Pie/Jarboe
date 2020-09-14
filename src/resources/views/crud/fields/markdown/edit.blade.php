@@ -25,7 +25,7 @@
     @endforeach
 @else
     <div class="textarea {{ $errors->has($field->name()) ? 'state-error' : '' }}">
-        <textarea name="{{ $field->name() }}" class="markdown-field custom-scroll">{!! $field->oldOrAttribute($model, ) !!}</textarea>
+        <textarea name="{{ $field->name() }}" class="markdown-field custom-scroll">{!! $field->oldOrAttribute($model) !!}</textarea>
     </div>
 
     @include('jarboe::crud.fields.markdown.inc.error_messages', [

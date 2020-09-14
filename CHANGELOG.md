@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 
+## [1.4.1] - 2020-09-14
+### Fixed
+- `Markdown` field edit view.
+
 ## [1.4.0] - 2020-09-06
 ### Added
 - Translatable support for `Markdown` field.
@@ -61,7 +65,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Everything, initial release.
 
 
-[Unreleased]: https://github.com/Cherry-Pie/Jarboe/compare/1.4.0...master
+[Unreleased]: https://github.com/Cherry-Pie/Jarboe/compare/1.4.1...master
+[1.4.1]: https://github.com/Cherry-Pie/Jarboe/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.3.1...1.4.0
 [1.3.1]: https://github.com/Cherry-Pie/Jarboe/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.2.0...1.3.0
