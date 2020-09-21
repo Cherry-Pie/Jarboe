@@ -4,12 +4,14 @@ namespace Yaro\Jarboe\Table\Fields;
 
 use Illuminate\Http\Request;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
+use Yaro\Jarboe\Table\Fields\Traits\Rows;
 use Yaro\Jarboe\Table\Fields\Traits\Translatable;
 
 class Markdown extends AbstractField
 {
     use Orderable;
     use Translatable;
+    use Rows;
 
     public function value(Request $request)
     {

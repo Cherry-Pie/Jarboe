@@ -9,6 +9,7 @@ use Yaro\Jarboe\Table\Fields\Traits\Maxlength;
 use Yaro\Jarboe\Table\Fields\Traits\Nullable;
 use Yaro\Jarboe\Table\Fields\Traits\Orderable;
 use Yaro\Jarboe\Table\Fields\Traits\Placeholder;
+use Yaro\Jarboe\Table\Fields\Traits\Rows;
 use Yaro\Jarboe\Table\Fields\Traits\Tooltip;
 use Yaro\Jarboe\Table\Fields\Traits\Translatable;
 
@@ -22,22 +23,10 @@ class Textarea extends AbstractField
     use Translatable;
     use Placeholder;
     use Maxlength;
+    use Rows;
 
-    protected $rows = 3;
     protected $expandable = false;
     protected $resizable = false;
-
-    public function rows(int $rows)
-    {
-        $this->rows = $rows;
-
-        return $this;
-    }
-
-    public function getRowsNum()
-    {
-        return $this->rows;
-    }
 
     public function expandable(bool $expandable = true)
     {

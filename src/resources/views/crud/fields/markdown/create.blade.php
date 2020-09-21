@@ -13,19 +13,22 @@
     @foreach ($field->getLocales() as $locale => $title)
         <div class="locale-field locale-tab-{{ $locale }} locale-field-{{ $field->name() }} locale-field-{{ $field->name() }}-{{ $locale }}"
              style="{{ $field->isCurrentLocale($locale) ? '' : 'display:none;' }}">
-            <label class="input {{ $field->hasError($errors, $locale) ? 'state-error' : '' }}">
+            <div class="input {{ $field->hasError($errors, $locale) ? 'state-error' : '' }}">
                 <textarea name="{{ $field->name() }}[{{ $locale }}]"
+                          rows="{{ $field->getRowsNum() }}"
                           class="markdown-field custom-scroll">{!! $field->oldOrDefault($locale) !!}</textarea>
 
                 @include('jarboe::crud.fields.markdown.inc.error_messages', [
                     'messages' => $field->getErrors($errors, $locale),
                 ])
-            </label>
+            </div>
         </div>
     @endforeach
 @else
     <div class="textarea {{ $errors->has($field->name()) ? 'state-error' : '' }}">
-        <textarea name="{{ $field->name() }}" class="markdown-field custom-scroll">{!! $field->oldOrDefault() !!}</textarea>
+        <textarea name="{{ $field->name() }}"
+                  rows="{{ $field->getRowsNum() }}"
+                  class="markdown-field custom-scroll">{!! $field->oldOrDefault() !!}</textarea>
     </div>
 
     @include('jarboe::crud.fields.markdown.inc.error_messages', [
