@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `delimiters` method for `Tags` field.
 
+### Fixed
+- Extra label bound to an input element for `Markdown` field.
+
 ## [1.4.1] - 2020-09-14
 ### Fixed
 - `Markdown` field edit view.
