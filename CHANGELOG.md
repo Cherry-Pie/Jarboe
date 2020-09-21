@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Extra label bound to an input element for `Markdown` field.
+- Review defined routes to allow `php artisan route:cache`.
 
 ## [1.4.1] - 2020-09-14
 ### Fixed

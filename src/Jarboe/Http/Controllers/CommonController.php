@@ -48,4 +48,9 @@ class CommonController extends Controller
             ],
         ]);
     }
+
+    public function notFoundPage()
+    {
+        return response()->view('jarboe::errors.404')->setStatusCode(404);
+    }
 }

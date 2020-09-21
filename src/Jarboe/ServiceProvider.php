@@ -148,9 +148,7 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->app->booted(function () {
             $router = $this->app->router;
             $router->group(app('jarboe')->routeGroupOptions(), function () use ($router) {
-                $router->get('{any}', function () {
-                    return response()->view('jarboe::errors.404')->setStatusCode(404);
-                })->where('any', '.*');
+                $router->get('{any}', '\\Yaro\\Jarboe\\Http\\Controllers\\CommonController@notFoundPage')->where('any', '.*');
             });
         });
     }
