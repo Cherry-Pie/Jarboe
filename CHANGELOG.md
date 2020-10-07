@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Ability to set height for `Markdown` field input via `rows` method.
+- Support of Laravel 8.
 
 ### Fixed
 - Extra label bound to an input element for `Markdown` field.
