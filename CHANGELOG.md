@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+
+## [1.6.0] - 2020-10-19
+### Added
 - Ability to set height for `Markdown` field input via `rows` method.
 - Support of Laravel 8.
 
@@ -75,7 +78,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Everything, initial release.
 
 
-[Unreleased]: https://github.com/Cherry-Pie/Jarboe/compare/1.5.0...master
+[Unreleased]: https://github.com/Cherry-Pie/Jarboe/compare/1.6.0...master
+[1.6.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.5.0...1.6.0
 [1.5.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.4.1...1.5.0
 [1.4.1]: https://github.com/Cherry-Pie/Jarboe/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.3.1...1.4.0
