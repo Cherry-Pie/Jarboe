@@ -14,7 +14,7 @@
             <textarea class="tinymce-{{ $field->name() }}-{{ $locale }}"
                       data-options="{{ json_encode($field->getOptions()) }}"
                       disabled
-                      style="visibility: hidden;">{!! $field->getAttribute($model, $locale) !!}</textarea>
+                      style="visibility: hidden;">{{ $field->getAttribute($model, $locale) }}</textarea>
         </div>
         @include('jarboe::crud.fields.wysiwyg.tinymce.inc.styles_and_scripts', compact('field', 'locale'))
     @endforeach
@@ -22,7 +22,7 @@
     <textarea class="tinymce-{{ $field->name() }}-default wysiwyg-tinymce-field"
               data-options="{{ json_encode($field->getOptions()) }}"
               disabled
-              style="visibility: hidden;">{!! $field->getAttribute($model) !!}</textarea>
+              style="visibility: hidden;">{{ $field->getAttribute($model) }}</textarea>
     @include('jarboe::crud.fields.wysiwyg.tinymce.inc.styles_and_scripts', [
         'field' => $field,
         'locale' => 'default',

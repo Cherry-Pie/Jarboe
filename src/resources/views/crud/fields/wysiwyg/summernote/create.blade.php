@@ -11,7 +11,7 @@
                 <textarea class="summernote-{{ $field->name() }}-{{ $locale }} wysiwyg-summernote-field"
                           name="{{ $field->name() }}[{{ $locale }}]"
                           data-options="{{ json_encode($field->getOptions()) }}"
-                          style="display: none;">{!! $field->oldOrDefault($locale) !!}</textarea>
+                          style="display: none;">{{ $field->oldOrDefault($locale) }}</textarea>
                 @include('jarboe::crud.fields.wysiwyg.summernote.inc.error_messages', [
                     'messages' => $errors->get($field->name() .'.'. $locale)
                 ])
@@ -24,7 +24,7 @@
         <textarea class="summernote-{{ $field->name() }}-default wysiwyg-summernote-field"
                   name="{{ $field->name() }}"
                   data-options="{{ json_encode($field->getOptions()) }}"
-                  style="display: none;">{!! $field->oldOrDefault() !!}</textarea>
+                  style="display: none;">{{ $field->oldOrDefault() }}</textarea>
         @include('jarboe::crud.fields.wysiwyg.summernote.inc.error_messages', [
             'messages' => $errors->get($field->name())
         ])

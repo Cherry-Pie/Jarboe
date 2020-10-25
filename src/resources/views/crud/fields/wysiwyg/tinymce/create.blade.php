@@ -11,7 +11,7 @@
                 <textarea class="tinymce-{{ $field->name() }}-{{ $locale }} wysiwyg-tinymce-field"
                           name="{{ $field->name() }}[{{ $locale }}]"
                           data-options="{{ json_encode($field->getOptions()) }}"
-                          style="visibility: hidden;">{!! $field->oldOrDefault($locale) !!}</textarea>
+                          style="visibility: hidden;">{{ $field->oldOrDefault($locale) }}</textarea>
                 @include('jarboe::crud.fields.wysiwyg.tinymce.inc.error_messages', [
                     'messages' => $errors->get($field->name() .'.'. $locale)
                 ])
@@ -24,7 +24,7 @@
         <textarea class="tinymce-{{ $field->name() }}-default wysiwyg-tinymce-field"
                   name="{{ $field->name() }}"
                   data-options="{{ json_encode($field->getOptions()) }}"
-                  style="visibility: hidden;">{!! $field->oldOrDefault() !!}</textarea>
+                  style="visibility: hidden;">{{ $field->oldOrDefault() }}</textarea>
         @include('jarboe::crud.fields.wysiwyg.tinymce.inc.error_messages', [
             'messages' => $errors->get($field->name())
         ])

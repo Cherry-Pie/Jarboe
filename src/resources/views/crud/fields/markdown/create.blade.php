@@ -16,7 +16,7 @@
             <div class="input {{ $field->hasError($errors, $locale) ? 'state-error' : '' }}">
                 <textarea name="{{ $field->name() }}[{{ $locale }}]"
                           rows="{{ $field->getRowsNum() }}"
-                          class="markdown-field custom-scroll">{!! $field->oldOrDefault($locale) !!}</textarea>
+                          class="markdown-field custom-scroll">{{ $field->oldOrDefault($locale) }}</textarea>
 
                 @include('jarboe::crud.fields.markdown.inc.error_messages', [
                     'messages' => $field->getErrors($errors, $locale),
@@ -28,7 +28,7 @@
     <div class="textarea {{ $errors->has($field->name()) ? 'state-error' : '' }}">
         <textarea name="{{ $field->name() }}"
                   rows="{{ $field->getRowsNum() }}"
-                  class="markdown-field custom-scroll">{!! $field->oldOrDefault() !!}</textarea>
+                  class="markdown-field custom-scroll">{{ $field->oldOrDefault() }}</textarea>
     </div>
 
     @include('jarboe::crud.fields.markdown.inc.error_messages', [

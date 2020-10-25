@@ -10,7 +10,7 @@
              data-options="{{ json_encode($field->getOptions()) }}"
              disabled
              style="{{ $field->isCurrentLocale($locale) ? '' : 'display:none;' }}">
-            <textarea class="summernote-{{ $field->name() }}-{{ $locale }}" style="display: none;">{!! $field->getAttribute($model, $locale) !!}</textarea>
+            <textarea class="summernote-{{ $field->name() }}-{{ $locale }}" style="display: none;">{{ $field->getAttribute($model, $locale) }}</textarea>
         </div>
         @include('jarboe::crud.fields.wysiwyg.summernote.inc.styles_and_scripts', compact('field', 'locale'))
     @endforeach
@@ -18,7 +18,7 @@
     <textarea class="summernote-{{ $field->name() }}-default wysiwyg-summernote-field"
               data-options="{{ json_encode($field->getOptions()) }}"
               disabled
-              style="display: none;">{!! $field->getAttribute($model) !!}</textarea>
+              style="display: none;">{{ $field->getAttribute($model) }}</textarea>
     @include('jarboe::crud.fields.wysiwyg.summernote.inc.styles_and_scripts', [
         'field' => $field,
         'locale' => 'default',
