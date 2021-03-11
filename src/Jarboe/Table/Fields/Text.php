@@ -3,6 +3,7 @@
 namespace Yaro\Jarboe\Table\Fields;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\ViewErrorBag;
 use Yaro\Jarboe\Table\Fields\Traits\BelongsToArray;
 use Yaro\Jarboe\Table\Fields\Traits\Clipboard;
 use Yaro\Jarboe\Table\Fields\Traits\Inline;
@@ -67,5 +68,14 @@ class Text extends AbstractField
         return view('jarboe::crud.fields.text.'. $template, [
             'field' => $this,
         ]);
+    }
+
+    public function getErrorsCount($errors): int
+    {
+        if ($this->isTranslatable() === true) {
+            return count($errors->get(sprintf('%s.*', $this->name())));
+        }
+
+        return count($errors->get($this->name()));
     }
 }

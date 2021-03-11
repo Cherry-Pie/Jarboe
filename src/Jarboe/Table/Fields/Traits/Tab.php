@@ -17,4 +17,6 @@ trait Tab
     {
         return $this->tab;
     }
+
+    public abstract function getErrorsCount($errors): int;
 }
