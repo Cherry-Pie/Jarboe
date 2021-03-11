@@ -3,7 +3,6 @@
 namespace Yaro\Jarboe\Table\Fields;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\ViewErrorBag;
 use Yaro\Jarboe\Table\Fields\Traits\BelongsToArray;
 use Yaro\Jarboe\Table\Fields\Traits\Clipboard;
 use Yaro\Jarboe\Table\Fields\Traits\Inline;
