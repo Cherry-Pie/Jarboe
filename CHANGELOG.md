@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 
+## [1.7.0] - 2021-05-11
+### Added
+- `quality` method in `Image` fields.
+
 ## [1.6.2] - 2021-05-11
 ### Fixed
 - `isTransparentColor` defaults to `false` when no color passed in `Image` fields.
@@ -86,7 +90,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Everything, initial release.
 
 
-[Unreleased]: https://github.com/Cherry-Pie/Jarboe/compare/1.6.2...master
+[Unreleased]: https://github.com/Cherry-Pie/Jarboe/compare/1.7.0...master
+[1.7.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.6.2...1.7.0
 [1.6.2]: https://github.com/Cherry-Pie/Jarboe/compare/1.6.1...1.6.2
 [1.6.1]: https://github.com/Cherry-Pie/Jarboe/compare/1.6.0...1.6.1
 [1.6.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.5.0...1.6.0

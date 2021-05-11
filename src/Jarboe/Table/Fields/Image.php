@@ -46,6 +46,11 @@ class Image extends AbstractField
         ],
     ];
 
+    /**
+     * @var int
+     */
+    private $quality = 100;
+
     public function __construct()
     {
         $this->disk = config('filesystems.default');
@@ -85,7 +90,7 @@ class Image extends AbstractField
         }
 
         if ($this->isEncode()) {
-            return (string) $image->encode('data-url');
+            return (string) $image->encode('data-url', $this->getQuality());
         }
 
         $format = '';
@@ -95,7 +100,7 @@ class Image extends AbstractField
         $path = trim($this->getPath() .'/'. $filename, '/');
         IlluminateStorage::disk($this->getDisk())->put(
             $path,
-            (string) $image->encode($format)
+            (string) $image->encode($format, $this->getQuality())
         );
 
         return $path;
@@ -325,5 +330,27 @@ class Image extends AbstractField
         }
 
         return $this->isCrop();
+    }
+
+    public function quality(int $quality)
+    {
+        if ($quality < 0) {
+            $quality = 0;
+        }
+        if ($quality > 100) {
+            $quality = 100;
+        }
+
+        $this->quality = $quality;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getQuality(): int
+    {
+        return $this->quality;
     }
 }
