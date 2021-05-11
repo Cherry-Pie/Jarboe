@@ -247,6 +247,10 @@ class Image extends AbstractField
 
     private function isTransparentColor(string $rgbaColor)
     {
+        if (!$rgbaColor) {
+            return false;
+        }
+
         $segmentsString = preg_replace('~rgba\(|\)~', '', $rgbaColor);
         $segments = explode(',', $segmentsString);
 
