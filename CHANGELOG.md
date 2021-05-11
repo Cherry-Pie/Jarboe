@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 
+## [1.6.2] - 2021-05-11
+### Fixed
+- `isTransparentColor` defaults to `false` when no color passed in `Image` fields.
+
 ## [1.6.1] - 2020-10-25
 ### Fixed
 - Prevent XSS vulnerability for `Markdown` and `Wysiwyg` fields.
@@ -82,7 +86,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Everything, initial release.
 
 
-[Unreleased]: https://github.com/Cherry-Pie/Jarboe/compare/1.6.1...master
+[Unreleased]: https://github.com/Cherry-Pie/Jarboe/compare/1.6.2...master
+[1.6.2]: https://github.com/Cherry-Pie/Jarboe/compare/1.6.1...1.6.2
 [1.6.1]: https://github.com/Cherry-Pie/Jarboe/compare/1.6.0...1.6.1
 [1.6.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.5.0...1.6.0
 [1.5.0]: https://github.com/Cherry-Pie/Jarboe/compare/1.4.1...1.5.0

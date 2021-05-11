@@ -7,7 +7,7 @@ use Yaro\Jarboe\Table\CRUD;
 
 class Jarboe
 {
-    const VERSION = '1.6.1';
+    const VERSION = '1.6.2';
 
     public function crud($uri, $controller)
     {
