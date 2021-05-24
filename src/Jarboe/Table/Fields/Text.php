@@ -68,4 +68,13 @@ class Text extends AbstractField
             'field' => $this,
         ]);
     }
+
+    public function getErrorsCount($errors): int
+    {
+        if ($this->isTranslatable() === true) {
+            return count($errors->get(sprintf('%s.*', $this->name())));
+        }
+
+        return count($errors->get($this->name()));
+    }
 }

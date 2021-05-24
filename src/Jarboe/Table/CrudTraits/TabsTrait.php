@@ -13,7 +13,7 @@ trait TabsTrait
         $fields = $tabs[$tabTitle];
 
         foreach ($fields as $field) {
-            $count += count($errors->get($field->name()));
+            $count += $field->getErrorsCount($errors);
         }
 
         return $count;
