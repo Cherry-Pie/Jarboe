@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 
+## [1.7.1] - 2024-09-13
+### Added
+- add `admin_panel.force_https` config.
+
 ## [1.7.0] - 2021-05-11
 ### Added
 - `quality` method in `Image` fields.
