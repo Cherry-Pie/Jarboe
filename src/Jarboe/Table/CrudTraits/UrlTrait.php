@@ -92,7 +92,13 @@ trait UrlTrait
     public function baseUrl()
     {
         $chunks = explode(self::BASE_URL_DELIMITER, request()->url());
+        $baseUrl = rtrim($chunks[0], '/');
 
-        return rtrim($chunks[0], '/');
+        // TODO:
+        if (config('jarboe.admin_panel.force_https')) {
+            $baseUrl = preg_replace('~^http://~', 'https://', $baseUrl);
+        }
+
+        return $baseUrl;
     }
 }

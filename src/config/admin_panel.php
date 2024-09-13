@@ -17,6 +17,11 @@ return [
     'subdomain_panel_enabled' => false,
 
     /*
+     * Force https for urls.
+     */
+    'force_https' => false,
+
+    /*
      * Enable or disable registration functionality.
      */
     'registration_enabled' => true,
